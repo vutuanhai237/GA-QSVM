@@ -3,7 +3,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 
 # Đọc dữ liệu
-df_updated = pd.read_csv(r"C:\Desktop\GA+QSVM\germancredit_data.csv")  # Cập nhật đường dẫn chính xác
+df_updated = pd.read_csv(r"data/german_credit_data.csv")  # Cập nhật đường dẫn chính xác
 
 
 # 1. Chuyển đổi dữ liệu phân loại (object)
