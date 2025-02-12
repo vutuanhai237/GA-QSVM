@@ -156,39 +156,77 @@ if __name__ == "__main__":
     FeatureM = ZZFeatureMap(feature_dimension=4, reps=1)
     
     # Plot data distribution
-    plot_data_distribution(X_train, y_train, X_test, y_test)
+    # plot_data_distribution(X_train, y_train, X_test, y_test)
     
-    # Define evolution environment metadata
-    env_metadata = MetadataSynthesis(
-        num_qubits=4,        # Number of qubits
-        num_cnot=3,          # Number of CNOT gates
-        num_rx=1,            # Number of RX gates
-        num_ry=1,            # Number of RY gates
-        num_rz=2,            # Number of RZ gates
-        depth=4,             # Circuit depth
-        num_circuit=4,       # Population size
-        num_generation=4,    # Number of generations
-        prob_mutate=0.01     # Mutation probability
-    )
-    
-    # Setup evolution environment
-    env = EEnvironment(
-        metadata=env_metadata,
-        fitness_func=train_qsvm_with_wine,
-        generator_func=by_num_rotations_and_cnot,
-        crossover_func=onepoint(
-            divider.by_num_rotation_gate(int(env_metadata.num_qubits / 2)),
-            normalizer.by_num_rotation_gate(env_metadata.num_qubits)
-        ),
-        mutate_func=bitflip_mutate_with_normalizer(
-            operations_with_rotations, 
-            normalizer_func=normalizer.by_num_rotation_gate(env_metadata.num_qubits)
-        ),
-        threshold_func=synthesis_threshold
-    )
-    
-    # Run evolution
-    env.evol(verbose=True, mode="noparallel")
+    # Define hyperparameter search space using ranges
+    hyperparameter_space = {
+        'num_cnot': list(range(2, 5)),          # [2, 3, 4]
+        'num_rx': list(range(1, 3)),            # [1, 2]
+        'num_ry': list(range(1, 3)),            # [1, 2]
+        'num_rz': list(range(1, 4)),            # [1, 2, 3]
+        'depth': list(range(4, 7)),             # [4, 5, 6]
+        'num_circuit': [4], #[2**i for i in range(2, 5)],  # [4, 8, 16]
+        'num_generation': [4], #[2**i for i in range(2, 5)],  # [4, 8, 16]
+        'prob_mutate': [0.01 * (2**i) for i in range(3)]  # [0.01, 0.02, 0.04]
+    }
+
+    # Print search space size
+    total_combinations = np.prod([len(v) for v in hyperparameter_space.values()])
+    print(f"Total number of combinations to search: {total_combinations}")
+    print("Hyperparameter ranges:")
+    for param, values in hyperparameter_space.items():
+        print(f"{param}: {values}")
+
+    # Generate all combinations of hyperparameters
+    import itertools
+    keys, values = zip(*hyperparameter_space.items())
+    hyperparameter_combinations = [dict(zip(keys, v)) for v in itertools.product(*values)]
+
+    for run_id, params in enumerate(hyperparameter_combinations):
+        wandb_config = {
+            "project": "quantum-circuit-evolution",
+            "name": f"hyperparam-search-{run_id}",
+            "config": {
+                "num_qubits": 4,  # Fixed parameter
+                **params  # Include all hyperparameters in wandb config
+            }
+        }
+
+        # Define evolution environment metadata with current hyperparameters
+        env_metadata = MetadataSynthesis(
+            num_qubits=4,  # Fixed parameter
+            num_cnot=params['num_cnot'],
+            num_rx=params['num_rx'],
+            num_ry=params['num_ry'],
+            num_rz=params['num_rz'],
+            depth=params['depth'],
+            num_circuit=params['num_circuit'],
+            num_generation=params['num_generation'],
+            prob_mutate=params['prob_mutate']
+        )
+        
+        # Setup evolution environment
+        env = EEnvironment(
+            metadata=env_metadata,
+            fitness_func=train_qsvm_with_wine,
+            generator_func=by_num_rotations_and_cnot,
+            crossover_func=onepoint(
+                divider.by_num_rotation_gate(int(env_metadata.num_qubits / 2)),
+                normalizer.by_num_rotation_gate(env_metadata.num_qubits)
+            ),
+            mutate_func=bitflip_mutate_with_normalizer(
+                operations_with_rotations, 
+                normalizer_func=normalizer.by_num_rotation_gate(env_metadata.num_qubits)
+            ),
+            threshold_func=synthesis_threshold,
+            wandb_config=wandb_config
+        )
+        
+        # Run evolution
+        env.evol(verbose=False, mode="noparallel")
+        
+        # Finish the wandb run
+        wandb.finish()
     
     # Classical SVM comparison
     clf = SVC(gamma=0.877551020408163, kernel="rbf").fit(X_train, y_train)

@@ -1,0 +1,43 @@
+_wandb:
+    value:
+        cli_version: 0.19.6
+        m: []
+        python_version: 3.11.11
+        t:
+            "1":
+                - 5
+                - 53
+                - 55
+            "2":
+                - 5
+                - 53
+                - 55
+            "3":
+                - 13
+                - 16
+                - 23
+                - 55
+            "4": 3.11.11
+            "5": 0.19.6
+            "8":
+                - 5
+            "12": 0.19.6
+            "13": linux-x86_64
+depth:
+    value: 4
+num_circuit:
+    value: 4
+num_cnot:
+    value: 2
+num_generation:
+    value: 4
+num_qubits:
+    value: 4
+num_rx:
+    value: 1
+num_ry:
+    value: 1
+num_rz:
+    value: 1
+prob_mutate:
+    value: 0.01

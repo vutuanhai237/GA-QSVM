@@ -1,5 +1,3 @@
-
-
 from .ecircuit import ECircuit
 from .selection import sastify_circuit
 from ..evolution import crossover, mutate, selection, threshold, generator
@@ -16,6 +14,7 @@ import qiskit
 import numpy as np
 import matplotlib.pyplot as plt
 import concurrent.futures
+import wandb
 
 
 def extract_fitness(circuits: typing.List[ECircuit]):
@@ -61,6 +60,7 @@ class EEnvironment():
                  mutate_func: types.FunctionType = mutate.bitflip_mutate,
                  selection_func: types.FunctionType = selection.elitist_selection,
                  threshold_func: types.FunctionType = threshold.compilation_threshold,
+                 wandb_config: dict = None,
                  ) -> None:
         """_summary_
 
@@ -89,6 +89,7 @@ class EEnvironment():
         self.mutate_func = mutate_func
         self.selection_func = selection_func
         self.threshold_func = threshold_func
+        self.wandb_config = wandb_config
         if isinstance(metadata, Metadata):
             self.metadata = metadata
         # Eliminate this case because it will be many type of env_metadata
@@ -110,6 +111,8 @@ class EEnvironment():
         self.best_circuits: typing.List[ECircuit] = []
         self.best_fitness = 0
         self.file_name = None
+        if wandb_config is not None:
+            wandb.init(**wandb_config)
         return
 
     def set_filename(self, file_name: str):
@@ -170,6 +173,14 @@ class EEnvironment():
                     self.fitnesss.append(self.fitness_func(self.circuits[i]))
                     
             self.metadata.best_fitnesss.append(np.max(self.fitnesss))
+            
+            # Log metrics to wandb after each generation
+            if self.wandb_config is not None:
+                wandb.log({
+                    "best_fitness": np.max(self.fitnesss),
+                    "average_fitness": np.mean(self.fitnesss),
+                    "generation": self.metadata.current_generation
+                })
 
             self.best_circuits.append(self.circuits[np.argmax(self.fitnesss)])
             if self.best_circuit is None:
