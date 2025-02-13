@@ -187,8 +187,6 @@ class EEnvironment():
                 self.best_circuit = self.best_circuits[0]
             print(np.round(self.fitnesss, 4))
             self.metadata.fitnessss.append(self.fitnesss)
-            if auto_save:
-                self.save()
             #####################
             #### Threshold ######
             #####################
@@ -376,6 +374,8 @@ class EEnvironment():
         with open(f"{os.path.join(file_name, 'funcs')}.json", "w") as file:
             json.dump(funcs, file)
         print(f"Saving circuit ...")
+        print(len(self.circuitss))
+        print(len(self.circuitss[0]))
         for i in range(0, len(self.circuitss)):
             for j in range(self.metadata.num_circuit):
                 utilities.save_circuit(
