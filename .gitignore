@@ -1,5 +1,7 @@
 *.qpy
 *.json
+wandb/latest-run
+wandb/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -172,3 +174,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+wandb/latest-run
+wandb/latest-run
