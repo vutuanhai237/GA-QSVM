@@ -203,12 +203,12 @@ def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCirc
     num_rx = metadata.num_rx
     num_ry = metadata.num_ry
     num_rz = metadata.num_rz
-    num_cnot = metadata.num_cnot
+    # num_cnot = metadata.num_cnot
     total_rotations = num_rx + num_ry + num_rz
     total_gates = depth * num_qubits
-    num_other_gates = total_gates - (total_rotations + num_cnot)
+    num_other_gates = total_gates - (total_rotations) #+ num_cnot)
 
-    if total_rotations + num_cnot > total_gates:
+    if total_rotations > total_gates: # + num_cnot > total_gates:
         raise ValueError("The total number of specified gates exceeds the maximum allowed.")
 
     rotation_gate_count = {
@@ -216,7 +216,7 @@ def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCirc
         RYGate: num_ry,
         RZGate: num_rz,
     }
-    cnot_gate_pool = [{"operation": qiskit.circuit.library.CXGate, "num_op": 2}] * num_cnot
+    # cnot_gate_pool = [{"operation": qiskit.circuit.library.CXGate, "num_op": 2}] * num_cnot
 
     rotation_pool = [{"operation": gate_type, "num_op": 1}
                      for gate_type, count in rotation_gate_count.items() for _ in range(count)]
@@ -227,7 +227,7 @@ def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCirc
     other_gate_pool = [gate for gate in pool if gate['operation'] not in
                        [RXGate, RYGate, RZGate, CXGate]]
 
-    full_pool = rotation_pool + cnot_gate_pool
+    full_pool = rotation_pool # + cnot_gate_pool
     for count, gate_info in zip(num_other_gates_pool, other_gate_pool):
         full_pool.extend([gate_info] * count)
 
