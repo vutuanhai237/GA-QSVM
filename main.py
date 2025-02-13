@@ -173,15 +173,17 @@ if __name__ == "__main__":
     
     # Define hyperparameter search space using ranges
     base_hyperparameter_space = {
-        'num_cnot': list(range(2, 5)), # dunno
         'depth': list(range(4, 7)),
         'num_circuit': list(range(4, 33, 4)),
         'num_generation': list(range(10, 101, 10)),
-        'prob_mutate': list(np.logspace(-2, -1, 10))
+        'prob_mutate': list(np.linspace(-2, -1, 10))
     }
 
     # Iterate through different numbers of qubits
-    for num_qubits in range(2, 8):  # [4, 5, 6, 7, 8, 9, 10]
+    for num_qubits in range(2, 8):  # [2, 3, 4, 5, 6, 7]
+        # Calculate num_cnot as 20% of num_qubits
+        num_cnot = max(1, round(0.2 * num_qubits))  # Ensure at least 1 CNOT gate
+        
         # Does the n_features of the synthetic data match the num_qubits?
         # Generate synthetic data 
         X_train, X_test, y_train, y_test = generate_data(
@@ -227,7 +229,7 @@ if __name__ == "__main__":
                 # Define evolution environment metadata with current hyperparameters
                 env_metadata = MetadataSynthesis(
                     num_qubits=num_qubits,
-                    num_cnot=params['num_cnot'],
+                    num_cnot=num_cnot,  # Use calculated num_cnot instead of params['num_cnot']
                     num_rx=rx,
                     num_ry=ry,
                     num_rz=rz,
