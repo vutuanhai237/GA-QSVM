@@ -181,9 +181,6 @@ if __name__ == "__main__":
 
     # Iterate through different numbers of qubits
     for num_qubits in range(2, 8):  # [2, 3, 4, 5, 6, 7]
-        # Calculate num_cnot as 20% of num_qubits
-        num_cnot = max(1, round(0.2 * num_qubits))  # Ensure at least 1 CNOT gate
-        
         # Does the n_features of the synthetic data match the num_qubits?
         # Generate synthetic data 
         X_train, X_test, y_train, y_test = generate_data(
@@ -210,6 +207,8 @@ if __name__ == "__main__":
         
         # For each base combination, create variants with different rotation combinations
         for base_params in base_combinations:
+            # Calculate num_cnot as 20% of num_qubits
+            num_cnot = max(1, round(0.2 * base_params['depth'] * num_qubits))  # Ensure at least 1 CNOT gate
             i = 0
             for rx, ry, rz in rotation_combinations:
                 params = base_params.copy()
@@ -229,7 +228,7 @@ if __name__ == "__main__":
                 # Define evolution environment metadata with current hyperparameters
                 env_metadata = MetadataSynthesis(
                     num_qubits=num_qubits,
-                    num_cnot=num_cnot,  # Use calculated num_cnot instead of params['num_cnot']
+                    num_cnot=num_cnot,
                     num_rx=rx,
                     num_ry=ry,
                     num_rz=rz,
