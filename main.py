@@ -18,7 +18,7 @@ from qoop.evolution.mutate import bitflip_mutate_with_normalizer
 from qoop.evolution.threshold import synthesis_threshold
 from qoop.backend.constant import operations_with_rotations
 from qoop.evolution import divider
-from datasets import prepare_wine_data
+from datasets import prepare_wine_data, prepare_digits_data
 from utils import find_permutations_sum_n
 
 # Set NumPy display options
@@ -26,12 +26,16 @@ np.set_printoptions(suppress=True)  # Suppress scientific notation
 
 # Define hyperparameter search space using ranges
 base_hyperparameter_space = {
-    'depth': list(range(4, 7)),
-    'num_circuit': list(range(4, 33, 4)),
-    'num_generation': list(range(10, 101, 10)),
-    'prob_mutate': list(np.linspace(-2, -1, 10))
+    'depth': [4], #list(range(4, 7)),
+    'num_circuit': [4], #list(range(4, 33, 4)),
+    'num_generation': [10], #list(range(10, 101, 10)),
+    'prob_mutate': [0.01]#list(np.linspace(-2, -1, 10))
 }
-range_num_qubits = range(2, 8)
+
+range_num_qubits = [4]#range(2, 8)
+data = prepare_digits_data
+training_size = 100
+test_size = 50
 
 def train_qsvm_with_wine(quantum_circuit):
     """
@@ -53,7 +57,10 @@ def train_qsvm_with_wine(quantum_circuit):
 if __name__ == "__main__":
     # Iterate through different numbers of qubits
     for num_qubits in range_num_qubits:  # [2, 3, 4, 5, 6, 7]
-        Xw_train, Xw_test, yw_train, yw_test = prepare_wine_data(num_qubits)
+        while True:
+            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, num_qubits)
+            if Xw_train is not None:
+                break
         
         # Setup feature map
         FeatureM = ZZFeatureMap(feature_dimension=num_qubits, reps=1)
@@ -124,7 +131,7 @@ if __name__ == "__main__":
                 )
                 
                 # Run evolution
-                env.evol(verbose=False)#, mode="noparallel")
+                env.evol(verbose=False, mode="parallel")
                 
                 # Finish the wandb run
                 wandb.finish()
