@@ -94,11 +94,6 @@ def prepare_digits_data(training_size, test_size, n_features):
     X_train = pca.fit_transform(X_train)
     X_test = pca.transform(X_test)
 
-    data = np.append(X_train, X_test, axis=0)
-    minmax_scale = MinMaxScaler(feature_range=(-1, 1)).fit(data)
-    X_train = minmax_scale.transform(X_train)
-    X_test = minmax_scale.transform(X_test)
-
     X_train = X_train[:training_size, :]
     y_train = y_train[:training_size]
     X_test = X_test[:test_size, :]

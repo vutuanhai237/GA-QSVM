@@ -27,13 +27,13 @@ np.set_printoptions(suppress=True)  # Suppress scientific notation
 # Define hyperparameter search space using ranges
 base_hyperparameter_space = {
     'depth': [4], #list(range(4, 7)),
-    'num_circuit': [4], #list(range(4, 33, 4)),
-    'num_generation': [10], #list(range(10, 101, 10)),
-    'prob_mutate': [0.01]#list(np.linspace(-2, -1, 10))
+    'num_circuit': list(range(4, 33, 4)),
+    'num_generation': list(range(10, 101, 10)),
+    'prob_mutate': list(np.linspace(-2, -1, 10))
 }
 
-range_num_qubits = [4]#range(2, 8)
-data = prepare_digits_data
+range_num_qubits = [3]#range(2, 8)
+data = prepare_wine_data
 training_size = 100
 test_size = 50
 
@@ -90,8 +90,8 @@ if __name__ == "__main__":
                 })
                 
                 wandb_config = {
-                    "project": "quantum-circuit-evolution",
-                    "name": f"N:{num_qubits}-x{rx}-y{ry}-z{rz}-run{i}",
+                    "project": f"GA-QSVM-N{num_qubits}-D{params['depth']}",
+                    "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 2)}",
                     "config": params
                 }
 

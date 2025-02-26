@@ -2,6 +2,9 @@
 *.json
 wandb/latest-run
 wandb/*
+error/
+output/
+ga-qsvm/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -177,3 +180,4 @@ cython_debug/
 wandb/latest-run
 wandb/latest-run
 wandb/latest-run
+error/GA-QSVM.e1699
