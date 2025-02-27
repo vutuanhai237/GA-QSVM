@@ -27,9 +27,9 @@ np.set_printoptions(suppress=True)  # Suppress scientific notation
 # Define hyperparameter search space using ranges
 base_hyperparameter_space = {
     'depth': [4], #list(range(4, 7)),
-    'num_circuit': list(range(4, 33, 4)),
+    'num_circuit': [8], #list(range(4, 33, 4)),
     'num_generation': list(range(10, 101, 10)),
-    'prob_mutate': list(np.linspace(-2, -1, 10))
+    'prob_mutate': list(np.logspace(-2, -1, 10))
 }
 
 range_num_qubits = [3]#range(2, 8)
@@ -90,7 +90,7 @@ if __name__ == "__main__":
                 })
                 
                 wandb_config = {
-                    "project": f"GA-QSVM-N{num_qubits}-D{params['depth']}",
+                    "project": f"GA-QSVM-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
                     "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 2)}",
                     "config": params
                 }
