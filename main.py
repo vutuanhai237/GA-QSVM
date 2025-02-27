@@ -74,7 +74,7 @@ if __name__ == "__main__":
         current_hyperparameter_space = base_hyperparameter_space.copy()
         
         # Generate all combinations of hyperparameters
-        keys, values = zip(*base_hyperparameter_space.items())
+        keys, values = zip(*current_hyperparameter_space.items())
         base_combinations = [dict(zip(keys, v)) for v in itertools.product(*values)]
         
         # For each base combination, create variants with different rotation combinations
@@ -91,7 +91,7 @@ if __name__ == "__main__":
                 
                 wandb_config = {
                     "project": f"GA-QSVM-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
-                    "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 2)}",
+                    "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}",
                     "config": params
                 }
 
