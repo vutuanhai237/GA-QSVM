@@ -74,7 +74,7 @@ if __name__ == "__main__":
         current_hyperparameter_space = base_hyperparameter_space.copy()
         
         # Generate all combinations of hyperparameters
-        keys, values = zip(*base_hyperparameter_space.items())
+        keys, values = zip(*current_hyperparameter_space.items())
         base_combinations = [dict(zip(keys, v)) for v in itertools.product(*values)]
         
         # For each base combination, create variants with different rotation combinations
