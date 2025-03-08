@@ -30,9 +30,16 @@ def generate_data(n_samples, n_features, centers, random_state):
     
     return X_train, X_test, y_train, y_test
 
-def prepare_wine_data(training_size, test_size, n_features):
+def prepare_wine_data(training_size, test_size, n_features, machine_id=0, num_machines=3):
     """
-    Prepare Wine dataset for binary classification
+    Prepare Wine dataset for binary classification with machine-specific validation sets
+    
+    Args:
+        training_size: Number of samples for training
+        test_size: Number of samples for testing
+        n_features: Number of features to reduce to using PCA
+        machine_id: ID of the current machine (0 to num_machines-1)
+        num_machines: Total number of machines for distributed validation
     
     Returns:
         Preprocessed training and testing datasets
@@ -42,8 +49,26 @@ def prepare_wine_data(training_size, test_size, n_features):
     X = wine.data
     y = wine.target
     
-    # Split and preprocess data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    # Ensure machine_id is valid
+    machine_id = machine_id % num_machines
+    
+    # Create sequential validation splits based on machine_id
+    # Similar to how k-fold cross-validation works
+    indices = np.arange(len(X))
+    n_samples = len(X)
+    fold_size = n_samples // num_machines
+    
+    # Calculate start and end indices for the test fold
+    start_idx = machine_id * fold_size
+    end_idx = start_idx + fold_size if machine_id < num_machines - 1 else n_samples
+    
+    # Create train/test indices
+    test_indices = indices[start_idx:end_idx]
+    train_indices = np.array([i for i in indices if i not in test_indices])
+    
+    # Split data using the indices
+    X_train, X_test = X[train_indices], X[test_indices]
+    y_train, y_test = y[train_indices], y[test_indices]
     
     # Scale the features
     scaler = StandardScaler()
@@ -55,6 +80,7 @@ def prepare_wine_data(training_size, test_size, n_features):
     X_train = pca.fit_transform(X_train)
     X_test = pca.transform(X_test)
     
+    # Limit to requested sizes
     X_train = X_train[:training_size, :]
     y_train = y_train[:training_size]
     X_test = X_test[:test_size, :]
@@ -62,6 +88,7 @@ def prepare_wine_data(training_size, test_size, n_features):
     
     return X_train, X_test, y_train, y_test
 
+# TODO: Modify this function based on id machine
 def prepare_digits_data(training_size, test_size, n_features):
     """
     Prepare Digits dataset for binary classification

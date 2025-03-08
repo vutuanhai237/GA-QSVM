@@ -28,14 +28,16 @@ np.set_printoptions(suppress=True)  # Suppress scientific notation
 base_hyperparameter_space = {
     'depth': [4], #list(range(4, 7)),
     'num_circuit': [8], #list(range(4, 33, 4)),
-    'num_generation': list(range(10, 101, 10)),
+    'num_generation': [100],
     'prob_mutate': list(np.logspace(-2, -1, 10))
 }
 
-range_num_qubits = [3]#range(2, 8)
+range_num_qubits = [3, 4]#range(2, 8)
 data = prepare_wine_data
 training_size = 100
 test_size = 50
+num_machines = 3
+id = 0
 
 def train_qsvm_with_wine(quantum_circuit):
     """
@@ -58,7 +60,7 @@ if __name__ == "__main__":
     # Iterate through different numbers of qubits
     for num_qubits in range_num_qubits:  # [2, 3, 4, 5, 6, 7]
         while True:
-            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, num_qubits)
+            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, num_qubits, id, num_machines)
             if Xw_train is not None:
                 break
         
