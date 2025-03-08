@@ -81,10 +81,10 @@ def prepare_wine_data(training_size, test_size, n_features, machine_id=0, num_ma
     X_test = pca.transform(X_test)
     
     # Limit to requested sizes
-    X_train = X_train[:training_size, :]
-    y_train = y_train[:training_size]
-    X_test = X_test[:test_size, :]
-    y_test = y_test[:test_size]
+    # X_train = X_train[:training_size, :]
+    # y_train = y_train[:training_size]
+    # X_test = X_test[:test_size, :]
+    # y_test = y_test[:test_size]
     
     return X_train, X_test, y_train, y_test
 

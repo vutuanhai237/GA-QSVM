@@ -1,3 +1,5 @@
+import sys
+# sys.path.append("..")
 import wandb
 from sklearn.svm import SVC
 from datasets import prepare_wine_data
@@ -11,12 +13,13 @@ wandb.init(project="ga-qsvm", name="svm-pca-benchmark-with-hyperparams")
 max_qubits = 8  
 training_size = 100
 test_size = 50
-num_machines = 10
+num_machines = 3
 
 # Define hyperparameter grid
 param_grid = {
-    'C': np.logspace(-3, 2, 6),
-    'gamma': np.logspace(-3, 2, 6)
+    'C': np.logspace(-4, 1, 6),
+    'gamma': np.logspace(-4, 1, 6),
+    'kernel': ['rbf', 'linear', 'poly', 'sigmoid']
 }
 
 for num_qubits in range(3, max_qubits + 1):
@@ -37,11 +40,11 @@ for num_qubits in range(3, max_qubits + 1):
         )
         
         # Perform grid search
-        svm = SVC(kernel="rbf")
+        svm = SVC()
         grid_search = GridSearchCV(
             svm, 
             param_grid, 
-            cv=3,
+            cv=5,
             n_jobs=-1,
             scoring='accuracy'
         )
@@ -52,7 +55,7 @@ for num_qubits in range(3, max_qubits + 1):
         best_params_list.append(best_params)
         
         # Train SVM with best parameters
-        clf = SVC(kernel="rbf", C=best_params['C'], gamma=best_params['gamma']).fit(Xw_train, yw_train)
+        clf = SVC(kernel=best_params['kernel'], C=best_params['C'], gamma=best_params['gamma']).fit(Xw_train, yw_train)
         
         # Get accuracy scores
         train_accuracy = clf.score(Xw_train, yw_train)
@@ -62,7 +65,7 @@ for num_qubits in range(3, max_qubits + 1):
         test_accuracies.append(test_accuracy)
         
         print(f"Num qubits: {num_qubits}, Machine ID: {machine_id}, Features: {num_qubits}")
-        print(f"Best parameters: C={best_params['C']:.6f}, gamma={best_params['gamma']:.6f}")
+        print(f"Best parameters: C={best_params['C']:.6f}, gamma={best_params['gamma']:.6f}, kernel={best_params['kernel']}")
         print(f"Training accuracy: {train_accuracy:.4f}")
         print(f"Testing accuracy: {test_accuracy:.4f}")
         print("-" * 30)
