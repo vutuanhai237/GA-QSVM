@@ -2,24 +2,34 @@ from sklearn.datasets import load_wine
 from sklearn.svm import SVC
 from sklearn.model_selection import cross_val_score, GridSearchCV, StratifiedKFold
 import numpy as np
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 
 # Load the wine dataset
 wine = load_wine()
 X = wine.data
 y = wine.target
 
+# Scale the features
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
 # Define parameter grid
 param_grid = {
     'C': np.logspace(-4, 1, 6),
-    'gamma': np.logspace(-4, 1, 6),
+    'gamma': np.logspace(-4, 1, 6), 
     'kernel': ['rbf', 'linear', 'poly', 'sigmoid']
 }
+
+# PCA
+pca = PCA(n_components=3)
+X = pca.fit_transform(X)
 
 # Create SVC classifier
 base_svc = SVC(random_state=42)
 
 # Perform Grid Search
-grid_search = GridSearchCV(base_svc, param_grid, cv=5, n_jobs=-1, verbose=1)
+grid_search = GridSearchCV(base_svc, param_grid, cv=3, n_jobs=-1, verbose=1)
 grid_search.fit(X, y)
 
 # Print best parameters

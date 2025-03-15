@@ -1,9 +1,9 @@
 from sklearn.datasets import load_wine, load_digits
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.datasets import make_blobs
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.utils import shuffle
 import numpy as np
 
 def generate_data(n_samples, n_features, centers, random_state):
@@ -46,8 +46,7 @@ def prepare_wine_data(training_size, test_size, n_features, machine_id=0, num_ma
     """
     # Load Wine Dataset
     wine = load_wine()
-    X = wine.data
-    y = wine.target
+    X, y = shuffle(wine.data, wine.target, random_state=42)
     
     # Ensure machine_id is valid
     machine_id = machine_id % num_machines
@@ -112,7 +111,7 @@ def prepare_digits_data(training_size, test_size, n_features):
         return None, None, None, None
 
     # Scale the features
-    scaler = StandardScaler()
+    scaler = MinMaxScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
     

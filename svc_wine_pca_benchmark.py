@@ -13,7 +13,7 @@ wandb.init(project="ga-qsvm", name="svm-pca-benchmark-with-hyperparams")
 max_qubits = 8  
 training_size = 100
 test_size = 50
-num_machines = 3
+num_machines = 10
 
 # Define hyperparameter grid
 param_grid = {
