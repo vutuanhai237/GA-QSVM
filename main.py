@@ -7,6 +7,7 @@ from qiskit_machine_learning.kernels import FidelityQuantumKernel
 from qiskit_machine_learning.algorithms import QSVC
 import itertools
 import wandb
+import argparse
 
 # QOOP-specific imports
 from qoop.evolution import normalizer
@@ -24,20 +25,44 @@ from utils import find_permutations_sum_n
 # Set NumPy display options
 np.set_printoptions(suppress=True)  # Suppress scientific notation
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='GA-QSVM Training Parameters')
+    parser.add_argument('--depth', type=int, nargs='+', default=[4, 5, 6],
+                      help='List of circuit depths to try')
+    parser.add_argument('--num-circuit', type=int, nargs='+', default=range(4, 33, 4),
+                      help='List of number of circuits to try, ie. num parallel')
+    parser.add_argument('--num-generation', type=int, nargs='+', default=[100],
+                      help='List of generation numbers to try')
+    parser.add_argument('--prob-mutate', type=float, nargs='+', 
+                      default=list(np.logspace(-2, -1, 10)),
+                      help='List of mutation probabilities to try')
+    parser.add_argument('--qubits', type=int, nargs='+', default=[3, 4, 5, 6, 7, 8],
+                      help='List of number of qubits to try')
+    parser.add_argument('--training-size', type=int, default=100,
+                      help='Size of training dataset')
+    parser.add_argument('--test-size', type=int, default=50,
+                      help='Size of test dataset')
+    parser.add_argument('--num-machines', type=int, default=3,
+                      help='Number of machines')
+    parser.add_argument('--id', type=int, default=0,
+                      help='ID for the run')
+    return parser.parse_args()
+
 # Define hyperparameter search space using ranges
+args = parse_args()
 base_hyperparameter_space = {
-    'depth': [4], #list(range(4, 7)),
-    'num_circuit': [8], #list(range(4, 33, 4)),
-    'num_generation': [100],
-    'prob_mutate': list(np.logspace(-2, -1, 10))
+    'depth': args.depth,
+    'num_circuit': args.num_circuit,
+    'num_generation': args.num_generation,
+    'prob_mutate': args.prob_mutate
 }
 
-range_num_qubits = [3, 4]#range(2, 8)
+range_num_qubits = args.qubits
 data = prepare_wine_data
-training_size = 100
-test_size = 50
-num_machines = 3
-id = 0
+training_size = args.training_size
+test_size = args.test_size
+num_machines = args.num_machines
+id = args.id
 
 def train_qsvm_with_wine(quantum_circuit):
     """
@@ -94,6 +119,7 @@ if __name__ == "__main__":
                 wandb_config = {
                     "project": f"GA-QSVM-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
                     "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}",
+                    "id": id,
                     "config": params
                 }
 

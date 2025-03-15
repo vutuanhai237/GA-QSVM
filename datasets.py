@@ -70,7 +70,7 @@ def prepare_wine_data(training_size, test_size, n_features, machine_id=0, num_ma
     y_train, y_test = y[train_indices], y[test_indices]
     
     # Scale the features
-    scaler = StandardScaler()
+    scaler = MinMaxScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
     
