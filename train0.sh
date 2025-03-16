@@ -4,7 +4,7 @@
 #PBS -e /home/nmduc/GA-QSVM/error
 #PBS -l nodes=1:ppn=8
 #PBS -q octa  #defines the destination queue of the job. 
-cd /home/nmduc/GA-QSVM
+cd /media/data/nmduc/GA-QSVM
 module load python3.10
 
 # Activate the Python virtual environment
