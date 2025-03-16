@@ -121,7 +121,7 @@ if __name__ == "__main__":
                     "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}-id{id}",
                     "config": {
                         **params,
-                        "id": i
+                        "i": i
                     }
                 }
 
