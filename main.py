@@ -83,6 +83,7 @@ def train_qsvm_with_wine(quantum_circuit):
 # Main execution
 if __name__ == "__main__":
     # Iterate through different numbers of qubits
+    i = 0
     for num_qubits in range_num_qubits:  # [2, 3, 4, 5, 6, 7]
         while True:
             Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, num_qubits, id, num_machines)
@@ -106,7 +107,6 @@ if __name__ == "__main__":
         
         # For each base combination, create variants with different rotation combinations
         for base_params in base_combinations:
-            i = 0
             for rx, ry, rz in rotation_combinations:
                 params = base_params.copy()
                 params.update({
@@ -117,11 +117,11 @@ if __name__ == "__main__":
                 })
                 
                 wandb_config = {
-                    "project": f"CV-GA-QSVM-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
+                    "project": f"test-GA-QSVM-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
                     "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}-id{id}",
                     "config": {
                         **params,
-                        "id": id
+                        "id": i
                     }
                 }
 
