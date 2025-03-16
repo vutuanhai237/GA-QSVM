@@ -46,7 +46,7 @@ def prepare_wine_data(training_size, test_size, n_features, machine_id=0, num_ma
     """
     # Load Wine Dataset
     wine = load_wine()
-    X, y = shuffle(wine.data, wine.target, random_state=42)
+    X, y = shuffle(wine.data, wine.target, random_state=23)
     
     # Ensure machine_id is valid
     machine_id = machine_id % num_machines
