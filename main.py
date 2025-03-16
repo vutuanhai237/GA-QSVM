@@ -117,7 +117,7 @@ if __name__ == "__main__":
                 })
                 
                 wandb_config = {
-                    "project": f"test-GA-QSVM-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
+                    "project": f"CV-GA-QSVM-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
                     "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}-id{id}",
                     "config": {
                         **params,
