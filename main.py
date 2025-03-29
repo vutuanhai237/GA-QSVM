@@ -46,6 +46,8 @@ def parse_args():
                       help='Number of machines')
     parser.add_argument('--id', type=int, default=0,
                       help='ID for the run')
+    parser.add_argument('--start-index', type=int, default=0,
+                      help='Index to start from in the base combinations')
     return parser.parse_args()
 
 # Define hyperparameter search space using ranges
@@ -63,6 +65,7 @@ training_size = args.training_size
 test_size = args.test_size
 num_machines = args.num_machines
 id = args.id
+start_index = args.start_index
 
 def train_qsvm_with_wine(quantum_circuit):
     """
@@ -105,9 +108,23 @@ if __name__ == "__main__":
         keys, values = zip(*current_hyperparameter_space.items())
         base_combinations = [dict(zip(keys, v)) for v in itertools.product(*values)]
         
+        # Calculate total combinations for this num_qubits
+        total_combinations_for_qubits = len(base_combinations) * len(rotation_combinations)
+        
+        # Skip if we haven't reached our start index yet
+        if i + total_combinations_for_qubits <= start_index:
+            i += total_combinations_for_qubits
+            print(f"Skipping {total_combinations_for_qubits} combinations for {num_qubits} qubits (total skipped: {i})")
+            continue
+        
         # For each base combination, create variants with different rotation combinations
         for base_params in base_combinations:
             for rx, ry, rz in rotation_combinations:
+                # Skip combinations until we reach our start index
+                if i < start_index:
+                    i += 1
+                    continue
+                    
                 params = base_params.copy()
                 params.update({
                     'num_qubits': num_qubits,
@@ -166,16 +183,3 @@ if __name__ == "__main__":
                 # Finish the wandb run
                 wandb.finish()
                 i += 1
-    
-    # Classical SVM comparison
-    clf = SVC(gamma=0.877551020408163, kernel="rbf").fit(Xw_train, yw_train)
-    train_pred = clf.predict(Xw_train)
-    test_pred = clf.predict(Xw_test)
-    
-    # Print results
-    print("Classical SVM Training Score:", clf.score(Xw_train, yw_train))
-    print("Classical SVM Testing Score:", clf.score(Xw_test, yw_test))
-    print("\nTraining Classification Report:")
-    print(classification_report(yw_train, train_pred))
-    print("\nTesting Classification Report:")
-    print(classification_report(yw_test, test_pred))
