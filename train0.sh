@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N GA-QSVM_2
+#PBS -N GA-QSVM_0
 #PBS -o /media/data/nmduc/GA-QSVM/output
 #PBS -e /media/data/nmduc/GA-QSVM/error
 #PBS -l nodes=1:ppn=8
@@ -11,7 +11,7 @@ module load python3.10
 source ga-qsvm/bin/activate
 
 # Run the main script
-python3.10 main.py --depth 4 --num-circuit 8 --qubits 3 4 5 --num-machines 3 --id 0
+python3.10 main.py --depth 4 --num-circuit 8 --qubits 3 4 5 --num-machines 3 --id 0 --start-index 183
 
 # Deactivate the virtual environment when done
 deactivate
