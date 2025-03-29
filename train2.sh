@@ -1,10 +1,10 @@
 #!/bin/bash
 #PBS -N GA-QSVM_2
-#PBS -o /media/data/nmduc/GA-QSVM/output
-#PBS -e /media/data/nmduc/GA-QSVM/error
+#PBS -o /home/nmduc/GA-QSVM/output
+#PBS -e /home/nmduc/GA-QSVM/error
 #PBS -l nodes=1:ppn=8
 #PBS -q octa  #defines the destination queue of the job. 
-cd /media/data/nmduc/GA-QSVM
+cd /home/nmduc/GA-QSVM
 module load python3.10
 
 # Activate the Python virtual environment
