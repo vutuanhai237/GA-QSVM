@@ -48,6 +48,8 @@ def parse_args():
                       help='ID for the run')
     parser.add_argument('--start-index', type=int, default=0,
                       help='Index to start from in the base combinations')
+    parser.add_argument('--data', type=str, default='wine',
+                      help='Dataset to use (digits or wine)')
     return parser.parse_args()
 
 # Define hyperparameter search space using ranges
@@ -59,8 +61,10 @@ base_hyperparameter_space = {
     'prob_mutate': args.prob_mutate
 }
 
+dataset = {'digits': prepare_digits_data, 'wine': prepare_wine_data}
+
 range_num_qubits = args.qubits
-data = prepare_wine_data
+data = dataset[args.data]
 training_size = args.training_size
 test_size = args.test_size
 num_machines = args.num_machines
