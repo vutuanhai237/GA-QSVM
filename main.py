@@ -71,6 +71,8 @@ num_machines = args.num_machines
 id = args.id
 start_index = args.start_index
 
+print(f"Starting with dataset: {data}, training size: {training_size}, test size: {test_size}, num machines: {num_machines}")
+
 def train_qsvm_with_wine(quantum_circuit):
     """
     Train Quantum SVM using the Wine dataset
@@ -93,7 +95,7 @@ if __name__ == "__main__":
     i = 0
     for num_qubits in range_num_qubits:  # [2, 3, 4, 5, 6, 7]
         while True:
-            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, num_qubits, id, num_machines)
+            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, n_features=num_qubits, machine_id=id, num_machines=num_machines)
             if Xw_train is not None:
                 break
         

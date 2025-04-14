@@ -5,7 +5,6 @@ from sklearn.decomposition import PCA
 from sklearn.datasets import make_blobs
 from sklearn.utils import shuffle
 import numpy as np
-import tensorflow as tf
 
 def generate_data(n_samples, n_features, centers, random_state):
     """
@@ -25,7 +24,7 @@ def generate_data(n_samples, n_features, centers, random_state):
     
     # Split and scale the data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    scaler = StandardScaler()
+    scaler = MinMaxScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
     
@@ -88,7 +87,8 @@ def prepare_wine_data(training_size, test_size, n_features, machine_id=0, num_ma
     
     return X_train, X_test, y_train, y_test
 
-def prepare_digits_data(training_size, test_size, n_features, machine_id=0, num_machines=3):
+# TODO: Test 0 and 1 for binary classification. And fix the test size = 599 while expecting 157
+def prepare_digits_data(training_size, test_size, n_features, machine_id=0, num_machines=3, binary=False):
     """
     Prepare Digits dataset for binary classification with machine-specific validation sets
     
@@ -105,6 +105,16 @@ def prepare_digits_data(training_size, test_size, n_features, machine_id=0, num_
     # Load Digits Dataset
     digits = load_digits()
     X, y = shuffle(digits.data, digits.target, random_state=23)
+    
+    # Filter for binary classification if requested
+    if binary:
+        mask = (y == 0) | (y == 1)
+        
+        X = X[mask]
+        y = y[mask]
+        
+        # Convert to binary labels (-1 for class 0, 1 for class 1)
+        y = 2 * (y == 1) - 1  # This converts 0->-1 and 1->1
     
     # Ensure machine_id is valid
     machine_id = machine_id % num_machines
@@ -128,8 +138,7 @@ def prepare_digits_data(training_size, test_size, n_features, machine_id=0, num_
     y_train, y_test = y[train_indices], y[test_indices]
     
     # Scale the features 
-    # TODO: Check if MinMaxScaler or StandardScalar or / 255.0 is appropriate for this dataset
-    scaler = StandardScaler()
+    scaler = MinMaxScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
     
@@ -165,6 +174,7 @@ def prepare_mnist_data(training_size, test_size, n_features, num_machines=None, 
         X_train, X_test, y_train, y_test: Preprocessed training and testing datasets
     """
     # Load MNIST Dataset with its official train/test split
+    import tensorflow as tf
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
     
     # Reshape to vectors

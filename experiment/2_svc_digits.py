@@ -7,13 +7,13 @@ from sklearn.model_selection import GridSearchCV
 import numpy as np
 
 # Initialize wandb
-wandb.init(project="SVM-PCA", name="svm-pca-digits-300-samples-10-machines-/255")
+wandb.init(project="SVM-PCA", name="test")
 
 # Test different numbers of qubits (which determines feature dimensions)
 max_qubits = 8  
 training_size = 300
-test_size = None
-num_machines = 10
+test_size = 0
+num_machines = 3
 
 # Define hyperparameter grid
 param_grid = {
