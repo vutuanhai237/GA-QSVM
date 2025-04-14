@@ -87,7 +87,6 @@ def prepare_wine_data(training_size, test_size, n_features, machine_id=0, num_ma
     
     return X_train, X_test, y_train, y_test
 
-# TODO: Test 0 and 1 for binary classification. And fix the test size = 599 while expecting 157
 def prepare_digits_data(training_size, test_size, n_features, machine_id=0, num_machines=3, binary=False):
     """
     Prepare Digits dataset for binary classification with machine-specific validation sets
