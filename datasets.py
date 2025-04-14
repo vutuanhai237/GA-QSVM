@@ -1,4 +1,4 @@
-from sklearn.datasets import load_wine, load_digits
+from sklearn.datasets import load_wine, load_digits, load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA
@@ -215,4 +215,67 @@ def prepare_mnist_data(training_size, test_size, n_features, num_machines=None, 
         y_test = y_test[:test_size]
     
     print(f"Training size: {len(X_train)}, Test size: {len(X_test)}")
+    return X_train, X_test, y_train, y_test
+
+def prepare_cancer_data(training_size, test_size, n_features, machine_id=0, num_machines=3, binary=False):
+    """
+    Prepare Breast Cancer dataset for binary classification with machine-specific validation sets
+    
+    Args:
+        training_size: Number of samples for training
+        test_size: Number of samples for testing
+        n_features: Number of features to reduce to using PCA
+        machine_id: ID of the current machine (0 to num_machines-1)
+        num_machines: Total number of machines for distributed validation
+    
+    Returns:
+        Preprocessed training and testing datasets (X_train, X_test, y_train, y_test)
+    """
+    # Load Digits Dataset
+    digits = load_breast_cancer()
+    X, y = shuffle(digits.data, digits.target, random_state=23)
+    
+    
+    # Ensure machine_id is valid
+    machine_id = machine_id % num_machines
+    
+    # Create sequential validation splits based on machine_id
+    # Similar to how k-fold cross-validation works
+    indices = np.arange(len(X))
+    n_samples = len(X)
+    fold_size = n_samples // num_machines
+    
+    # Calculate start and end indices for the test fold
+    start_idx = machine_id * fold_size
+    end_idx = start_idx + fold_size if machine_id < num_machines - 1 else n_samples
+    
+    # Create train/test indices
+    test_indices = indices[start_idx:end_idx]
+    train_indices = np.array([i for i in indices if i not in test_indices])
+    
+    # Split data using the indices
+    X_train, X_test = X[train_indices], X[test_indices]
+    y_train, y_test = y[train_indices], y[test_indices]
+    
+    # Scale the features 
+    scaler = MinMaxScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+    
+    # Reduce dimensionality using PCA
+    pca = PCA(n_components=n_features)
+    X_train = pca.fit_transform(X_train)
+    X_test = pca.transform(X_test)
+    
+    # Limit to requested sizes
+    if training_size and training_size < len(X_train):
+        X_train = X_train[:training_size]
+        y_train = y_train[:training_size]
+        
+    if test_size and test_size < len(X_test):
+        X_test = X_test[:test_size]
+        y_test = y_test[:test_size]
+    
+    print(f"Training size: {len(X_train)}, Test size: {len(X_test)}")
+
     return X_train, X_test, y_train, y_test
