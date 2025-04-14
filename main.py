@@ -43,13 +43,13 @@ def parse_args():
     parser.add_argument('--test-size', type=int, default=50,
                       help='Size of test dataset')
     parser.add_argument('--num-machines', type=int, default=3,
-                      help='Number of machines')
+                      help='Number of machines to cross validation')
     parser.add_argument('--id', type=int, default=0,
-                      help='ID for the run')
+                      help='ID for the machines')
     parser.add_argument('--start-index', type=int, default=0,
-                      help='Index to start from in the base combinations')
+                      help='Index to start from in the base combinations, ie. when the running fail, use this to continue the benchmarking')
     parser.add_argument('--data', type=str, default='wine',
-                      help='Dataset to use (digits or wine)')
+                      help='Dataset to use (digits or wine or cancer)')
     return parser.parse_args()
 
 # Define hyperparameter search space using ranges
