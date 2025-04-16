@@ -280,8 +280,6 @@ def prepare_cancer_data(training_size, test_size, n_features, machine_id=0, num_
 
     return X_train, X_test, y_train, y_test
 
-# TODO: GridSearch với 90% và test trên holdout
-# TODO: GridSearch with 90%, train on 10% and test on holdout -> Overfit for sure
 def prepare_cancer_data_holdout(training_size, test_size, n_features, machine_id=None, num_machines=None, binary=False):
     """
     Prepare Breast Cancer dataset for binary classification with holdout validation
