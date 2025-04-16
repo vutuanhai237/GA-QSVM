@@ -279,3 +279,35 @@ def prepare_cancer_data(training_size, test_size, n_features, machine_id=0, num_
     print(f"Training size: {len(X_train)}, Test size: {len(X_test)}")
 
     return X_train, X_test, y_train, y_test
+
+# TODO: GridSearch với 90% và test trên holdout
+# TODO: GridSearch with 90%, train on 10% and test on holdout -> Overfit for sure
+def prepare_cancer_data_holdout(training_size, test_size, n_features, machine_id=None, num_machines=None, binary=False):
+    """
+    Prepare Breast Cancer dataset for binary classification with holdout validation
+    
+    Args:
+        training_size: Number of samples for training
+        test_size: Number of samples for testing
+        n_features: Number of features to reduce to using PCA
+    
+    Returns:
+        Preprocessed training and testing datasets (X_train, X_test, y_train, y_test)
+    """
+    # Load Digits Dataset
+    digits = load_breast_cancer()
+    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=test_size,train_size=training_size, random_state=23) # holdout set
+    
+    # Scale the features 
+    scaler = MinMaxScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+    
+    # Reduce dimensionality using PCA
+    pca = PCA(n_components=n_features)
+    X_train = pca.fit_transform(X_train)
+    X_test = pca.transform(X_test)
+    
+    print(f"Training size: {len(X_train)}, Test size: {len(X_test)}")
+
+    return X_train, X_test, y_train, y_test
