@@ -309,3 +309,24 @@ def prepare_cancer_data_holdout(training_size, test_size, n_features, machine_id
     print(f"Training size: {len(X_train)}, Test size: {len(X_test)}")
 
     return X_train, X_test, y_train, y_test
+
+def prepare_cancer_data_val_eval(training_size, test_size, n_features, machine_id=None, num_machines=None, binary=False):
+    # Load Digits Dataset
+    digits = load_breast_cancer()
+    X, X_eval, y, y_eval = train_test_split(digits.data, digits.target, test_size=test_size, random_state=23)
+    
+    # Scale the features 
+    scaler = MinMaxScaler()
+    X = scaler.fit_transform(X)
+    X_eval = scaler.transform(X_eval)
+    
+    # Reduce dimensionality using PCA
+    pca = PCA(n_components=n_features)
+    X = pca.fit_transform(X)
+    X_eval = pca.transform(X_eval)
+    
+    X_train, X_val, y_train, y_val = train_test_split(X, y, train_size=training_size, random_state=24)
+    
+    print(f"Training size: {len(X_train)}, Test size: {len(X_eval)}, Search size: {len(X_val)}")
+
+    return X_train, X_val, X_eval, y_train, y_val, y_eval
