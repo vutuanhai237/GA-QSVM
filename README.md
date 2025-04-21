@@ -42,7 +42,7 @@ tensorflow==2.18.0
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/GA-QSVM.git
+git clone https://github.com/vutuanhai237/GA-QSVM.git
 cd GA-QSVM
 ```
 
@@ -111,8 +111,8 @@ Each dataset can be prepared with different feature dimensions using PCA.
 - `utils.py`: Utility functions
 - `requirements.txt`: Project dependencies
 - `train*.sh`: Training scripts for cluster environments
-- `experiment/`: Scripts for running classical SVM benchmarks
-- `notebook/`: Jupyter notebooks for testing
+- `experiment/` : Scripts for experiments
+- `notebook/`: Jupyter notebooks for experiments
 - `qoop/`: Quantum Object Optimizer package
 
 ## License
