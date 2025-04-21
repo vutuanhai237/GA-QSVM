@@ -83,7 +83,7 @@ python main.py --depth 4 --num-circuit 8 --qubits 3 4 5 --num-machines 3 --id 0 
 - `--test-size`: Size of test dataset (default: 50)
 - `--num-machines`: Number of machines for cross-validation (default: 3)
 - `--id`: ID for the machine (default: 0)
-- `--start-index`: Index to start from in base combinations (default: 0)
+- `--start-index`: Index to start from in base combinations, ie. when the running fail, use this to continue the benchmarking (default: 0)
 - `--data`: Dataset to use ('wine', 'digits', or 'cancer') (default: 'wine')
 
 ### Using the Training Scripts
