@@ -88,10 +88,12 @@ python main.py --depth 4 --num-circuit 8 --qubits 3 4 5 --num-machines 3 --id 0 
 
 ### Using the Training Scripts
 
-The repository includes training scripts (`train0.sh`, `train1.sh`, `train2.sh`) for running experiments on a HPC cluster:
+The repository includes training scripts (`train0.sh`, `train1.sh`, `train2.sh`) for running experiments on a HPC cluster. These scripts can be submitted to the cluster using the `qsub` command.
 
 ```bash
-bash train0.sh
+qsub train0.sh
+qsub train1.sh
+qsub train2.sh
 ```
 
 ## Datasets
