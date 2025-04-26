@@ -5,6 +5,7 @@ wandb/*
 error/
 output/
 ga-qsvm/
+cuTN-QSVM/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
