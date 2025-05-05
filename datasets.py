@@ -330,3 +330,62 @@ def prepare_cancer_data_val_eval(training_size, test_size, n_features, machine_i
     print(f"Training size: {len(X_train)}, Test size: {len(X_eval)}, Search size: {len(X_val)}")
 
     return X_train, X_val, X_eval, y_train, y_val, y_eval
+
+def prepare_digits_data_split(train_size, n_features, binary=False, random_state=23):
+    """
+    Prepare Digits dataset with a standard train/test split and preprocessing.
+
+    Args:
+        train_size (float or int): If float, should be between 0.0 and 1.0 and represent the
+                                 proportion of the dataset to include in the train split.
+                                 If int, represents the absolute number of train samples.
+        n_features (int): Number of features to reduce to using PCA.
+        binary (bool): If True, filter for digits 0 and 1, convert labels to -1 and 1.
+                       If False (default), use all digits 0-9.
+        random_state (int): Controls the shuffling applied to the data before splitting and
+                           the split itself for reproducibility.
+
+    Returns:
+        tuple: Preprocessed training and testing datasets (X_train, X_test, y_train, y_test)
+    """
+    # Load Digits Dataset
+    digits = load_digits()
+    
+    # Shuffle dataset once initially (optional, as train_test_split can shuffle)
+    # Using shuffle here ensures the same shuffling logic as the original if needed downstream,
+    # but train_test_split's shuffle=True is generally sufficient.
+    X, y = shuffle(digits.data, digits.target, random_state=random_state)
+
+    # Filter for binary classification if requested
+    if binary:
+        mask = (y == 0) | (y == 1)
+        X = X[mask]
+        y = y[mask]
+        # Convert to binary labels (-1 for class 0, 1 for class 1)
+        y = 2 * (y == 1) - 1  # Converts 0 -> -1 and 1 -> 1
+        print(f"Filtered for binary classification (0 vs 1). Data shape: {X.shape}")
+    else:
+        print(f"Using multiclass classification (0-9). Data shape: {X.shape}")
+
+    # Split data into training and testing sets BEFORE scaling/PCA
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, train_size=train_size, random_state=random_state, shuffle=True # Ensure split is shuffled
+    )
+
+    print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")
+
+    # Scale the features (Fit on training data only!)
+    scaler = MinMaxScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test) # Transform test data using training scaler
+
+    # Reduce dimensionality using PCA (Fit on training data only!)
+    # Add random_state to PCA if using randomized solvers like 'arpack' or 'randomized'
+    pca = PCA(n_components=n_features, random_state=random_state) 
+    X_train = pca.fit_transform(X_train)
+    X_test = pca.transform(X_test) # Transform test data using training PCA
+
+    print(f"PCA complete. Number of features: {X_train.shape[1]}")
+    print(f"Final Training size: {len(X_train)}, Final Test size: {len(X_test)}")
+
+    return X_train, X_test, y_train, y_test

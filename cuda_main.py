@@ -22,7 +22,7 @@ from qoop.evolution.mutate import bitflip_mutate_with_normalizer
 from qoop.evolution.threshold import synthesis_threshold
 from qoop.backend.constant import operations_with_rotations
 from qoop.evolution import divider
-from datasets import prepare_wine_data, prepare_digits_data, prepare_cancer_data
+from datasets import prepare_wine_data, prepare_digits_data, prepare_cancer_data, prepare_digits_data_split
 from utils import find_permutations_sum_n
 from cuda_qsvm import build_qsvm_qc, data_to_operand, kernel_matrix_tnsm
 
@@ -65,10 +65,10 @@ base_hyperparameter_space = {
     'prob_mutate': args.prob_mutate
 }
 
-dataset = {'digits': prepare_digits_data, 'wine': prepare_wine_data, 'cancer': prepare_cancer_data}
+dataset = {'digits': prepare_digits_data_split, 'wine': prepare_wine_data, 'cancer': prepare_cancer_data}
 
 range_num_qubits = args.qubits
-data = dataset[args.data]
+data = prepare_digits_data_split #dataset[args.data]
 training_size = args.training_size
 test_size = args.test_size
 num_machines = args.num_machines
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     i = 0
     for num_qubits in range_num_qubits:  # [2, 3, 4, 5, 6, 7]
         while True:
-            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, n_features=num_qubits, machine_id=id, num_machines=num_machines)
+            Xw_train, Xw_test, yw_train, yw_test = data(training_size, n_features=num_qubits)
             if Xw_train is not None:
                 break
 
@@ -202,7 +202,7 @@ if __name__ == "__main__":
                 )
                 
                 # Run evolution
-                env.evol(verbose=False, mode="parallel")
+                env.evol(verbose=False, mode="noparallel")
                 
                 # Finish the wandb run
                 wandb.finish()
