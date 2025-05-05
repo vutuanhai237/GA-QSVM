@@ -1,18 +1,21 @@
 # Import required libraries
 import numpy as np
 from sklearn.svm import SVC
-from sklearn.metrics import classification_report, accuracy_score
 from qiskit.circuit.library import ZZFeatureMap
-from qiskit_machine_learning.kernels import FidelityQuantumKernel
-from qiskit_machine_learning.algorithms import QSVC
 import itertools
 import wandb
 import argparse
+import cupy as cp
+from itertools import combinations,product
+from multiprocessing import Pool
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from cuquantum import *
 
 # QOOP-specific imports
 from qoop.evolution import normalizer
 from qoop.evolution.environment_synthesis import MetadataSynthesis
-from qoop.evolution.generator import by_num_rotations_and_cnot
+from qoop.evolution.generator import by_num_rotations_and_cnot_gpu
 from qoop.evolution.environment import EEnvironment
 from qoop.evolution.crossover import onepoint
 from qoop.evolution.mutate import bitflip_mutate_with_normalizer
@@ -21,6 +24,7 @@ from qoop.backend.constant import operations_with_rotations
 from qoop.evolution import divider
 from datasets import prepare_wine_data, prepare_digits_data, prepare_cancer_data
 from utils import find_permutations_sum_n
+from cuda_qsvm import build_qsvm_qc, data_to_operand, kernel_matrix_tnsm
 
 # Set NumPy display options
 np.set_printoptions(suppress=True)  # Suppress scientific notation
@@ -83,11 +87,28 @@ def train_qsvm(quantum_circuit):
     Returns:
         Classification accuracy
     """
-    quantum_kernel = FidelityQuantumKernel(feature_map=quantum_circuit)
-    qsvc = QSVC(quantum_kernel=quantum_kernel)
-    qsvc.fit(Xw_train, yw_train)
-    y_pred = qsvc.predict(Xw_test)
-    return accuracy_score(yw_test, y_pred)
+    indices_list_train = list(combinations(range(1, len(Xw_train) + 1), 2))  # Index pairs list of training data for kernel matrix calculation.
+    indices_list_test  = list(product(range(1, len(Xw_test) + 1),range(1, len(Xw_train) + 1)))  # Index pairs list of testing data for kernel matrix calculation
+    
+    circuit = build_qsvm_qc(quantum_circuit,quantum_circuit.num_qubits, Xw_train[0], Xw_train[0])
+    converter = CircuitToEinsum(circuit, dtype='complex128', backend='cupy')
+    a = str(0).zfill(quantum_circuit.num_qubits)
+    exp, oper = converter.amplitude(a)
+    
+    operand_train = data_to_operand(quantum_circuit.num_qubits,oper,Xw_train,Xw_train,indices_list_train)
+    operand_test  = data_to_operand(quantum_circuit.num_qubits,oper,Xw_test,Xw_train,indices_list_test)
+
+    oper = operand_train[0]
+    options = NetworkOptions(blocking="auto")
+    network = Network(exp, *oper,options=options)
+    path, info = network.contract_path()
+    
+    tnsm_kernel_matrix_train = kernel_matrix_tnsm(Xw_train, Xw_train, exp, operand_train, indices_list_train, options, mode='train')
+    tnsm_kernel_matrix_test  = kernel_matrix_tnsm(Xw_test, Xw_train, exp, operand_test, indices_list_test, options, mode=None)
+    
+    svc = SVC(kernel="precomputed")
+    svc.fit(tnsm_kernel_matrix_train,y_train)
+    return svc.score(tnsm_kernel_matrix_test,y_test)
 
 # Main execution
 if __name__ == "__main__":
@@ -167,7 +188,7 @@ if __name__ == "__main__":
                 env = EEnvironment(
                     metadata=env_metadata,
                     fitness_func=train_qsvm,
-                    generator_func=by_num_rotations_and_cnot,
+                    generator_func=by_num_rotations_and_cnot_gpu,
                     crossover_func=onepoint(
                         divider.by_num_rotation_gate(int(env_metadata.num_qubits / 2)),
                         normalizer.by_num_rotation_gate(env_metadata.num_qubits)
