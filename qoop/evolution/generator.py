@@ -5,6 +5,7 @@ from ..backend import constant
 from .environment_parent import Metadata
 from .environment_synthesis import MetadataSynthesis
 from qiskit.circuit.library import RXGate, RYGate, RZGate, CXGate
+
 def initialize_random_parameters(num_qubits: int, max_operands: int, conditional: bool, seed):
     if max_operands < 1 or max_operands > 3:
         raise qiskit.circuit.exceptions.CircuitError("max_operands must be between 1 and 3")
@@ -244,6 +245,64 @@ def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCirc
             theta_param = qiskit.circuit.Parameter(f"theta({rotation_index})")
             rotation_index += 1
             qc.append(gate_info["operation"](theta_param), operands)
+        else:
+            qc.append(gate_info["operation"](), operands)
+
+    return qc
+
+def by_num_rotations_and_cnot_gpu(metadata: MetadataSynthesis) -> qiskit.QuantumCircuit:
+    num_qubits = metadata.num_qubits
+    depth = metadata.depth
+    num_rx = metadata.num_rx
+    num_ry = metadata.num_ry
+    num_rz = metadata.num_rz
+    # num_cnot = metadata.num_cnot
+    total_rotations = num_rx + num_ry + num_rz
+    total_gates = depth * num_qubits
+    num_other_gates = total_gates - (total_rotations) #+ num_cnot)
+
+    if total_rotations > total_gates: # + num_cnot > total_gates:
+        raise ValueError("The total number of specified gates exceeds the maximum allowed.")
+    # Create a single vector to hold all rotation parameters
+    if total_rotations > 0:
+        theta_vector = qiskit.circuit.ParameterVector("theta", total_rotations)
+    else:
+        # Handle edge case of zero rotations
+        theta_vector = qiskit.circuit.ParameterVector("theta", 0) # assign_parameters should handle empty list
+
+    rotation_gate_count = {
+        RXGate: num_rx,
+        RYGate: num_ry,
+        RZGate: num_rz,
+    }
+    # cnot_gate_pool = [{"operation": qiskit.circuit.library.CXGate, "num_op": 2}] * num_cnot
+
+    rotation_pool = [{"operation": gate_type, "num_op": 1}
+                    for gate_type, count in rotation_gate_count.items() for _ in range(count)]
+
+    smallest_num_gate = 1 if int(0.15 * num_other_gates) == 0 else int(0.15 * num_other_gates)
+    num_other_gates_pool = generate_random_array(num_other_gates, smallest_num_gate, 4)
+    pool = constant.operations_with_rotations
+    other_gate_pool = [gate for gate in pool if gate['operation'] not in
+                        [RXGate, RYGate, RZGate, CXGate]]
+
+    full_pool = rotation_pool # + cnot_gate_pool
+    for count, gate_info in zip(num_other_gates_pool, other_gate_pool):
+        full_pool.extend([gate_info] * count)
+
+    random.shuffle(full_pool)
+
+    qc = qiskit.QuantumCircuit(num_qubits)
+    rotation_index = 0  # Index for theta parameters
+    while full_pool:
+        remaining_qubits = list(range(num_qubits))
+        random.shuffle(remaining_qubits)
+        gate_info = full_pool.pop()
+        operands = remaining_qubits[:gate_info["num_op"]]
+        if gate_info["operation"] in [RXGate, RYGate, RZGate]:
+            current_theta_param = theta_vector[rotation_index]
+            rotation_index += 1
+            qc.append(gate_info["operation"](current_theta_param), operands)
         else:
             qc.append(gate_info["operation"](), operands)
 

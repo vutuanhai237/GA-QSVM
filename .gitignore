@@ -6,6 +6,7 @@ error/
 output/
 ga-qsvm/
 cuTN-QSVM/
+test-gpu/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
