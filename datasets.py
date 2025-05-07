@@ -331,7 +331,7 @@ def prepare_cancer_data_val_eval(training_size, test_size, n_features, machine_i
 
     return X_train, X_val, X_eval, y_train, y_val, y_eval
 
-def prepare_digits_data_split(train_size, n_features, binary=False, random_state=23):
+def prepare_digits_data_split(train_size, test_size, n_features, binary=False, random_state=23):
     """
     Prepare Digits dataset with a standard train/test split and preprocessing.
 
@@ -369,7 +369,7 @@ def prepare_digits_data_split(train_size, n_features, binary=False, random_state
 
     # Split data into training and testing sets BEFORE scaling/PCA
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, train_size=train_size, random_state=random_state, shuffle=True # Ensure split is shuffled
+        X, y, train_size=train_size, test_size=test_size, random_state=random_state, shuffle=True # Ensure split is shuffled
     )
 
     print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")

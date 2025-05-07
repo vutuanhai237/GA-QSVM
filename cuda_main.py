@@ -116,7 +116,7 @@ if __name__ == "__main__":
     i = 0
     for num_qubits in range_num_qubits:  # [2, 3, 4, 5, 6, 7]
         while True:
-            Xw_train, Xw_test, yw_train, yw_test = data(training_size, n_features=num_qubits)
+            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, n_features=num_qubits)
             if Xw_train is not None:
                 break
 
