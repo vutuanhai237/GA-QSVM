@@ -2,7 +2,7 @@ import sys
 # sys.path.append("..")
 import wandb
 from sklearn.svm import SVC
-from datasets import prepare_cancer_data
+from data.cv import prepare_cancer_data
 from sklearn.model_selection import GridSearchCV
 import numpy as np
 

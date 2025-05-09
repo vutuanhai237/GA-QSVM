@@ -19,7 +19,7 @@ from qoop.evolution.mutate import bitflip_mutate_with_normalizer
 from qoop.evolution.threshold import synthesis_threshold
 from qoop.backend.constant import operations_with_rotations
 from qoop.evolution import divider
-from datasets import prepare_wine_data, prepare_digits_data, prepare_cancer_data
+from data import prepare_wine_data, prepare_digits_data, prepare_cancer_data
 from utils import find_permutations_sum_n
 
 # Set NumPy display options
