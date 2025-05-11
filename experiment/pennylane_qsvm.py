@@ -148,9 +148,6 @@ if __name__ == '__main__':
     # Parameters for the QSVM
     num_samples = 300
     test_set_size = 0.2
-
-    print(f'Wires: 20')
-    print(f"Running QSVM with {num_samples} samples and {test_set_size*100}% test data.")
     print(f"Attempting to use PennyLane device: {QML_DEVICE}")
     start_time = time.time()
     train_acc, test_acc = run_qsvm_local(
