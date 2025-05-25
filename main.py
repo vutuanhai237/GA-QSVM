@@ -19,7 +19,7 @@ from qoop.evolution.mutate import bitflip_mutate_with_normalizer
 from qoop.evolution.threshold import synthesis_threshold
 from qoop.backend.constant import operations_with_rotations
 from qoop.evolution import divider
-from data import prepare_wine_data, prepare_digits_data, prepare_cancer_data
+from data import prepare_wine_data, prepare_digits_data_split, prepare_cancer_data
 from utils import find_permutations_sum_n
 
 # Set NumPy display options
@@ -61,7 +61,7 @@ base_hyperparameter_space = {
     'prob_mutate': args.prob_mutate
 }
 
-dataset = {'digits': prepare_digits_data, 'wine': prepare_wine_data, 'cancer': prepare_cancer_data}
+dataset = {'digits': prepare_digits_data_split, 'wine': prepare_wine_data, 'cancer': prepare_cancer_data}
 
 range_num_qubits = args.qubits
 data = dataset[args.data]
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     i = 0
     for num_qubits in range_num_qubits:  # [2, 3, 4, 5, 6, 7]
         while True:
-            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, n_features=num_qubits, machine_id=id, num_machines=num_machines)
+            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, n_features=num_qubits, binary=True)
             if Xw_train is not None:
                 break
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
                 })
                 
                 wandb_config = {
-                    "project": f"CV-GA-QSVM-{args.data}-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
+                    "project": f"GA-QSVM-{args.data}-N{num_qubits}-D{params['depth']}-C{params['num_circuit']}",
                     "name": f"x{rx}-y{ry}-z{rz}-c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}-id{id}",
                     "config": {
                         **params,
