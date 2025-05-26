@@ -22,7 +22,7 @@ def prepare_wine_data_split(training_size, test_size, n_features, binary=False, 
 
     # Split data into training and testing sets BEFORE scaling/PCA
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, train_size=training_size, test_size=test_size, random_state=20, shuffle=True, stratify=y
+        X, y, train_size=100, test_size=78, random_state=20, shuffle=True, stratify=y
     )
 
     print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")
@@ -41,7 +41,7 @@ def prepare_wine_data_split(training_size, test_size, n_features, binary=False, 
 
     return X_train, X_test, y_train, y_test
 
-def prepare_digits_data_split(train_size, test_size, n_features, binary=False, random_state=55):
+def prepare_digits_data_split(training_size, test_size, n_features, binary=False, random_state=55):
     digits = load_digits()
     X, y = shuffle(digits.data, digits.target, random_state=55)
 
@@ -58,7 +58,7 @@ def prepare_digits_data_split(train_size, test_size, n_features, binary=False, r
 
     # Split data into training and testing sets BEFORE scaling/PCA
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, train_size=train_size, test_size=test_size, random_state=55, shuffle=True, stratify=y
+        X, y, train_size=100, test_size=100, random_state=55, shuffle=True, stratify=y
     )
 
     print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")
@@ -70,7 +70,7 @@ def prepare_digits_data_split(train_size, test_size, n_features, binary=False, r
 
     # Reduce dimensionality using PCA (Fit on training data only!)
     # Add random_state to PCA if using randomized solvers like 'arpack' or 'randomized'
-    pca = PCA(n_components=n_features, random_state=random_state) 
+    pca = PCA(n_components=n_features, random_state=55) 
     X_train = pca.fit_transform(X_train)
     X_test = pca.transform(X_test) # Transform test data using training PCA
 
@@ -81,7 +81,7 @@ def prepare_digits_data_split(train_size, test_size, n_features, binary=False, r
 
 def prepare_cancer_data_split(training_size, test_size, n_features, random_state=52):
     digits = load_breast_cancer()
-    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=test_size,train_size=training_size, random_state=52, stratify=digits.target)
+    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=100,train_size=100, random_state=52, stratify=digits.target)
     
     # Scale the features 
     scaler = MinMaxScaler()

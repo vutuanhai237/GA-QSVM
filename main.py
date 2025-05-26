@@ -19,7 +19,7 @@ from qoop.evolution.mutate import bitflip_mutate_with_normalizer
 from qoop.evolution.threshold import synthesis_threshold
 from qoop.backend.constant import operations_with_rotations
 from qoop.evolution import divider
-from data import prepare_wine_data, prepare_digits_data_split, prepare_cancer_data
+from data import prepare_wine_data_split, prepare_digits_data_split, prepare_cancer_data_split
 from utils import find_permutations_sum_n
 
 # Set NumPy display options
@@ -61,7 +61,7 @@ base_hyperparameter_space = {
     'prob_mutate': args.prob_mutate
 }
 
-dataset = {'digits': prepare_digits_data_split, 'wine': prepare_wine_data, 'cancer': prepare_cancer_data}
+dataset = {'digits': prepare_digits_data_split, 'wine': prepare_wine_data_split, 'cancer': prepare_cancer_data_split}
 
 range_num_qubits = args.qubits
 data = dataset[args.data]
@@ -94,10 +94,7 @@ if __name__ == "__main__":
     # Iterate through different numbers of qubits
     i = 0
     for num_qubits in range_num_qubits:  # [2, 3, 4, 5, 6, 7]
-        while True:
-            Xw_train, Xw_test, yw_train, yw_test = data(training_size, test_size, n_features=num_qubits, binary=True)
-            if Xw_train is not None:
-                break
+        Xw_train, Xw_test, yw_train, yw_test = data(training_size=training_size, test_size=test_size, n_features=num_qubits, random_state=55)
 
         print(f"\nExploring configurations for {num_qubits} qubits:")
         
@@ -186,3 +183,9 @@ if __name__ == "__main__":
                 # Finish the wandb run
                 wandb.finish()
                 i += 1
+
+    # Send alert notification when run completes
+    wandb.run.alert(
+        title="Experiment Complete",
+        text=f"The {args.data} experiment with {args.qubits} qubits has finished running"
+    )
