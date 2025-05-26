@@ -5,9 +5,9 @@ from sklearn.decomposition import PCA
 from sklearn.utils import shuffle
 import numpy as np
 
-def prepare_digits_data_split(train_size, test_size, n_features, binary=False, random_state=23):
+def prepare_digits_data_split(train_size, test_size, n_features, binary=False, random_state=55):
     digits = load_digits()
-    X, y = shuffle(digits.data, digits.target, random_state=random_state)
+    X, y = shuffle(digits.data, digits.target, random_state=55)
 
     # Filter for binary classification if requested
     if binary:
@@ -22,7 +22,7 @@ def prepare_digits_data_split(train_size, test_size, n_features, binary=False, r
 
     # Split data into training and testing sets BEFORE scaling/PCA
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, train_size=train_size, test_size=test_size, random_state=random_state, shuffle=True, stratify=y
+        X, y, train_size=train_size, test_size=test_size, random_state=55, shuffle=True, stratify=y
     )
 
     print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")
@@ -43,21 +43,9 @@ def prepare_digits_data_split(train_size, test_size, n_features, binary=False, r
 
     return X_train, X_test, y_train, y_test
 
-def prepare_cancer_data_holdout(training_size, test_size, n_features, machine_id=None, num_machines=None, binary=False):
-    """
-    Prepare Breast Cancer dataset for binary classification with holdout validation
-    
-    Args:
-        training_size: Number of samples for training
-        test_size: Number of samples for testing
-        n_features: Number of features to reduce to using PCA
-    
-    Returns:
-        Preprocessed training and testing datasets (X_train, X_test, y_train, y_test)
-    """
-    # Load Digits Dataset
+def prepare_cancer_data_split(training_size, test_size, n_features, random_state=52):
     digits = load_breast_cancer()
-    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=test_size,train_size=training_size, random_state=23) # holdout set
+    X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=test_size,train_size=training_size, random_state=52, stratify=digits.target)
     
     # Scale the features 
     scaler = MinMaxScaler()
