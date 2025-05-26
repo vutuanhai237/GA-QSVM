@@ -6,28 +6,7 @@ from sklearn.utils import shuffle
 import numpy as np
 
 def prepare_digits_data_split(train_size, test_size, n_features, binary=False, random_state=23):
-    """
-    Prepare Digits dataset with a standard train/test split and preprocessing.
-
-    Args:
-        train_size (float or int): If float, should be between 0.0 and 1.0 and represent the
-                                 proportion of the dataset to include in the train split.
-                                 If int, represents the absolute number of train samples.
-        n_features (int): Number of features to reduce to using PCA.
-        binary (bool): If True, filter for digits 0 and 1, convert labels to -1 and 1.
-                       If False (default), use all digits 0-9.
-        random_state (int): Controls the shuffling applied to the data before splitting and
-                           the split itself for reproducibility.
-
-    Returns:
-        tuple: Preprocessed training and testing datasets (X_train, X_test, y_train, y_test)
-    """
-    # Load Digits Dataset
     digits = load_digits()
-    
-    # Shuffle dataset once initially (optional, as train_test_split can shuffle)
-    # Using shuffle here ensures the same shuffling logic as the original if needed downstream,
-    # but train_test_split's shuffle=True is generally sufficient.
     X, y = shuffle(digits.data, digits.target, random_state=random_state)
 
     # Filter for binary classification if requested
@@ -43,7 +22,7 @@ def prepare_digits_data_split(train_size, test_size, n_features, binary=False, r
 
     # Split data into training and testing sets BEFORE scaling/PCA
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, train_size=train_size, test_size=test_size, random_state=random_state, shuffle=True # Ensure split is shuffled
+        X, y, train_size=train_size, test_size=test_size, random_state=random_state, shuffle=True, stratify=y
     )
 
     print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")
@@ -94,6 +73,7 @@ def prepare_cancer_data_holdout(training_size, test_size, n_features, machine_id
 
     return X_train, X_test, y_train, y_test
 
+# I am not going to use this for now. Using this would make the codebase much larger. I will run this after I have all the results and then start comparing.
 def prepare_cancer_data_val_eval(training_size, test_size, n_features, machine_id=None, num_machines=None, binary=False):
     # Load Digits Dataset
     digits = load_breast_cancer()

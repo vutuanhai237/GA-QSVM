@@ -8,8 +8,8 @@ import numpy as np
 
 # Test different numbers of qubits (which determines feature dimensions)
 max_qubits = 8  
-training_size = 300
-test_size = 0
+training_size = 100
+test_size = 100
 num_machines = 3
 
 # Initialize wandb
@@ -40,23 +40,23 @@ for num_qubits in range(3, max_qubits + 1):
         )
         
         # Perform grid search
-        svm = SVC()
-        grid_search = GridSearchCV(
-            svm, 
-            param_grid, 
-            cv=5,
-            n_jobs=-1,
-            scoring='accuracy'
-        )
-        grid_search.fit(Xw_train, yw_train)
+        # svm = SVC()
+        # grid_search = GridSearchCV(
+        #     svm, 
+        #     param_grid, 
+        #     cv=5,
+        #     n_jobs=-1,
+        #     scoring='accuracy'
+        # )
+        # grid_search.fit(Xw_train, yw_train)
         
         # Get best parameters
-        best_params = grid_search.best_params_
-        best_params_list.append(best_params)
+        # best_params = grid_search.best_params_
+        # best_params_list.append(best_params)
         
         # Train SVM with best parameters
-        clf = SVC(kernel=best_params['kernel'], C=best_params['C'], gamma=best_params['gamma']).fit(Xw_train, yw_train)
-        
+        # clf = SVC(kernel=best_params['kernel'], C=best_params['C'], gamma=best_params['gamma']).fit(Xw_train, yw_train)
+        clf = SVC(kernel='rbf').fit(Xw_train, yw_train)
         # Get accuracy scores
         train_accuracy = clf.score(Xw_train, yw_train)
         test_accuracy = clf.score(Xw_test, yw_test)
@@ -65,7 +65,7 @@ for num_qubits in range(3, max_qubits + 1):
         test_accuracies.append(test_accuracy)
         
         print(f"Num qubits: {num_qubits}, Machine ID: {machine_id}, Features: {num_qubits}")
-        print(f"Best parameters: C={best_params['C']:.6f}, gamma={best_params['gamma']:.6f}, kernel={best_params['kernel']}")
+        # print(f"Best parameters: C={best_params['C']:.6f}, gamma={best_params['gamma']:.6f}, kernel={best_params['kernel']}")
         print(f"Training accuracy: {train_accuracy:.4f}")
         print(f"Testing accuracy: {test_accuracy:.4f}")
         print("-" * 30)

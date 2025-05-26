@@ -1,7 +1,7 @@
 *.qpy
 *.json
 wandb/latest-run
-wandb/*
+wandb/
 error/
 output/
 ga-qsvm/
