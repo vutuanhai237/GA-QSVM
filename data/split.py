@@ -5,6 +5,42 @@ from sklearn.decomposition import PCA
 from sklearn.utils import shuffle
 import numpy as np
 
+def prepare_wine_data_split(training_size, test_size, n_features, binary=False, random_state=20):
+    wine = load_wine()
+    X, y = wine.data, wine.target
+
+    # Filter for binary classification if requested
+    if binary:
+        mask = (y == 0) | (y == 1)
+        X = X[mask]
+        y = y[mask]
+        # Convert to binary labels (-1 for class 0, 1 for class 1)
+        y = 2 * (y == 1) - 1  # Converts 0 -> -1 and 1 -> 1
+        print(f"Filtered for binary classification (0 vs 1). Data shape: {X.shape}")
+    else:
+        print(f"Using multiclass classification (0-3). Data shape: {X.shape}")
+
+    # Split data into training and testing sets BEFORE scaling/PCA
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, train_size=training_size, test_size=test_size, random_state=20, shuffle=True, stratify=y
+    )
+
+    print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")
+
+    # Scale the features (Fit on training data only!)
+    scaler = MinMaxScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test) # Transform test data using training scaler
+
+    pca = PCA(n_components=n_features) 
+    X_train = pca.fit_transform(X_train)
+    X_test = pca.transform(X_test) # Transform test data using training PCA
+
+    print(f"PCA complete. Number of features: {X_train.shape[1]}")
+    print(f"Final Training size: {len(X_train)}, Final Test size: {len(X_test)}")
+
+    return X_train, X_test, y_train, y_test
+
 def prepare_digits_data_split(train_size, test_size, n_features, binary=False, random_state=55):
     digits = load_digits()
     X, y = shuffle(digits.data, digits.target, random_state=55)

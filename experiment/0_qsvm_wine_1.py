@@ -9,7 +9,9 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
-
+from qiskit_machine_learning.kernels import FidelityQuantumKernel
+from qiskit_machine_learning.algorithms import QSVC
+from sklearn.metrics import accuracy_score
 
 def prepare_wine_data_split(training_size, test_size, n_features, binary=False, random_state=20):
     wine = load_wine()
@@ -47,8 +49,28 @@ def prepare_wine_data_split(training_size, test_size, n_features, binary=False, 
 
     return X_train, X_test, y_train, y_test
 
+def train_qsvm(quantum_circuit, X_train, y_train, X_test, y_test):
+    """
+    Train Quantum SVM using the provided quantum circuit as feature map
+    
+    Args:
+        quantum_circuit: Quantum circuit to use as feature map
+        X_train: Training data
+        y_train: Training labels
+        X_test: Test data
+        y_test: Test labels
+    
+    Returns:
+        Classification accuracy
+    """
+    quantum_kernel = FidelityQuantumKernel(feature_map=quantum_circuit)
+    qsvc = QSVC(quantum_kernel=quantum_kernel)
+    qsvc.fit(X_train, y_train)
+    y_pred = qsvc.predict(X_test)
+    return accuracy_score(y_test, y_pred)
+
 # Initialize wandb
-wandb.init(project="SVM-PCA", name="wine-SVC-100-78")
+wandb.init(project="SVM-PCA", name="wine-QSVM-100-78")
 
 # Test different numbers of qubits (which determines feature dimensions)
 max_qubits = 13
@@ -62,63 +84,30 @@ param_grid = {
     'gamma': np.logspace(-4, 1, 6),
     'kernel': ['rbf', 'linear', 'poly', 'sigmoid']
 }
-worst_cases = []
 
 for num_qubits in range(3, max_qubits + 1):
-    worst_accuracy = float('inf')
-    worst_random_state = None
+    # Prepare data with PCA reduction based on num_qubits
+    Xw_train, Xw_test, yw_train, yw_test = prepare_wine_data_split(
+        training_size=training_size,
+        test_size=test_size,
+        n_features=num_qubits,
+        random_state=20
+    )
     
-    for random_state in range(1):
-        # Prepare data with PCA reduction based on num_qubits
-        Xw_train, Xw_test, yw_train, yw_test = prepare_wine_data_split(
-            training_size=training_size,
-            test_size=test_size,
-            n_features=num_qubits,
-            random_state=20
-        )
-        
-        # Train SVM with best parameters
-        clf = SVC(kernel='rbf').fit(Xw_train, yw_train)
-        
-        # Get accuracy scores
-        train_accuracy = clf.score(Xw_train, yw_train)
-        test_accuracy = clf.score(Xw_test, yw_test)
-                
-        print(f"Num qubits: {num_qubits}, Random state: {random_state}")
-        print(f"Training accuracy: {train_accuracy:.4f}")
-        print(f"Testing accuracy: {test_accuracy:.4f}")
-        print("-" * 30)
-
-        # Update worst accuracy
-        if test_accuracy < worst_accuracy:
-            worst_accuracy = test_accuracy
-            worst_random_state = random_state
-        
-        # Log to wandb
-        wandb.log({
-            "num_qubits": num_qubits,
-            "train_accuracy": train_accuracy,
-            "test_accuracy": test_accuracy,
-            "n_features": num_qubits,
-        })
+            # Train and evaluate quantum SVM
+    from qiskit.circuit.library import ZZFeatureMap
+    quantum_circuit = ZZFeatureMap(feature_dimension=num_qubits, reps=1)
+    qsvm_accuracy = train_qsvm(quantum_circuit, Xw_train, yw_train, Xw_test, yw_test)
     
-    worst_cases.append({
+    print(f"Num qubits: {num_qubits}, Features: {num_qubits}")
+    print(f"Quantum SVM - Testing accuracy: {qsvm_accuracy:.4f}")
+    print("-" * 50)
+            
+    # Log to wandb
+    wandb.log({
         "num_qubits": num_qubits,
-        "worst_accuracy": worst_accuracy,
-        "worst_random_state": worst_random_state
+        "test_accuracy": qsvm_accuracy,
+        "n_features": num_qubits,
     })
-
-# Output the worst cases for each num_qubits
-for case in worst_cases:
-    print(f"Num qubits: {case['num_qubits']}, Worst accuracy: {case['worst_accuracy']:.4f}, Random state: {case['worst_random_state']}")
-
-# Send alert notification when run completes
-wandb.run.alert(
-    title="Experiment Complete",
-    text="The wine SVC experiment has finished running"
-)
-
-
-
 
 wandb.finish()
