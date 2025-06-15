@@ -27,16 +27,29 @@ np.set_printoptions(suppress=True)  # Suppress scientific notation
 
 dataset = {'digits': prepare_digits_data_split, 'wine': prepare_wine_data_split, 'cancer': prepare_cancer_data_split}
 
-data = dataset['digits']
+# Parse command line arguments
+parser = argparse.ArgumentParser(description='GA-QSVM Evaluation')
+parser.add_argument('--rx', type=int, default=4, help='Number of RX rotations')
+parser.add_argument('--ry', type=int, default=1, help='Number of RY rotations')
+parser.add_argument('--rz', type=int, default=2, help='Number of RZ rotations')
+parser.add_argument('--num_qubits', type=int, default=7, help='Number of qubits')
+parser.add_argument('--prob_mutate', type=float, default=0.027825594022071243, help='Mutation probability')
+parser.add_argument('--data', type=str, default='digits', choices=['digits', 'wine', 'cancer'], help='Dataset to use')
+
+args = parser.parse_args()
+
+# Set parameters from arguments
+rx = args.rx
+ry = args.ry
+rz = args.rz
+num_qubits = args.num_qubits
+prob_mutate = args.prob_mutate
+data = dataset[args.data]
+
 training_size = 100
 test_size = 50
-rx = 4
-ry = 1
-rz = 2
-num_qubits = 7
 num_circuit = 8
 num_generation = 100
-prob_mutate = 0.027825594022071243
 depth = 4
 
 def train_qsvm(quantum_circuit):
@@ -62,13 +75,13 @@ def train_qsvm(quantum_circuit):
 # Main execution
 if __name__ == "__main__":
     Xw_train, Xw_test, yw_train, yw_test = data(training_size=training_size, test_size=test_size, n_features=num_qubits, random_state=55)
-    Xw_eval, Xw_val, yw_eval, yw_val = train_test_split(
+    Xw_val, Xw_eval, yw_val, yw_eval = train_test_split(
         Xw_test, yw_test, train_size=0.5, shuffle=True, stratify=yw_test, random_state=55
     )
     
     wandb_config = {
         "project": f"GA-QSVM-eval",
-        "name": f"{data}-x{rx}-y{ry}-z{rz}-c{num_circuit}-p{round(prob_mutate, 5)}-d{depth}",
+        "name": f"{args.data}-x{rx}-y{ry}-z{rz}-c{num_circuit}-p{round(prob_mutate, 5)}-d{depth}",
         "config": {
             "rx": rx,
             "ry": ry,
@@ -76,7 +89,7 @@ if __name__ == "__main__":
             "num_circuit": num_circuit,
             "num_generation": num_generation,
             "prob_mutate": prob_mutate,
-            "data": data
+            "data": args.data
         }
     }
 
