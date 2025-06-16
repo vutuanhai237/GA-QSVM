@@ -67,10 +67,10 @@ def train_qsvm(quantum_circuit):
     qsvc.fit(Xw_train, yw_train)
     y_pred_val = qsvc.predict(Xw_val)
     y_pred_eval = qsvc.predict(Xw_eval)
-    wandb.log({
-        "accuracy_on_eval": accuracy_score(yw_eval, y_pred_eval)
-    })
-    return accuracy_score(yw_val, y_pred_val)
+    # wandb.log({
+    #     "accuracy_on_eval": accuracy_score(yw_eval, y_pred_eval)
+    # })
+    return accuracy_score(yw_val, y_pred_val), accuracy_score(yw_eval, y_pred_eval)
 
 # Main execution
 if __name__ == "__main__":
@@ -127,4 +127,3 @@ if __name__ == "__main__":
     )
     
     env.evol(verbose=False, mode="parallel")
-    wandb.finish()
