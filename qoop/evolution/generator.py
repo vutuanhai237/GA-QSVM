@@ -201,9 +201,9 @@ def by_num_rotations(metadata: MetadataSynthesis) -> qiskit.QuantumCircuit:
 def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCircuit:
     num_qubits = metadata.num_qubits
     depth = metadata.depth
-    num_rx = metadata.num_rx
-    num_ry = metadata.num_ry
-    num_rz = metadata.num_rz
+    num_rx = random.randint(0, num_qubits) #metadata.num_rx
+    num_ry = random.randint(0, num_qubits-num_rx) #metadata.num_ry
+    num_rz = num_qubits-num_rx-num_ry #metadata.num_rz
     num_cnot = metadata.num_cnot
     total_rotations = num_rx + num_ry + num_rz
     total_gates = depth * num_qubits

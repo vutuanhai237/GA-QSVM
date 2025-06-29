@@ -1,3 +1,4 @@
+# TODO: Rewrite main.py for 1 single run not all combinations
 # Import required libraries
 import numpy as np
 from sklearn.svm import SVC
@@ -131,7 +132,7 @@ if __name__ == "__main__":
                     'num_rx': rx,
                     'num_ry': ry,
                     'num_rz': rz,
-                    'num_cnot': num_qubits
+                    'num_cnot': round(num_qubits / 2)
                 })
                 
                 wandb_config = {
