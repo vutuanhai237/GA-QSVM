@@ -130,7 +130,8 @@ if __name__ == "__main__":
                     'num_qubits': num_qubits,
                     'num_rx': rx,
                     'num_ry': ry,
-                    'num_rz': rz
+                    'num_rz': rz,
+                    'num_cnot': num_qubits
                 })
                 
                 wandb_config = {
@@ -145,11 +146,11 @@ if __name__ == "__main__":
                 # Define evolution environment metadata with current hyperparameters
                 env_metadata = MetadataSynthesis(
                     num_qubits=num_qubits,
-                    # num_cnot=num_cnot,
+                    num_cnot=params['num_cnot'],
                     num_rx=rx,
                     num_ry=ry,
                     num_rz=rz,
-                    depth=params['depth'],
+                    depth=num_qubits, #params['depth'],
                     num_circuit=params['num_circuit'],
                     num_generation=params['num_generation'],
                     prob_mutate=params['prob_mutate']
