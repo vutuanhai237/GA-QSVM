@@ -105,11 +105,13 @@ class EEnvironment():
         #         prob_mutate=metadata.get('prob_mutate', []),
         #     )
         self.fitnesss: list = []
+        self.eval_fitnesss: list = []  # Store evaluation accuracies
         self.circuits: typing.List[ECircuit] = []
         self.circuitss: typing.List[typing.List[ECircuit]] = []
         self.best_circuit = None
         self.best_circuits: typing.List[ECircuit] = []
         self.best_fitness = 0
+        self.best_eval_fitness = 0  # Store eval accuracy of best val circuit
         self.file_name = None
         if wandb_config is not None:
             wandb.init(**wandb_config)
@@ -168,27 +170,40 @@ class EEnvironment():
             #####################
             # new_population = multiple_compile(new_population)
             self.fitnesss = []
+            self.eval_fitnesss = []
             if mode == 'parallel':
-                fitnesss_temp = multiple_compile(self.fitness_func, self.circuits)
-                self.fitnesss.extend(fitnesss_temp)
+                results_temp = multiple_compile(self.fitness_func, self.circuits)
+                # Extract validation and evaluation accuracies
+                for val_acc, eval_acc in results_temp:
+                    self.fitnesss.append(val_acc)
+                    self.eval_fitnesss.append(eval_acc)
             else:
                 for i in range(len(self.circuits)):
-                    self.fitnesss.append(self.fitness_func(self.circuits[i]))
+                    val_acc, eval_acc = self.fitness_func(self.circuits[i])
+                    self.fitnesss.append(val_acc)
+                    self.eval_fitnesss.append(eval_acc)
                     
             self.metadata.best_fitnesss.append(np.max(self.fitnesss))
+            
+            # Get evaluation accuracy of the circuit with best validation accuracy
+            best_val_idx = np.argmax(self.fitnesss)
+            best_eval_for_best_val = self.eval_fitnesss[best_val_idx]
             
             # Log metrics to wandb after each generation
             if self.wandb_config is not None:
                 wandb.log({
                     "best_fitness": np.max(self.fitnesss),
                     "average_fitness": np.mean(self.fitnesss),
+                    "eval": best_eval_for_best_val,
                     "generation": self.metadata.current_generation
                 })
 
             self.best_circuits.append(self.circuits[np.argmax(self.fitnesss)])
             if self.best_circuit is None:
                 self.best_circuit = self.best_circuits[0]
-            print(np.round(self.fitnesss, 4))
+            print(f"Val accuracies: {np.round(self.fitnesss, 4)}")
+            print(f"Eval accuracies: {np.round(self.eval_fitnesss, 4)}")
+            print(f"Best val accuracy: {np.max(self.fitnesss):.4f}, corresponding eval accuracy: {best_eval_for_best_val:.4f}")
             self.metadata.fitnessss.append(self.fitnesss)
             #####################
             #### Threshold ######
@@ -196,6 +211,7 @@ class EEnvironment():
             if self.best_fitness < np.max(self.fitnesss):
                 self.best_circuit = self.circuits[np.argmax(self.fitnesss)]
                 self.best_fitness = np.max(self.fitnesss)
+                self.best_eval_fitness = best_eval_for_best_val
                 # Reset counter when fitness improves
                 generations_without_improvement = 0
                 if hasattr(self, 'fitness_full_func'):
@@ -216,7 +232,7 @@ class EEnvironment():
                 # Check if we've gone 50 generations without improvement
                 if generations_without_improvement >= 50:
                     print(f'No improvement for 50 generations. Stopping at generation {self.metadata.current_generation}')
-                    print(f'Best fitness achieved: {self.best_fitness}')
+                    print(f'Best val fitness achieved: {self.best_fitness:.4f}, corresponding eval fitness: {self.best_eval_fitness:.4f}')
                     return self
 
             #####################
@@ -248,7 +264,7 @@ class EEnvironment():
             if auto_save:
                 self.save()      
 
-        print(f'End evol progress, best score ever: {self.best_fitness}')
+        print(f'End evol progress, best val score ever: {self.best_fitness:.4f}, corresponding eval score: {self.best_eval_fitness:.4f}')
         return self
 
     def init(self):
