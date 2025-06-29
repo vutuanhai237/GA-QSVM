@@ -87,7 +87,7 @@ def train_qsvm(quantum_circuit):
     qsvc = QSVC(quantum_kernel=quantum_kernel)
     qsvc.fit(Xw_train, yw_train)
     y_pred = qsvc.predict(Xw_test)
-    return accuracy_score(yw_test, y_pred)
+    return accuracy_score(yw_test, y_pred), 0.0
 
 # Main execution
 if __name__ == "__main__":
