@@ -61,6 +61,7 @@ class EEnvironment():
                  selection_func: types.FunctionType = selection.elitist_selection,
                  threshold_func: types.FunctionType = threshold.compilation_threshold,
                  wandb_config: dict = None,
+                 file_name: str = None,
                  ) -> None:
         """_summary_
 
@@ -112,7 +113,7 @@ class EEnvironment():
         self.best_circuits: typing.List[ECircuit] = []
         self.best_fitness = 0
         self.best_eval_fitness = 0  # Store eval accuracy of best val circuit
-        self.file_name = None
+        self.file_name = file_name
         if wandb_config is not None:
             wandb.init(**wandb_config)
         return
