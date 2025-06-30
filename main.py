@@ -28,8 +28,6 @@ np.set_printoptions(suppress=True)  # Suppress scientific notation
 
 def parse_args():
     parser = argparse.ArgumentParser(description='GA-QSVM Training Parameters')
-    parser.add_argument('--depth', type=int, nargs='+', default=[4, 5, 6],
-                      help='List of circuit depths to try')
     parser.add_argument('--num-circuit', type=int, nargs='+', default=range(4, 33, 4),
                       help='List of number of circuits to try, ie. num parallel')
     parser.add_argument('--num-generation', type=int, nargs='+', default=[200],
@@ -52,7 +50,7 @@ def parse_args():
 # Define hyperparameter search space using ranges
 args = parse_args()
 base_hyperparameter_space = {
-    'depth': args.depth,
+    # 'depth': args.depth,
     'num_circuit': args.num_circuit,
     'num_generation': args.num_generation,
     'prob_mutate': args.prob_mutate
@@ -113,7 +111,8 @@ if __name__ == "__main__":
             params = base_params.copy()
             params.update({
                 'num_qubits': num_qubits,
-                'num_cnot': round(num_qubits / 2)
+                'num_cnot': round(num_qubits / 2),
+                'depth': num_qubits,
             })
             
             wandb_config = {
@@ -129,7 +128,7 @@ if __name__ == "__main__":
             env_metadata = MetadataSynthesis(
                 num_qubits=num_qubits,
                 num_cnot=params['num_cnot'],
-                depth=num_qubits, #params['depth'],
+                depth=params['depth'],
                 num_circuit=params['num_circuit'],
                 num_generation=params['num_generation'],
                 prob_mutate=params['prob_mutate']

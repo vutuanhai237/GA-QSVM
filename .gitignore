@@ -1,3 +1,4 @@
+test.ipynb
 *.qpy
 *.json
 wandb/latest-run
