@@ -1,0 +1,238 @@
+import wandb
+import time
+
+from sklearn.datasets import load_wine, load_digits, load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.decomposition import PCA
+from sklearn.svm import SVC
+from sklearn.utils import shuffle
+from sklearn.metrics import accuracy_score
+import numpy as np
+
+from qiskit import QuantumCircuit
+from qiskit.circuit import ParameterVector
+
+import pennylane as qml
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+def create_pennylane_like_qiskit_feature_map(num_qubits: int, num_layers: int, num_repeats: int) -> QuantumCircuit:
+    feature_params = ParameterVector('x', length=num_qubits)
+    
+    qc = QuantumCircuit(num_qubits)
+    
+    param_idx_counter = 0 # To cycle through feature_params
+
+    for _k in range(num_layers):
+        # Single qubit rotations (parameterized)
+        for _r in range(num_repeats):
+            for i in range(num_qubits):
+                # Instead of fixed angles 1, 2, 3, we use parameters from feature_params.
+                # We cycle through the feature_params vector.
+                qc.rx(feature_params[param_idx_counter % num_qubits], i)
+                param_idx_counter += 1
+                qc.ry(feature_params[param_idx_counter % num_qubits], i)
+                param_idx_counter += 1
+                qc.rz(feature_params[param_idx_counter % num_qubits], i)
+                param_idx_counter += 1
+
+        for i in range(num_qubits - 1):
+            qc.cx(i, i + 1)
+        qc.cx(num_qubits - 1, 0) # Circular CNOT
+
+    return qc
+
+def prepare_digits_data_split(train_size, test_size, n_features, binary=False, random_state=23):
+    """
+    Prepare Digits dataset with a standard train/test split and preprocessing.
+
+    Args:
+        train_size (float or int): If float, should be between 0.0 and 1.0 and represent the
+                                 proportion of the dataset to include in the train split.
+                                 If int, represents the absolute number of train samples.
+        n_features (int): Number of features to reduce to using PCA.
+        binary (bool): If True, filter for digits 0 and 1, convert labels to -1 and 1.
+                       If False (default), use all digits 0-9.
+        random_state (int): Controls the shuffling applied to the data before splitting and
+                           the split itself for reproducibility.
+
+    Returns:
+        tuple: Preprocessed training and testing datasets (X_train, X_test, y_train, y_test)
+    """
+    # Load Digits Dataset
+    digits = load_digits()
+    
+    # Shuffle dataset once initially (optional, as train_test_split can shuffle)
+    # Using shuffle here ensures the same shuffling logic as the original if needed downstream,
+    # but train_test_split's shuffle=True is generally sufficient.
+    X, y = shuffle(digits.data, digits.target, random_state=random_state)
+
+    # Filter for binary classification if requested
+    if binary:
+        mask = (y == 0) | (y == 1)
+        X = X[mask]
+        y = y[mask]
+        # Convert to binary labels (-1 for class 0, 1 for class 1)
+        y = 2 * (y == 1) - 1  # Converts 0 -> -1 and 1 -> 1
+        print(f"Filtered for binary classification (0 vs 1). Data shape: {X.shape}")
+    else:
+        print(f"Using multiclass classification (0-9). Data shape: {X.shape}")
+
+    # Split data into training and testing sets BEFORE scaling/PCA
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, train_size=train_size, test_size=test_size, random_state=random_state, shuffle=True # Ensure split is shuffled
+    )
+
+    print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")
+
+    # Scale the features (Fit on training data only!)
+    scaler = MinMaxScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test) # Transform test data using training scaler
+
+    # Reduce dimensionality using PCA (Fit on training data only!)
+    # Add random_state to PCA if using randomized solvers like 'arpack' or 'randomized'
+    pca = PCA(n_components=n_features, random_state=random_state) 
+    X_train = pca.fit_transform(X_train)
+    X_test = pca.transform(X_test) # Transform test data using training PCA
+
+    print(f"PCA complete. Number of features: {X_train.shape[1]}")
+    print(f"Final Training size: {len(X_train)}, Final Test size: {len(X_test)}")
+
+    return X_train, X_test, y_train, y_test
+
+def make_qsvm_circuit(pennylane_embedding_template, num_qubits):
+    dev = qml.device("lightning.gpu", wires=num_qubits)
+    @qml.qnode(dev, interface="torch")
+    def circuit(x1, x2):
+        pennylane_embedding_template(x1)
+        qml.adjoint(pennylane_embedding_template)(x2)
+        return qml.probs(wires=range(num_qubits))
+    return lambda x1, x2: circuit(x1, x2)[0]
+
+def compute_kernel_matrix(X1, X2, kernel):
+    """
+    Compute kernel matrix using PennyLane's batched kernel utilities to avoid
+    Python-level loops and per-scalar GPU sync points.
+
+    Note: The Qiskit->PennyLane converted circuit expects numeric arrays.
+    We convert the full tensors once (host-side) for parameter passing,
+    while the circuit simulation itself runs on GPU via lightning.gpu.
+    """
+    # Detach once (no grad needed for kernel evaluation) and convert in bulk
+    X1_np = X1.detach().cpu().numpy()
+    X2_np = X2.detach().cpu().numpy()
+
+    # Batched evaluation on the GPU simulator
+    K_np = qml.kernels.kernel_matrix(X1_np, X2_np, kernel)
+    # Move the result to GPU tensor once
+    K = torch.tensor(K_np, device="cuda", dtype=torch.float32)
+    return K
+
+class KernelSVM(nn.Module):
+    def __init__(self, n_train, C=1.0):
+        super(KernelSVM, self).__init__()
+        self.alpha = nn.Parameter(torch.zeros(n_train, device='cuda'))
+        self.b = nn.Parameter(torch.zeros(1, device='cuda'))
+        self.C = C  # Regularization parameter
+
+    def forward(self, K_input, Y_train):
+        weighted_alpha = self.alpha * Y_train
+        f = torch.matmul(K_input, weighted_alpha) + self.b
+        return f
+
+def svm_loss(model, K_train, Y_train):
+    f_train = model(K_train, Y_train)
+    margins = 1 - Y_train * f_train
+    hinge_loss = torch.sum(torch.clamp(margins, min=0))
+    reg = 0.5 * torch.dot(model.alpha * Y_train, torch.matmul(K_train, model.alpha * Y_train))
+    return reg + model.C * hinge_loss
+
+def classify_with_qsvm(pennylane_embedding_template, X_train, y_train, X_test, y_test, num_qubits):
+    # Ensure data is PyTorch tensors on GPU
+    X_train = torch.tensor(X_train, dtype=torch.float32, device='cuda')
+    X_test = torch.tensor(X_test, dtype=torch.float32, device='cuda')
+    y_train = torch.tensor(y_train, dtype=torch.float32, device='cuda')
+    y_test = torch.tensor(y_test, dtype=torch.float32, device='cuda')
+
+    # Define quantum kernel with Qiskit->PennyLane conversion
+    kernel = make_qsvm_circuit(pennylane_embedding_template, num_qubits)
+
+    # Compute kernel matrices
+    K_train = compute_kernel_matrix(X_train, X_train, kernel)
+    K_test = compute_kernel_matrix(X_test, X_train, kernel)
+
+    # Initialize model
+    n_train = X_train.shape[0]
+    model = KernelSVM(n_train, C=1.0)
+
+    # Optimizer
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+    # Training loop
+    num_epochs = 10
+    for epoch in range(num_epochs):
+        optimizer.zero_grad()
+        loss = svm_loss(model, K_train, y_train)
+        loss.backward()
+        optimizer.step()
+        if epoch % 1 == 0:
+            print(f"Epoch {epoch}, Loss: {loss.item():.4f}")
+
+    # Evaluate
+    with torch.no_grad():
+        f_train = model(K_train, y_train)
+        train_preds = torch.sign(f_train)
+        accuracy_tr = (train_preds == y_train).float().mean().item()
+
+        f_test = model(K_test, y_train)
+        test_preds = torch.sign(f_test)
+        accuracy_te = (test_preds == y_test).float().mean().item()
+
+        print(f"Train Accuracy: {accuracy_tr:.4f}")
+        print(f"Test Accuracy: {accuracy_te:.4f}")
+
+    return accuracy_tr, accuracy_te
+
+run = wandb.init(
+    project="GPU-QSVM",  # Specify your project
+    name=f"GPU_QSVM",
+    config={                        # Track hyperparameters and metadata
+        "num_layers": 1,
+        "num_repeats": 1,
+    },
+)
+
+for num_qubits in range(16,35):
+    print(num_qubits)
+    NUM_QUBITS_FOR_CIRCUIT = num_qubits
+    NUM_LAYERS = 1
+    NUM_REPEATS = 1
+
+    start = time.time()
+
+    X_train, X_test, y_train, y_test = prepare_digits_data_split(100, 50, NUM_QUBITS_FOR_CIRCUIT, binary=True)
+
+    qiskit_feature_map_qc = create_pennylane_like_qiskit_feature_map(
+        num_qubits=NUM_QUBITS_FOR_CIRCUIT,
+        num_layers=NUM_LAYERS,
+        num_repeats=NUM_REPEATS,
+        # num_features=NUM_QUBITS_FOR_CIRCUIT # Length of ParameterVector 'x'
+    )
+
+    pennylane_template = qml.from_qiskit(qiskit_feature_map_qc)
+
+    accuracy_train, accuracy_test = classify_with_qsvm(
+        pennylane_template, # Pass the converted PennyLane template
+        X_train, y_train, X_test, y_test,
+        num_qubits=NUM_QUBITS_FOR_CIRCUIT
+    )
+
+    end = time.time()
+    time_taken = end - start
+    print(f"Time taken: {time_taken:.4f} seconds")
+
+    wandb.log({"accuracy_train": accuracy_train, "accuracy_test": accuracy_test, "time_taken": time_taken, "num_qubits": num_qubits})
