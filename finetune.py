@@ -156,7 +156,7 @@ if __name__ == "__main__":
                 wandb_config=wandb_config,
                 file_name=f"{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}"
             )
-            env.load("digits-N10-Cnot5-D10-C16-g200-p0.01", train_qsvm)
+            env.load(env, file_name="digits-N10-Cnot5-D10-C16-g200-p0.01292", fitness_func=train_qsvm)
             # Run evolution
             env.evol(verbose=False, mode="parallel")
             

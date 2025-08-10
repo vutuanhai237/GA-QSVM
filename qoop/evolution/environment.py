@@ -328,7 +328,7 @@ class EEnvironment():
         return
 
     @staticmethod
-    def load(file_name: str, fitness_func: types.FunctionType):
+    def load(self, file_name: str, fitness_func: types.FunctionType):
         file = pathlib.Path(file_name)
         if file.is_dir():
             try:
@@ -337,22 +337,25 @@ class EEnvironment():
                     open(os.path.join(file_name, 'metadata.json')))
                 env = EEnvironment(
                     metadata=metadata,
-                    generator_func=getattr(generator, funcs['generator_func']),
-                    crossover_func=getattr(crossover, funcs['crossover_func']),
-                    mutate_func=getattr(mutate, funcs['mutate_func']),
-                    selection_func=getattr(selection, funcs['selection_func']),
-                    threshold_func=getattr(threshold, funcs['threshold_func'])
+                    generator_func=self.generator_func,
+                    crossover_func=self.crossover_func,
+                    mutate_func=self.mutate_func,
+                    selection_func=self.selection_func,
+                    threshold_func=self.threshold_func,
+                    fitness_func=fitness_func,
                 )
-                env.circuitss = [[0 for _ in range(env.metadata.num_circuit)] for _ in range(
-                    env.metadata.current_generation)]
-                env.best_circuits = [0]*(env.metadata.current_generation)
-                for i in range(0, env.metadata.current_generation - 1):
+                env.circuitss = [[0 for _ in range(metadata['num_circuit'])] for _ in range(
+                    metadata['current_generation'])]
+                env.best_circuits = [0]*(metadata['current_generation'])
+                for i in range(0, metadata['current_generation'] - 1):
                     env.best_circuits[i] = utilities.load_circuit(os.path.join(file_name, f'best_circuit_{i + 1}'))
-                    for j in range(env.metadata.num_circuit):
+                    for j in range(metadata['num_circuit']):
                         env.circuitss[i][j] = utilities.load_circuit(os.path.join(file_name, f'circuit_{i + 1}_{j}'))
                 env.set_fitness_func(fitness_func)
                 env.set_circuits(env.circuitss[-1])
-            except:
+                print("I'm loaded!")
+            except Exception as e:
+                print(f"Not loaded: {e}")
                 return
             env.best_circuit = utilities.load_circuit((os.path.join(file_name, 'best_circuit')))
 
