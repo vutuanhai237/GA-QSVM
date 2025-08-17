@@ -6,3 +6,4 @@ wandb==0.19.8
 PennyLane-Lightning-GPU==0.36.0
 pennylane==0.36.0
 pennylane-qiskit==0.36.0
+squlearn==0.8.4
