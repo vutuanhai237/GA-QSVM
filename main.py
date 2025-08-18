@@ -103,7 +103,7 @@ def train_projected_qsvm(quantum_circuit):
     encoding_circuit = QiskitEncodingCircuit(quantum_circuit, mode='features')
     quantum_kernel = ProjectedQuantumKernel(
         encoding_circuit=encoding_circuit,
-        executor=Executor("qiskit"),
+        executor=Executor(),
         initial_parameters=np.random.rand(encoding_circuit.num_parameters)
     )
     qsvc = PQSVC(quantum_kernel=quantum_kernel)
