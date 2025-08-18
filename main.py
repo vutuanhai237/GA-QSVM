@@ -147,8 +147,8 @@ if __name__ == "__main__":
             params = base_params.copy()
             params.update({
                 'num_qubits': num_qubits,
-                'num_cnot': round(num_qubits / 2),
-                'depth': num_qubits,
+                'num_cnot': round(num_qubits)*2,
+                'depth': num_qubits*5,
             })
             
             wandb_config = {
