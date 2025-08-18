@@ -15,6 +15,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import concurrent.futures
 import wandb
+import pickle
+
 
 
 def extract_fitness(circuits: typing.List[ECircuit]):
@@ -44,10 +46,19 @@ def bypass_compile(circuit: ECircuit):
 
 def multiple_compile(func, params):
     k = []
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        for number in (executor.map(func, params)):
-            k.append((number))
-    return k
+    # Try ProcessPoolExecutor first, fall back to ThreadPoolExecutor if pickling fails
+    try:
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            for number in (executor.map(func, params)):
+                k.append(number)
+        return k
+    except (pickle.PicklingError, TypeError, AttributeError) as e:
+        # If we get pickling errors (e.g., from pyo3_runtime objects), fall back to ThreadPoolExecutor
+        print(f"ProcessPoolExecutor failed due to pickling issues ({type(e).__name__}: {str(e)}), using ThreadPoolExecutor instead...")
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            for number in (executor.map(func, params)):
+                k.append(number)
+        return k
 
 class EEnvironment():
     """Saved information for evolution process
