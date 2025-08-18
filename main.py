@@ -199,9 +199,3 @@ if __name__ == "__main__":
             # Finish the wandb run
             wandb.finish()
             i += 1
-
-    # Send alert notification when run completes
-    wandb.run.alert(
-        title="Experiment Complete",
-        text=f"The {args.data} experiment with {args.qubits} qubits has finished running"
-    )
