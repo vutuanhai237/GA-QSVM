@@ -9,3 +9,4 @@ pennylane-qiskit==0.37.0
 squlearn==0.8.4
 keras==3.11.1
 tensorflow==2.16.2
+pyo3_runtime==0.0.1
