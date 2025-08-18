@@ -22,6 +22,11 @@ from qoop.evolution import divider
 from data import prepare_wine_data_split, prepare_digits_data_split, prepare_cancer_data_split, prepare_fashion_mnist_data_split
 from utils import find_permutations_sum_n
 import datetime
+from squlearn.kernel.qsvc import QSVC as PQSVC
+from squlearn.kernel.lowlevel_kernel import ProjectedQuantumKernel
+from squlearn import Executor
+from squlearn.encoding_circuit import QiskitEncodingCircuit
+
 
 # Set NumPy display options
 np.set_printoptions(suppress=True)  # Suppress scientific notation
@@ -33,7 +38,8 @@ def parse_args():
     parser.add_argument('--num-generation', type=int, nargs='+', default=[200],
                       help='List of generation numbers to try')
     parser.add_argument('--prob-mutate', type=float, nargs='+', 
-                      default=list(np.logspace(-2, -1, 10)),
+                    #   default=list(np.logspace(-2, -1, 10)),
+                      default=[0.1],
                       help='List of mutation probabilities to try')
     parser.add_argument('--qubits', type=int, nargs='+', default=[3, 4, 5, 6, 7, 8],
                       help='List of number of qubits to try')
@@ -45,6 +51,8 @@ def parse_args():
                       help='Dataset to use (digits or wine or cancer)')
     parser.add_argument('--start-index', type=int, default=0,
                       help='Index to start from in the base combinations, ie. when the running fail, use this to continue the benchmarking')
+    parser.add_argument('--kernel', type=str, default='fqk',
+                      help='Kernel to use (fqk or pqk)')
     return parser.parse_args()
 
 # Define hyperparameter search space using ranges
@@ -66,21 +74,54 @@ start_index = args.start_index
 
 print(f"Starting with dataset: {data}, training size: {training_size}, test size: {test_size}")
 
-def train_qsvm(quantum_circuit):
+def train_fidelity_qsvm(quantum_circuit):
     """
-    Train Quantum SVM using the Wine dataset
+    Train Fidelity Quantum SVM
     
     Args:
         quantum_circuit: Quantum circuit to use as feature map
     
     Returns:
-        Classification accuracy
+        Classification accuracy and a custom metric
     """
     quantum_kernel = FidelityQuantumKernel(feature_map=quantum_circuit)
     qsvc = QSVC(quantum_kernel=quantum_kernel)
     qsvc.fit(Xw_train, yw_train)
     y_pred = qsvc.predict(Xw_test)
     return accuracy_score(yw_test, y_pred), 0.0
+
+def train_projected_qsvm(quantum_circuit):
+    """
+    Train Projected Quantum SVM
+    
+    Args:
+        quantum_circuit: Quantum circuit to use as feature map
+    
+    Returns:
+        Classification accuracy and a custom metric
+    """
+    encoding_circuit = QiskitEncodingCircuit(quantum_circuit, mode='parameters')
+    quantum_kernel = ProjectedQuantumKernel(
+        encoding_circuit=encoding_circuit,
+        executor=Executor("qiskit"),
+        initial_parameters=np.random.rand(encoding_circuit.num_parameters)
+    )
+    print("I'm done 1")
+    qsvc = PQSVC(quantum_kernel=quantum_kernel)
+    print("I'm done 2")
+    print(Xw_train)
+    qsvc.fit(Xw_train, yw_train)
+    print("I'm done 3")
+    y_pred = qsvc.predict(Xw_test)
+    print("I'm done 4")
+    return accuracy_score(yw_test, y_pred), 0.0
+
+if args.kernel == 'fqk':
+    train_qsvm = train_fidelity_qsvm
+elif args.kernel == 'pqk':
+    train_qsvm = train_projected_qsvm
+else:
+    raise ValueError(f"Invalid kernel: {args.kernel}")
 
 # Main execution
 if __name__ == "__main__":
@@ -116,8 +157,8 @@ if __name__ == "__main__":
             })
             
             wandb_config = {
-                "project": f"GA-QSVM-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}",
-                "name": f"c{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}",
+                "project": f"PQK-GA-QSVM-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}",
+                "name": f"n{num_qubits}-c{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}",
                 "config": {
                     **params,
                     "i": i
@@ -154,7 +195,7 @@ if __name__ == "__main__":
                 ),
                 threshold_func=synthesis_threshold,
                 wandb_config=wandb_config,
-                file_name=f"{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}"
+                file_name=f"PQK-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}"
             )
             
             # Run evolution
