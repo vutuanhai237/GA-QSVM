@@ -100,20 +100,15 @@ def train_projected_qsvm(quantum_circuit):
     Returns:
         Classification accuracy and a custom metric
     """
-    encoding_circuit = QiskitEncodingCircuit(quantum_circuit, mode='parameters')
+    encoding_circuit = QiskitEncodingCircuit(quantum_circuit, mode='features')
     quantum_kernel = ProjectedQuantumKernel(
         encoding_circuit=encoding_circuit,
         executor=Executor("qiskit"),
         initial_parameters=np.random.rand(encoding_circuit.num_parameters)
     )
-    print("I'm done 1")
     qsvc = PQSVC(quantum_kernel=quantum_kernel)
-    print("I'm done 2")
-    print(Xw_train)
     qsvc.fit(Xw_train, yw_train)
-    print("I'm done 3")
     y_pred = qsvc.predict(Xw_test)
-    print("I'm done 4")
     return accuracy_score(yw_test, y_pred), 0.0
 
 if args.kernel == 'fqk':
