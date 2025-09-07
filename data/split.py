@@ -80,7 +80,7 @@ def prepare_digits_data_split(training_size, test_size, n_features, binary=False
 
     return X_train, X_test, y_train, y_test
 
-def prepare_fashion_mnist_data_split(training_size, test_size, n_features, binary=False, random_state=55):
+def prepare_fashion_mnist_data_split(training_size, test_size, n_features, binary=False, random_state=97):
     # Load Fashion MNIST dataset
     (X_train_full, y_train_full), (X_test_full, y_test_full) = fashion_mnist.load_data()
     
@@ -95,7 +95,7 @@ def prepare_fashion_mnist_data_split(training_size, test_size, n_features, binar
     X = X.astype('float32') / 255.0
     
     # Shuffle the data
-    X, y = shuffle(X, y, random_state=random_state)
+    X, y = shuffle(X, y, random_state=97)
 
     # Filter for binary classification if requested
     if binary:
@@ -110,7 +110,7 @@ def prepare_fashion_mnist_data_split(training_size, test_size, n_features, binar
 
     # Split data into training and testing sets BEFORE scaling/PCA
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, train_size=training_size, test_size=test_size, random_state=random_state, shuffle=True, stratify=y
+        X, y, train_size=training_size, test_size=test_size, random_state=97, shuffle=True, stratify=y
     )
 
     print(f"Split complete. Training samples: {len(X_train)}, Test samples: {len(X_test)}")
@@ -122,7 +122,7 @@ def prepare_fashion_mnist_data_split(training_size, test_size, n_features, binar
 
     # Reduce dimensionality using PCA (Fit on training data only!)
     # Add random_state to PCA if using randomized solvers like 'arpack' or 'randomized'
-    pca = PCA(n_components=n_features, random_state=random_state) 
+    pca = PCA(n_components=n_features, random_state=97) 
     X_train = pca.fit_transform(X_train)
     X_test = pca.transform(X_test) # Transform test data using training PCA
 
