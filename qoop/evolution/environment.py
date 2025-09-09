@@ -206,7 +206,7 @@ class EEnvironment():
                     writer = csv.writer(csvfile)
                     if not file_exists:
                         writer.writerow(['k', 'generation', 'best_fitness'])
-                    writer.writerow([self.wandb_config['k'], self.metadata.current_generation, np.max(self.fitnesss)])
+                    writer.writerow([self.wandb_config['config']['k'], self.metadata.current_generation, np.max(self.fitnesss)])
 
             self.best_circuits.append(self.circuits[np.argmax(self.fitnesss)])
             if self.best_circuit is None:

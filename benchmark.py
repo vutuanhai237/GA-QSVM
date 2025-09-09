@@ -41,7 +41,7 @@ def parse_args():
                     #   default=list(np.logspace(-2, -1, 10)),
                       default=[0.1],
                       help='List of mutation probabilities to try')
-    parser.add_argument('--qubits', type=int, nargs='+', default=7,
+    parser.add_argument('--qubits', type=int, nargs='+', default=[5],
                       help='List of number of qubits to try')
     parser.add_argument('--training-size', type=int, default=100,
                       help='Size of training dataset')
@@ -53,16 +53,17 @@ def parse_args():
                       help='Index to start from in the base combinations, ie. when the running fail, use this to continue the benchmarking')
     parser.add_argument('--kernel', type=str, default='pqk',
                       help='Kernel to use (fqk or pqk)')
-    parser.add_argument('--num_cnot', type=int, default=14,
+    parser.add_argument('--num_cnot', type=int, nargs='+', default=[14],
                       help='Number of CNOT gates')
-    parser.add_argument('--depth', type=int, default=35,
+    parser.add_argument('--depth', type=int, nargs='+', default=[35],
                       help='Depth of the circuit')
     return parser.parse_args()
 
 # Define hyperparameter search space using ranges
 args = parse_args()
 base_hyperparameter_space = {
-    # 'depth': args.depth,
+    'depth': args.depth,
+    'num_cnot': args.num_cnot,
     'num_circuit': args.num_circuit,
     'num_generation': args.num_generation,
     'prob_mutate': args.prob_mutate
@@ -152,8 +153,6 @@ if __name__ == "__main__":
                 params = base_params.copy()
                 params.update({
                     'num_qubits': num_qubits,
-                    'num_cnot': round(num_qubits)*2,
-                    'depth': num_qubits*5,
                 })
                 
                 wandb_config = {

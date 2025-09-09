@@ -12,6 +12,8 @@ test-gpu/
 */_cache/
 *.p
 *.pdf
+*.out
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
