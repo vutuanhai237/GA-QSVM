@@ -33,7 +33,7 @@ np.set_printoptions(suppress=True)  # Suppress scientific notation
 
 def parse_args():
     parser = argparse.ArgumentParser(description='GA-QSVM Training Parameters')
-    parser.add_argument('--num-circuit', type=int, nargs='+', default=range(4, 33, 4),
+    parser.add_argument('--num-circuit', type=int, nargs='+', default=[16],#range(4, 33, 4),
                       help='List of number of circuits to try, ie. num parallel')
     parser.add_argument('--num-generation', type=int, nargs='+', default=[200],
                       help='List of generation numbers to try')
@@ -41,18 +41,22 @@ def parse_args():
                     #   default=list(np.logspace(-2, -1, 10)),
                       default=[0.1],
                       help='List of mutation probabilities to try')
-    parser.add_argument('--qubits', type=int, nargs='+', default=[3, 4, 5, 6, 7, 8],
+    parser.add_argument('--qubits', type=int, nargs='+', default=7,
                       help='List of number of qubits to try')
     parser.add_argument('--training-size', type=int, default=100,
                       help='Size of training dataset')
     parser.add_argument('--test-size', type=int, default=50,
                       help='Size of test dataset')
-    parser.add_argument('--data', type=str, default='wine',
+    parser.add_argument('--data', type=str, default='digits',
                       help='Dataset to use (digits or wine or cancer)')
     parser.add_argument('--start-index', type=int, default=0,
                       help='Index to start from in the base combinations, ie. when the running fail, use this to continue the benchmarking')
-    parser.add_argument('--kernel', type=str, default='fqk',
+    parser.add_argument('--kernel', type=str, default='pqk',
                       help='Kernel to use (fqk or pqk)')
+    parser.add_argument('--num_cnot', type=int, default=14,
+                      help='Number of CNOT gates')
+    parser.add_argument('--depth', type=int, default=35,
+                      help='Depth of the circuit')
     return parser.parse_args()
 
 # Define hyperparameter search space using ranges
@@ -143,59 +147,61 @@ if __name__ == "__main__":
                 i += 1
                 continue
             print(f"\nExploring configurations for {num_qubits} qubits:")
+            for k in range(10):
                         
-            params = base_params.copy()
-            params.update({
-                'num_qubits': num_qubits,
-                'num_cnot': round(num_qubits)*2,
-                'depth': num_qubits*5,
-            })
-            
-            wandb_config = {
-                "project": f"Benchmark-PQK-GA-QSVM-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}",
-                "name": f"n{num_qubits}-c{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}",
-                "config": {
-                    **params,
-                    "i": i
+                params = base_params.copy()
+                params.update({
+                    'num_qubits': num_qubits,
+                    'num_cnot': round(num_qubits)*2,
+                    'depth': num_qubits*5,
+                })
+                
+                wandb_config = {
+                    "project": f"Benchmark-PQK-GA-QSVM-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}",
+                    "name": f"n{num_qubits}-c{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}",
+                    "config": {
+                        **params,
+                        "i": i,
+                        "k": k
+                    }
                 }
-            }
 
-            # Define evolution environment metadata with current hyperparameters
-            env_metadata = MetadataSynthesis(
-                num_qubits=num_qubits,
-                num_cnot=params['num_cnot'],
-                depth=params['depth'],
-                num_circuit=params['num_circuit'],
-                num_generation=params['num_generation'],
-                prob_mutate=params['prob_mutate']
-            )
-            
-            # Print current configuration
-            print(f"\nTesting configuration:")
-            print(f"Qubits: {num_qubits}")
-            print(f"Other params: {params}")
-            
-            # Setup evolution environment
-            env = EEnvironment(
-                metadata=env_metadata,
-                fitness_func=train_qsvm,
-                generator_func=by_num_rotations_and_cnot,
-                crossover_func=onepoint(
-                    divider.by_num_rotation_gate(int(env_metadata.num_qubits / 2)),
-                    normalizer.by_num_rotation_gate(env_metadata.num_qubits)
-                ),
-                mutate_func=bitflip_mutate_with_normalizer(
-                    operations_with_rotations, 
-                    normalizer_func=normalizer.by_num_rotation_gate(env_metadata.num_qubits)
-                ),
-                threshold_func=synthesis_threshold,
-                wandb_config=wandb_config,
-                file_name=f"PQK-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}"
-            )
-            
-            # Run evolution
-            env.evol(verbose=False, mode="parallel")
-            
-            # Finish the wandb run
-            wandb.finish()
+                # Define evolution environment metadata with current hyperparameters
+                env_metadata = MetadataSynthesis(
+                    num_qubits=num_qubits,
+                    num_cnot=params['num_cnot'],
+                    depth=params['depth'],
+                    num_circuit=params['num_circuit'],
+                    num_generation=params['num_generation'],
+                    prob_mutate=params['prob_mutate']
+                )
+                
+                # Print current configuration
+                print(f"\nTesting configuration:")
+                print(f"Qubits: {num_qubits}")
+                print(f"Other params: {params}")
+                
+                # Setup evolution environment
+                env = EEnvironment(
+                    metadata=env_metadata,
+                    fitness_func=train_qsvm,
+                    generator_func=by_num_rotations_and_cnot,
+                    crossover_func=onepoint(
+                        divider.by_num_rotation_gate(int(env_metadata.num_qubits / 2)),
+                        normalizer.by_num_rotation_gate(env_metadata.num_qubits)
+                    ),
+                    mutate_func=bitflip_mutate_with_normalizer(
+                        operations_with_rotations, 
+                        normalizer_func=normalizer.by_num_rotation_gate(env_metadata.num_qubits)
+                    ),
+                    threshold_func=synthesis_threshold,
+                    wandb_config=wandb_config,
+                    file_name=f"PQK-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}"
+                )
+                
+                # Run evolution
+                env.evol(verbose=False, mode="parallel")
+                
+                # Finish the wandb run
+                wandb.finish()
             i += 1

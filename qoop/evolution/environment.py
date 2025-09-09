@@ -198,6 +198,15 @@ class EEnvironment():
                     "eval": best_eval_for_best_val,
                     "generation": self.metadata.current_generation
                 })
+                # Output best_fitness and generation to a CSV file
+                csv_filename = f"{self.wandb_config['name']}.csv"
+                import csv
+                file_exists = os.path.isfile(csv_filename)
+                with open(csv_filename, mode='a', newline='') as csvfile:
+                    writer = csv.writer(csvfile)
+                    if not file_exists:
+                        writer.writerow(['k', 'generation', 'best_fitness'])
+                    writer.writerow([self.wandb_config['k'], self.metadata.current_generation, np.max(self.fitnesss)])
 
             self.best_circuits.append(self.circuits[np.argmax(self.fitnesss)])
             if self.best_circuit is None:
@@ -231,10 +240,10 @@ class EEnvironment():
                 generations_without_improvement += 1
                 
                 # Check if we've gone 50 generations without improvement
-                if generations_without_improvement >= 50:
-                    print(f'No improvement for 50 generations. Stopping at generation {self.metadata.current_generation}')
-                    print(f'Best val fitness achieved: {self.best_fitness:.4f}, corresponding eval fitness: {self.best_eval_fitness:.4f}')
-                    return self
+                # if generations_without_improvement >= 50:
+                #     print(f'No improvement for 50 generations. Stopping at generation {self.metadata.current_generation}')
+                #     print(f'Best val fitness achieved: {self.best_fitness:.4f}, corresponding eval fitness: {self.best_eval_fitness:.4f}')
+                #     return self
 
             #####################
             ##### Selection #####
