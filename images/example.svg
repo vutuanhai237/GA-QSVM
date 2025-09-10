@@ -1,0 +1,2948 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="539.24078mm"
+   height="345.9968mm"
+   viewBox="0 0 539.24079 345.99679"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="example.svg"
+   inkscape:export-filename="example.pdf"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showguides="true"
+     inkscape:zoom="0.18785374"
+     inkscape:cx="1072.643"
+     inkscape:cy="963.51557"
+     inkscape:window-width="1920"
+     inkscape:window-height="1010"
+     inkscape:window-x="1913"
+     inkscape:window-y="-6"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <sodipodi:guide
+       position="277.45535,247.60535"
+       orientation="1,0"
+       id="guide9"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="26.083577,199.09236"
+       orientation="1,0"
+       id="guide16"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="75.731577,165.64158"
+       orientation="1,0"
+       id="guide17"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="238.1364,130.20229"
+       orientation="1,0"
+       id="guide19"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-8.4235423,260.00799"
+       orientation="1,0"
+       id="guide20"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="139.42982,-136.77897"
+       orientation="0,-1"
+       id="guide24"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="573.24073,-317.385"
+       orientation="0,-1"
+       id="guide28"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect32"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect31"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect30"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect28"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect27"
+       is_visible="true"
+       lpeversion="1" />
+    <marker
+       style="overflow:visible"
+       id="ArrowWide"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Wide arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         sodipodi:nodetypes="ccc"
+         id="path26" />
+    </marker>
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect26"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect25"
+       is_visible="true"
+       lpeversion="1" />
+    <rect
+       x="409.89337"
+       y="1235.0034"
+       width="239.54807"
+       height="119.77404"
+       id="rect21" />
+    <marker
+       style="overflow:visible"
+       id="Dot"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Dot"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 5,0 C 5,2.76 2.76,5 0,5 -2.76,5 -5,2.76 -5,0 c 0,-2.76 2.3,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         sodipodi:nodetypes="sssss"
+         id="path17" />
+    </marker>
+    <rect
+       x="393.01978"
+       y="-394.3988"
+       width="463.34964"
+       height="159.96594"
+       id="rect7" />
+    <marker
+       style="overflow:visible"
+       id="RoundedArrow"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Rounded arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="m -0.21114562,-4.1055728 6.42229122,3.21114561 a 1,1 90 0 1 0,1.78885438 L -0.21114562,4.1055728 A 1.236068,1.236068 31.717474 0 1 -2,3 v -6 a 1.236068,1.236068 148.28253 0 1 1.78885438,-1.1055728 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path8" />
+    </marker>
+    <rect
+       x="201.84821"
+       y="225.2509"
+       width="213.54956"
+       height="85.809868"
+       id="rect5" />
+    <rect
+       x="434.90002"
+       y="327.63766"
+       width="9.7511215"
+       height="75.083633"
+       id="rect4" />
+    <rect
+       x="297.40921"
+       y="242.80292"
+       width="145.29172"
+       height="82.884529"
+       id="rect3" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect1"
+       is_visible="true"
+       lpeversion="1" />
+    <rect
+       x="333.72208"
+       y="485.41391"
+       width="257.87613"
+       height="268.90829"
+       id="rect1" />
+    <marker
+       style="overflow:visible"
+       id="RoundedArrow-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Rounded arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="m -0.21114562,-4.1055728 6.42229122,3.21114561 a 1,1 90 0 1 0,1.78885438 L -0.21114562,4.1055728 A 1.236068,1.236068 31.717474 0 1 -2,3 v -6 a 1.236068,1.236068 148.28253 0 1 1.78885438,-1.1055728 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path8-1" />
+    </marker>
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect1-6"
+       is_visible="true"
+       lpeversion="1" />
+    <marker
+       style="overflow:visible"
+       id="RoundedArrow-5"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Rounded arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="m -0.21114562,-4.1055728 6.42229122,3.21114561 a 1,1 90 0 1 0,1.78885438 L -0.21114562,4.1055728 A 1.236068,1.236068 31.717474 0 1 -2,3 v -6 a 1.236068,1.236068 148.28253 0 1 1.78885438,-1.1055728 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path8-6" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="RoundedArrow-7-2"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Rounded arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="m -0.21114562,-4.1055728 6.42229122,3.21114561 a 1,1 90 0 1 0,1.78885438 L -0.21114562,4.1055728 A 1.236068,1.236068 31.717474 0 1 -2,3 v -6 a 1.236068,1.236068 148.28253 0 1 1.78885438,-1.1055728 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path8-1-5" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Dot-3"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Dot"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 5,0 C 5,2.76 2.76,5 0,5 -2.76,5 -5,2.76 -5,0 c 0,-2.76 2.3,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         sodipodi:nodetypes="sssss"
+         id="path17-9" />
+    </marker>
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect1-3"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect1-6-6"
+       is_visible="true"
+       lpeversion="1" />
+    <marker
+       style="overflow:visible"
+       id="ArrowWide-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Wide arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         sodipodi:nodetypes="ccc"
+         id="path26-3" />
+    </marker>
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect26-8"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect1-3-7"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect26-2"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect26-4"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect1-6-6-7"
+       is_visible="true"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect30-0"
+       is_visible="true"
+       lpeversion="1" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(131.71741,73.110736)">
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.29267,33.628447 H -91.547328"
+       id="path7-69" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 122.18373,-14.209244 H -90.656244"
+       id="path7-69-5" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.29267,82.041139 H -91.547328"
+       id="path7-69-0" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.29267,126.47136 H -91.547328"
+       id="path7-69-0-5" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.29267,173.04213 H -91.547328"
+       id="path7-69-0-5-3" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.46472,220.93965 H -91.547328"
+       id="path7-69-0-5-3-7" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.7303;stroke-dasharray:none"
+       d="m 85.743242,18.608108 c -11.06729,20.196181 -11.490245,45.855439 -1.094595,66.405405 5.519004,10.909884 13.721574,20.184327 21.638853,29.501067 7.91727,9.31675 15.75224,18.99592 20.32061,30.33677 7.31375,18.15616 5.1947,39.82524 -5.49789,56.22053 -10.69258,16.3953 -29.668012,27.07109 -49.231843,27.69839"
+       id="path1"
+       inkscape:path-effect="#path-effect1"
+       inkscape:original-d="m 85.743242,18.608108 c 0.121621,22.256756 -0.851352,44.148648 -1.094595,66.405405 -0.243242,22.256757 28.216213,40.013507 41.959463,59.837837 13.74324,19.82432 -54.729733,83.91892 -54.729733,83.91892"
+       transform="matrix(1.3093871,0,0,1.2667798,81.63335,-77.89973)" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text2"
+       style="font-size:74.6667px;font-family:Aptos, Aptos_MSFontService, sans-serif;-inkscape-font-specification:'Aptos, Aptos_MSFontService, sans-serif';white-space:pre;shape-inside:url(#rect3);display:inline;fill:#bf330d;fill-opacity:0.819588;stroke:none;stroke-width:0.666667"><tspan
+         x="297.41016"
+         y="393.8082"
+         id="tspan2"><tspan
+           style="font-size:14.6667px"
+           id="tspan1">R</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text3"
+       style="font-size:14.6667px;font-family:Aptos, Aptos_MSFontService, sans-serif;-inkscape-font-specification:'Aptos, Aptos_MSFontService, sans-serif';white-space:pre;shape-inside:url(#rect4);display:inline;fill:#bf330d;fill-opacity:0.819588;stroke:none;stroke-width:0.666667"><tspan
+         x="434.90039"
+         y="416.10158"
+         id="tspan6"><tspan
+           dx="0 10.19794 8.6797075"
+           id="tspan3">Rxx</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text4"
+       style="font-size:17.3333px;font-family:Aptos, Aptos_MSFontService, sans-serif;-inkscape-font-specification:'Aptos, Aptos_MSFontService, sans-serif';white-space:pre;shape-inside:url(#rect5);display:inline;fill:#bf330d;fill-opacity:0.819588;stroke:none;stroke-width:0.666667" />
+    <rect
+       x="232.8282"
+       y="114.66012"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4"
+       x="246.55928"
+       y="139.00171"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="-40.655613"
+       y="201.10381"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-0"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-9"
+       x="-26.924534"
+       y="225.44548"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="-0.99099261"
+       y="152.86269"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-0-4"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-9-0"
+       x="12.740088"
+       y="177.20409"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="253.41411"
+       y="13.372751"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0"
+       x="267.14551"
+       y="37.714428"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="286.96594"
+       y="67.647812"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0-5"
+       x="300.69705"
+       y="91.989487"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="208.12845"
+       y="67.626801"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1-3"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0-9"
+       x="221.85936"
+       y="91.968483"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="163.93208"
+       y="-34.324432"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5"
+       x="172.3775"
+       y="-9.9827642"
+       style="stroke-width:0.264583">CX</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1"
+       x="130.26955"
+       y="-61.62933"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7">Depth</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5"
+       x="132.63605"
+       y="-9.1760645"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5">1</tspan></text>
+    <rect
+       x="271.87552"
+       y="114.367"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-8"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-8"
+       x="280.32123"
+       y="138.70856"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="174.99202"
+       y="13.007095"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-4"
+       x="183.43736"
+       y="37.348766"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="247.47774"
+       y="67.714867"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-3"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-81"
+       x="259.45764"
+       y="92.056519"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-2"
+       x="268.24976"
+       y="95.496094"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-2">x</tspan></text>
+    <rect
+       x="203.49918"
+       y="-34.306095"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8"
+       x="215.47899"
+       y="-9.9644499"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9"
+       x="224.27081"
+       y="-6.5248747"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5">x</tspan></text>
+    <rect
+       x="214.03467"
+       y="12.999097"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-3"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-1"
+       x="226.01448"
+       y="37.340744"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-0"
+       x="234.80629"
+       y="40.780319"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-6">x</tspan></text>
+    <rect
+       x="214.13255"
+       y="162.06747"
+       width="38.099998"
+       height="39.422916"
+       fill="#007bb8"
+       id="rect7-2"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text8-5"
+       x="226.21606"
+       y="186.40912"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text9-4"
+       x="234.70654"
+       y="189.84869"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan51-9">y</tspan></text>
+    <rect
+       x="79.04126"
+       y="62.138977"
+       width="38.099998"
+       height="39.422916"
+       fill="#007bb8"
+       id="rect7-2-4"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text8-5-9"
+       x="91.124771"
+       y="86.480621"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text9-4-3"
+       x="99.61525"
+       y="89.920197"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan51-9-6">y</tspan></text>
+    <rect
+       x="326.46951"
+       y="67.724266"
+       width="37.835415"
+       height="39.422916"
+       fill="#388600"
+       id="rect9-7"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text10-1"
+       x="338.34402"
+       y="92.06591"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text11-6"
+       x="347.46155"
+       y="95.505486"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan52-3">z</tspan></text>
+    <rect
+       x="-0.94256216"
+       y="201.13821"
+       width="37.835415"
+       height="39.422916"
+       fill="#388600"
+       id="rect9-7-9"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text10-1-0"
+       x="10.931954"
+       y="225.47986"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text11-6-2"
+       x="20.049479"
+       y="228.91943"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan52-3-7">z</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.61454;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#RoundedArrow)"
+       d="M 151.78378,234.80976 V -55.193665"
+       id="path7" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 145.80754,-14.745365 h 11.51453"
+       id="path7-6" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3"
+       x="132.61629"
+       y="40.110638"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3">2</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 145.78778,34.541338 h 11.51453"
+       id="path7-6-0" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7"
+       x="132.73788"
+       y="85.70079"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-5">3</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 145.90938,80.131492 h 11.51453"
+       id="path7-6-0-8" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-78"
+       x="132.51204"
+       y="131.51628"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-4">4</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 145.68352,125.94697 h 11.51453"
+       id="path7-6-0-5" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-8"
+       x="132.63364"
+       y="179.22307"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-5-2">5</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 145.80512,173.6538 h 11.51453"
+       id="path7-6-0-8-0" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-2"
+       x="-132.53455"
+       y="-62.05455"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-8">Qubit</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-4"
+       x="-130.16805"
+       y="39.082058"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-6">1</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-4-5"
+       x="-130.01219"
+       y="-10.366516"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-6-8">0</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.61454;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#RoundedArrow-7)"
+       d="M -111.02001,235.33466 V -55.618887"
+       id="path7-8" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.99626,-15.17058 h 11.51453"
+       id="path7-6-6" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-77"
+       x="-130.18781"
+       y="86.252136"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-58">2</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -117.01602,34.11612 h 11.51453"
+       id="path7-6-0-3" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-4"
+       x="-130.06621"
+       y="131.84219"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-5-9">3</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.89442,79.70627 h 11.51453"
+       id="path7-6-0-8-3" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-78-1"
+       x="-130.29205"
+       y="177.6571"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-4-2">4</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -117.12028,125.52175 h 11.51453"
+       id="path7-6-0-5-9" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-8-1"
+       x="-130.17046"
+       y="225.36389"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-5-2-3">5</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-8-1-5"
+       x="12.983648"
+       y="590.67969"
+       style="font-size:19.7556px;stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="font-size:19.7556px;fill:#280b0b"
+         id="tspan7-5-3-5-2-3-4">(a)</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-8-1-5-5"
+       x="331.12012"
+       y="590.89703"
+       style="font-size:19.7556px;stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="font-size:19.7556px;fill:#280b0b"
+         id="tspan7-5-3-5-2-3-4-9">(b)</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-8-1-5-5-2"
+       x="614.46002"
+       y="589.80585"
+       style="font-size:19.7556px;stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="font-size:19.7556px;fill:#280b0b"
+         id="tspan7-5-3-5-2-3-4-9-3">(c)</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.99868,173.22858 h 11.51453"
+       id="path7-6-0-8-0-1" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.91511,221.0994 h 11.51453"
+       id="path7-6-0-8-0-1-9" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.02709;stroke-dasharray:none;stroke-opacity:1"
+       id="rect12"
+       width="160.82036"
+       height="43.565292"
+       x="206.10136"
+       y="65.552338" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13"
+       width="81.762955"
+       height="43.08728"
+       x="230.22382"
+       y="112.76028" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       id="rect14"
+       width="41.959457"
+       height="43.418919"
+       x="212.32579"
+       y="160.04491" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.23385;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15"
+       width="121.78625"
+       height="44.1768"
+       x="172.09808"
+       y="10.8182"
+       ry="0" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.24605;stroke-dasharray:none;stroke-opacity:1"
+       id="rect16"
+       width="82.708282"
+       height="43.79974"
+       x="161.401"
+       y="-36.608135" />
+    <rect
+       x="-80.906792"
+       y="62.643848"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-83"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-84"
+       x="-72.461372"
+       y="86.985504"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="-40.935093"
+       y="62.445023"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-83-3"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-84-7"
+       x="-32.489677"
+       y="86.786682"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="39.303993"
+       y="152.76749"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-83-3-1"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-84-7-4"
+       x="47.749409"
+       y="177.10883"
+       style="stroke-width:0.264583">CX</text>
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.2441;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Dot)"
+       d="m -61.064567,102.05149 v 71.39237"
+       id="path16" />
+    <rect
+       x="-40.839439"
+       y="152.86653"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-3-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-81-2"
+       x="-28.859535"
+       y="177.20795"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-2-5"
+       x="-20.067421"
+       y="180.64752"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-2-8">x</tspan></text>
+    <rect
+       x="-80.809486"
+       y="106.79369"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-3-6-0"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-81-2-3"
+       x="-68.829582"
+       y="131.13533"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-2-5-6"
+       x="-60.037472"
+       y="134.57486"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-2-8-3">x</tspan></text>
+    <rect
+       x="-0.62151915"
+       y="62.279823"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-3-6-0-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-81-2-3-3"
+       x="11.358386"
+       y="86.621529"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-2-5-6-7"
+       x="20.150501"
+       y="90.061111"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-2-8-3-7">x</tspan></text>
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28075;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Dot)"
+       d="m -21.346,34.188525 0.02238,28.254606"
+       id="path18" />
+    <rect
+       x="-0.86431509"
+       y="13.927807"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-0-2"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-9-6"
+       x="12.866766"
+       y="38.269493"
+       style="stroke-width:0.264583">H</text>
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Dot)"
+       d="M 58.118777,-14.013446 V 152.79546"
+       id="path19" />
+    <rect
+       x="39.448421"
+       y="62.189255"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-0-2-0"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-9-6-8"
+       x="53.179501"
+       y="86.53093"
+       style="stroke-width:0.264583">H</text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.49439,363.04395 H -91.345606"
+       id="path7-69-4" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 122.38545,315.20626 H -90.454516"
+       id="path7-69-5-7" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.49439,411.45664 H -91.345606"
+       id="path7-69-0-4" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.49439,455.88686 H -91.345606"
+       id="path7-69-0-5-6" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.49439,502.45763 H -91.345606"
+       id="path7-69-0-5-3-6" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28212;stroke-dasharray:none;stroke-opacity:1"
+       d="M 121.66644,550.35515 H -91.345606"
+       id="path7-69-0-5-3-7-6" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.7303;stroke-dasharray:none"
+       d="m 85.743242,18.608108 c -11.06729,20.196181 -11.490245,45.855439 -1.094595,66.405405 5.519004,10.909884 13.721574,20.184327 21.638853,29.501067 7.91727,9.31675 15.75224,18.99592 20.32061,30.33677 7.31375,18.15616 5.1947,39.82524 -5.49789,56.22053 -10.69258,16.3953 -29.668012,27.07109 -49.231843,27.69839"
+       id="path3"
+       inkscape:path-effect="#path-effect1-6"
+       inkscape:original-d="m 85.743242,18.608108 c 0.121621,22.256756 -0.851352,44.148648 -1.094595,66.405405 -0.243242,22.256757 28.216213,40.013507 41.959463,59.837837 13.74324,19.82432 -54.729733,83.91892 -54.729733,83.91892"
+       transform="matrix(1.3093871,0,0,1.2667798,81.835074,251.51577)" />
+    <rect
+       x="233.02992"
+       y="441.42972"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-3"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-5"
+       x="246.761"
+       y="465.77139"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="164.1338"
+       y="295.09091"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-85"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-2"
+       x="172.57922"
+       y="319.43259"
+       style="stroke-width:0.264583">CX</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6"
+       x="130.47127"
+       y="267.78601"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-59">Depth</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6"
+       x="519.50952"
+       y="175.90331"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         sodipodi:role="line"
+         id="tspan28"
+         x="519.50952"
+         y="175.90331"><tspan
+           style="fill:#280b0b"
+           id="tspan7-59-5">Additional</tspan></tspan><tspan
+         sodipodi:role="line"
+         id="tspan29"
+         x="519.50952"
+         y="194.09343"><tspan
+           style="fill:#280b0b"
+           id="tspan30">gate</tspan></tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6-4"
+       x="759.03552"
+       y="81.600403"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         sodipodi:role="line"
+         id="tspan28-5"
+         x="759.03552"
+         y="81.600403"
+         style="fill:#2b0000">Mutated</tspan><tspan
+         sodipodi:role="line"
+         id="tspan29-9"
+         x="759.03552"
+         y="99.790527"
+         style="fill:#2b0000">gate</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6-4-2"
+       x="598.70941"
+       y="82.171181"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         sodipodi:role="line"
+         id="tspan29-9-07"
+         x="598.70941"
+         y="82.171181"
+         style="font-style:italic;fill:#2b0000">Mutation</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6-4-2-2"
+       x="588.21313"
+       y="409.10367"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         sodipodi:role="line"
+         id="tspan29-9-07-2"
+         x="588.21313"
+         y="409.10367"
+         style="font-style:italic;fill:#2b0000">Mutation</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6-4-2-2-4"
+       x="303.31805"
+       y="-41.918571"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         sodipodi:role="line"
+         id="tspan29-9-07-2-1"
+         x="303.31805"
+         y="-41.918571"
+         style="font-style:italic;fill:#2b0000">Crossover</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6-4-2-2-4-9"
+       x="140.01726"
+       y="414.75516"
+       style="stroke-width:0.265;stroke-dasharray:none"
+       transform="rotate(-45.057018)"><tspan
+         sodipodi:role="line"
+         id="tspan29-9-07-2-1-0"
+         x="140.01726"
+         y="414.75516"
+         style="font-style:italic;fill:#2b0000">Crossover</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6-4-2-2-4-9-8"
+       x="305.97842"
+       y="398.25992"
+       style="stroke-width:0.265;stroke-dasharray:none"
+       transform="rotate(-0.26041121)"><tspan
+         sodipodi:role="line"
+         id="tspan29-9-07-2-1-0-2"
+         x="305.97842"
+         y="398.25992"
+         style="font-style:italic;fill:#2b0000">Crossover</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6-4-2-2-4-9-6"
+       x="556.32233"
+       y="204.04619"
+       style="stroke-width:0.265;stroke-dasharray:none"
+       transform="rotate(29.479112)"><tspan
+         sodipodi:role="line"
+         id="tspan29-9-07-2-1-0-9"
+         x="556.32233"
+         y="204.04619"
+         style="font-style:italic;fill:#2b0000">Crossover</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-6-6-4-5"
+       x="747.60309"
+       y="497.7793"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         sodipodi:role="line"
+         id="tspan28-5-9"
+         x="747.60309"
+         y="497.7793"
+         style="fill:#2b0000">Mutated</tspan><tspan
+         sodipodi:role="line"
+         id="tspan29-9-0"
+         x="747.60309"
+         y="515.96942"
+         style="fill:#2b0000">gate</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-1"
+       x="132.83777"
+       y="320.23929"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-2">1</tspan></text>
+    <rect
+       x="219.54207"
+       y="487.69617"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-8-9"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-8-3"
+       x="227.98778"
+       y="512.03784"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="175.28255"
+       y="342.46851"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-8"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-5"
+       x="187.26236"
+       y="366.81015"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-7"
+       x="196.05418"
+       y="370.24973"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-2">x</tspan></text>
+    <rect
+       x="214.76555"
+       y="341.88528"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-3-5"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-1-7"
+       x="226.74536"
+       y="366.22693"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-0-4"
+       x="235.53716"
+       y="369.6665"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-6-0">x</tspan></text>
+    <rect
+       x="209.32344"
+       y="394.59717"
+       width="38.099998"
+       height="39.422916"
+       fill="#007bb8"
+       id="rect7-2-7"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text8-5-91"
+       x="221.40695"
+       y="418.93878"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text9-4-5"
+       x="229.89743"
+       y="422.37836"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan51-9-8">y</tspan></text>
+    <rect
+       x="0.39709339"
+       y="436.53418"
+       width="38.099998"
+       height="39.422916"
+       fill="#007bb8"
+       id="rect7-2-4-7"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text8-5-9-4"
+       x="12.48059"
+       y="460.87582"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text9-4-3-8"
+       x="20.971062"
+       y="464.3154"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan51-9-6-7">y</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.61454;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#RoundedArrow-5)"
+       d="M 151.9855,564.22526 V 274.22183"
+       id="path7-9" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 146.00926,314.67014 h 11.51453"
+       id="path7-6-8" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-9"
+       x="132.81801"
+       y="369.52597"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-1">2</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 145.9895,363.95684 h 11.51453"
+       id="path7-6-0-7" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-5"
+       x="132.93961"
+       y="415.11615"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-5-7">3</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 146.1111,409.54699 h 11.51453"
+       id="path7-6-0-8-9" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-78-5"
+       x="132.71376"
+       y="460.93164"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-4-7">4</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 145.88524,455.36247 h 11.51453"
+       id="path7-6-0-5-5" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-8-5"
+       x="132.83536"
+       y="508.63843"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-5-2-4">5</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m 146.00684,503.0693 h 11.51453"
+       id="path7-6-0-8-0-3" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-2-1"
+       x="-132.33282"
+       y="267.36078"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-8-4">Qubit</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-4-6"
+       x="-129.96632"
+       y="368.49741"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-6-4">1</tspan></text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-4-5-2"
+       x="-129.81047"
+       y="319.04883"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-6-8-9">0</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.61454;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#RoundedArrow-7-2)"
+       d="M -110.81829,564.75016 V 273.79661"
+       id="path7-8-5" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.79454,314.24492 h 11.51453"
+       id="path7-6-6-9" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-77-0"
+       x="-129.98608"
+       y="415.66748"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-58-4">2</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.8143,363.53162 h 11.51453"
+       id="path7-6-0-3-9" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.7303;stroke-dasharray:none"
+       d="m 85.743242,18.608108 c -11.06729,20.196181 -11.490245,45.855439 -1.094595,66.405405 5.519004,10.909884 13.721574,20.184327 21.638853,29.501067 7.91727,9.31675 15.75224,18.99592 20.32061,30.33677 7.31375,18.15616 5.1947,39.82524 -5.49789,56.22053 -10.69258,16.3953 -29.668012,27.07109 -49.231843,27.69839"
+       id="path3-2"
+       inkscape:path-effect="#path-effect1-6-6"
+       inkscape:original-d="m 85.743242,18.608108 c 0.121621,22.256756 -0.851352,44.148648 -1.094595,66.405405 -0.243242,22.256757 28.216213,40.013507 41.959463,59.837837 13.74324,19.82432 -54.729733,83.91892 -54.729733,83.91892"
+       transform="matrix(1.3093871,0,0,1.2667798,347.40242,249.98342)" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-4-5"
+       x="-129.86449"
+       y="461.25754"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-5-9-8">3</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.6927,409.12177 h 11.51453"
+       id="path7-6-0-8-3-8" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-78-1-5"
+       x="-130.09033"
+       y="507.07245"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-4-2-8">4</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.91856,454.93725 h 11.51453"
+       id="path7-6-0-5-9-0" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-1-5-3-7-8-1-3"
+       x="-129.96873"
+       y="554.77924"
+       style="stroke-width:0.265;stroke-dasharray:none"><tspan
+         style="fill:#280b0b"
+         id="tspan7-5-3-5-2-3-7">5</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.79696,502.64408 h 11.51453"
+       id="path7-6-0-8-0-1-8" />
+    <path
+       style="fill:#ffffff;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       d="m -116.71339,550.5149 h 11.51453"
+       id="path7-6-0-8-0-1-9-6" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-1"
+       width="42.174843"
+       height="43.08728"
+       x="230.9547"
+       y="439.52985" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-1-8"
+       width="42.174843"
+       height="43.08728"
+       x="217.48198"
+       y="486.01428" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       id="rect14-7"
+       width="41.959457"
+       height="43.418919"
+       x="207.51668"
+       y="392.57462" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.23385;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15-6"
+       width="82.247459"
+       height="44.1768"
+       x="172.82896"
+       y="339.70438"
+       ry="0" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.24605;stroke-dasharray:none;stroke-opacity:1"
+       id="rect16-1"
+       width="43.799744"
+       height="43.79974"
+       x="161.60274"
+       y="292.80722" />
+    <rect
+       x="-80.705063"
+       y="392.0592"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-83-9"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-84-5"
+       x="-72.259644"
+       y="416.40085"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="80.825867"
+       y="436.75293"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-83-3-2"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-84-7-8"
+       x="89.271286"
+       y="461.09457"
+       style="stroke-width:0.264583">CX</text>
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.2441;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Dot-3)"
+       d="m -60.862847,431.46699 v 24.04813"
+       id="path16-8" />
+    <rect
+       x="-40.391068"
+       y="436.20905"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-3-6-0-0"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-81-2-3-8"
+       x="-28.411163"
+       y="460.55069"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-2-5-6-1"
+       x="-19.619049"
+       y="463.9902"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-2-8-3-6">x</tspan></text>
+    <rect
+       x="-40.107307"
+       y="391.69516"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-3-6-0-6-9"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-81-2-3-3-3"
+       x="-28.127392"
+       y="416.03687"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-2-5-6-7-0"
+       x="-19.335268"
+       y="419.47647"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-2-8-3-7-6">x</tspan></text>
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.28075;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Dot-3)"
+       d="m 100.41496,408.49615 0.0224,28.25461"
+       id="path18-4" />
+    <rect
+       x="40.786751"
+       y="436.53183"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-0-2-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-9-6-4"
+       x="54.517822"
+       y="460.87354"
+       style="stroke-width:0.264583">H</text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-131.71741,-73.110736)"
+       id="text21"
+       style="font-size:17.3333px;font-family:Aptos, Aptos_MSFontService, sans-serif;-inkscape-font-specification:'Aptos, Aptos_MSFontService, sans-serif';white-space:pre;shape-inside:url(#rect21);display:inline;fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:8.54929;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:2.262, 2.262;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 170.74806,60.340272 H 368.28374"
+       id="path24" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.7303;stroke-dasharray:none"
+       d="m 85.743242,18.608108 c -11.06729,20.196181 -11.490245,45.855439 -1.094595,66.405405 5.519004,10.909884 13.721574,20.184327 21.638853,29.501067 7.91727,9.31675 15.75224,18.99592 20.32061,30.33677 7.31375,18.15616 5.1947,39.82524 -5.49789,56.22053 -10.69258,16.3953 -29.668012,27.07109 -49.231843,27.69839"
+       id="path1-8"
+       inkscape:path-effect="#path-effect1-3"
+       inkscape:original-d="m 85.743242,18.608108 c 0.121621,22.256756 -0.851352,44.148648 -1.094595,66.405405 -0.243242,22.256757 28.216213,40.013507 41.959463,59.837837 13.74324,19.82432 -54.729733,83.91892 -54.729733,83.91892"
+       transform="matrix(1.3093871,0,0,1.2667798,342.17663,-78.093022)" />
+    <rect
+       x="495.72754"
+       y="439.07385"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-33"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-4"
+       x="509.45862"
+       y="463.41547"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="513.95703"
+       y="13.179458"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1-62"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0-7"
+       x="527.68842"
+       y="37.521137"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="510.24274"
+       y="293.41254"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1-3-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0-9-2"
+       x="523.97363"
+       y="317.75421"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="431.86316"
+       y="293.54214"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1-3-6-4"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0-9-2-2"
+       x="445.59406"
+       y="317.88382"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="424.47504"
+       y="-34.517723"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-1"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-43"
+       x="432.92044"
+       y="-10.176057"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="452.94861"
+       y="340.85733"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-8-0"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-8-8"
+       x="461.39429"
+       y="365.19888"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="435.53497"
+       y="12.813804"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-6-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-4-6"
+       x="443.98032"
+       y="37.155476"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="471.74731"
+       y="392.1286"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-3-9"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-81-0"
+       x="483.72717"
+       y="416.47028"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-2-0"
+       x="492.51929"
+       y="419.90985"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-2-82">x</tspan></text>
+    <rect
+       x="464.04211"
+       y="-34.499386"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-1"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-6"
+       x="476.02191"
+       y="-10.157743"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-3"
+       x="484.81372"
+       y="-6.7181668"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-4">x</tspan></text>
+    <rect
+       x="474.57761"
+       y="12.805804"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-3-8"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-1-8"
+       x="486.55743"
+       y="37.147449"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-0-2"
+       x="495.34924"
+       y="40.587025"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-6-3">x</tspan></text>
+    <rect
+       x="477.03189"
+       y="486.4812"
+       width="38.099998"
+       height="39.422916"
+       fill="#007bb8"
+       id="rect7-2-5"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text8-5-1"
+       x="489.11536"
+       y="510.82288"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text9-4-9"
+       x="497.60583"
+       y="514.26245"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan51-9-3">y</tspan></text>
+    <rect
+       x="549.27826"
+       y="293.46072"
+       width="37.835415"
+       height="39.422916"
+       fill="#388600"
+       id="rect9-7-97"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text10-1-5"
+       x="561.15277"
+       y="317.80237"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text11-6-6"
+       x="570.27026"
+       y="321.24194"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan52-3-2">z</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.02709;stroke-dasharray:none;stroke-opacity:1"
+       id="rect12-7"
+       width="43.246071"
+       height="43.565292"
+       x="469.0007"
+       y="389.96609" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-14"
+       width="42.921791"
+       height="43.08728"
+       x="493.12311"
+       y="437.17401" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       id="rect14-2"
+       width="41.959457"
+       height="43.418919"
+       x="475.22513"
+       y="484.45868" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.23385;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15-4"
+       width="161.35075"
+       height="44.1768"
+       x="432.64108"
+       y="10.624907"
+       ry="0" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.24605;stroke-dasharray:none;stroke-opacity:1"
+       id="rect16-3"
+       width="82.708282"
+       height="43.79974"
+       x="421.94394"
+       y="-36.801426" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.26201;stroke-dasharray:2.26201, 2.26201;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 431.29136,60.146983 H 594.67204"
+       id="path24-9" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:2.262, 2.262;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 173.71103,388.36387 h 99.88653"
+       id="path24-7" />
+    <rect
+       x="480.8049"
+       y="66.984718"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-3-0"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-5-6"
+       x="494.53598"
+       y="91.326591"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="470.97766"
+       y="293.55856"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-85-2"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-2-9"
+       x="479.4231"
+       y="317.90024"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="508.39905"
+       y="113.99832"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-8-9-9"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-8-3-9"
+       x="516.84473"
+       y="138.33998"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="492.18073"
+       y="340.93616"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-8-9"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-5-9"
+       x="504.16055"
+       y="365.2778"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-7-5"
+       x="512.95233"
+       y="368.71738"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-2-8">x</tspan></text>
+    <rect
+       x="531.6637"
+       y="340.35294"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-3-5-8"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-1-7-7"
+       x="543.64355"
+       y="364.69458"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-0-4-0"
+       x="552.4353"
+       y="368.13416"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-6-0-4">x</tspan></text>
+    <rect
+       x="553.20538"
+       y="13.180568"
+       width="38.099998"
+       height="39.422916"
+       fill="#007bb8"
+       id="rect7-2-7-7"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text8-5-91-9"
+       x="565.28888"
+       y="37.522198"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text9-4-5-1"
+       x="573.77936"
+       y="40.961765"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan51-9-8-5">y</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-1-6"
+       width="42.174843"
+       height="43.08728"
+       x="478.72964"
+       y="65.084869" />
+    <rect
+       x="470.97241"
+       y="161.72003"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-3-0-8"
+       style="stroke-width:0.264583;opacity:0.5" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-5-6-9"
+       x="484.70349"
+       y="186.0619"
+       style="stroke-width:0.264583;opacity:0.5">H</text>
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1;opacity:0.5"
+       id="rect13-1-6-3"
+       width="42.174843"
+       height="43.08728"
+       x="468.89716"
+       y="159.82019" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-1-8-8"
+       width="42.174843"
+       height="43.08728"
+       x="506.33893"
+       y="112.31643" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.7303;stroke-dasharray:none"
+       d="m 85.743242,18.608108 c -11.06729,20.196181 -11.490245,45.855439 -1.094595,66.405405 5.519004,10.909884 13.721574,20.184327 21.638853,29.501067 7.91727,9.31675 15.75224,18.99592 20.32061,30.33677 7.31375,18.15616 5.1947,39.82524 -5.49789,56.22053 -10.69258,16.3953 -29.668012,27.07109 -49.231843,27.69839"
+       id="path1-8-2"
+       inkscape:path-effect="#path-effect1-3-7"
+       inkscape:original-d="m 85.743242,18.608108 c 0.121621,22.256756 -0.851352,44.148648 -1.094595,66.405405 -0.243242,22.256757 28.216213,40.013507 41.959463,59.837837 13.74324,19.82432 -54.729733,83.91892 -54.729733,83.91892"
+       transform="matrix(1.3093871,0,0,1.2667798,572.1064,-79.252836)" />
+    <rect
+       x="743.88708"
+       y="12.019644"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1-62-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0-7-3"
+       x="757.61847"
+       y="36.361328"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="654.40503"
+       y="-35.677536"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-1-5"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-43-8"
+       x="662.85046"
+       y="-11.335871"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="665.46497"
+       y="11.65399"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-6-6-0"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-4-6-0"
+       x="673.91034"
+       y="35.995667"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="693.97217"
+       y="-35.659199"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-1-7"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-6-3"
+       x="705.95197"
+       y="-11.317558"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-3-1"
+       x="714.74377"
+       y="-7.8779812"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-4-2">x</tspan></text>
+    <rect
+       x="704.50763"
+       y="11.64599"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-3-8-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-1-8-6"
+       x="716.48749"
+       y="35.98764"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-0-2-9"
+       x="725.2793"
+       y="39.427216"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-6-3-7">x</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.23385;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15-4-1"
+       width="161.35075"
+       height="44.1768"
+       x="662.57111"
+       y="9.4650936"
+       ry="0" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.24605;stroke-dasharray:none;stroke-opacity:1"
+       id="rect16-3-9"
+       width="82.708282"
+       height="43.79974"
+       x="651.87396"
+       y="-37.961239" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.26201;stroke-dasharray:2.26201, 2.26201;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 661.22113,58.987169 H 824.60181"
+       id="path24-9-6" />
+    <rect
+       x="738.3291"
+       y="112.83851"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-8-9-9-7"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-8-3-9-4"
+       x="746.77478"
+       y="137.18016"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="783.13544"
+       y="12.020754"
+       width="38.099998"
+       height="39.422916"
+       fill="#007bb8"
+       id="rect7-2-7-7-5"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text8-5-91-9-7"
+       x="795.21893"
+       y="36.362389"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text9-4-5-1-8"
+       x="803.70941"
+       y="39.801956"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan51-9-8-5-2">y</tspan></text>
+    <rect
+       style="opacity:0.506276;fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-1-6-2"
+       width="42.174843"
+       height="43.08728"
+       x="708.65967"
+       y="63.925056" />
+    <rect
+       x="700.90247"
+       y="160.56021"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-3-0-8-3"
+       style="opacity:1;stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-5-6-9-7"
+       x="714.63354"
+       y="184.90208"
+       style="opacity:1;stroke-width:0.264583">H</text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-1-6-3-2"
+       width="42.174843"
+       height="43.08728"
+       x="698.82721"
+       y="158.66037" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-1-8-8-1"
+       width="42.174843"
+       height="43.08728"
+       x="736.26898"
+       y="111.15662" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.23386;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15-6-2"
+       width="122.08456"
+       height="44.1768"
+       x="450.56824"
+       y="338.17203"
+       ry="0" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.24604;stroke-dasharray:none;stroke-opacity:1"
+       id="rect16-1-4"
+       width="160.42439"
+       height="43.79974"
+       x="429.28769"
+       y="291.27487" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:2.262, 2.262;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 451.44929,386.83151 H 593.06127"
+       id="path24-7-0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.7303;stroke-dasharray:none"
+       d="m 85.743242,18.608108 c -11.06729,20.196181 -11.490245,45.855439 -1.094595,66.405405 5.519004,10.909884 13.721574,20.184327 21.638853,29.501067 7.91727,9.31675 15.75224,18.99592 20.32061,30.33677 7.31375,18.15616 5.1947,39.82524 -5.49789,56.22053 -10.69258,16.3953 -29.668012,27.07109 -49.231843,27.69839"
+       id="path3-2-3"
+       inkscape:path-effect="#path-effect1-6-6-7"
+       inkscape:original-d="m 85.743242,18.608108 c 0.121621,22.256756 -0.851352,44.148648 -1.094595,66.405405 -0.243242,22.256757 28.216213,40.013507 41.959463,59.837837 13.74324,19.82432 -54.729733,83.91892 -54.729733,83.91892"
+       transform="matrix(1.3093871,0,0,1.2667798,569.89343,246.21429)" />
+    <rect
+       x="718.21881"
+       y="435.30472"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-33-4"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-4-4"
+       x="731.94989"
+       y="459.64633"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="699.90289"
+       y="482.71979"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-33-4-44"
+       style="opacity:0.508368;stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-4-4-1"
+       x="713.63397"
+       y="507.0614"
+       style="opacity:0.508368;stroke-width:0.264583">H</text>
+    <rect
+       x="732.73401"
+       y="289.6434"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1-3-6-7"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0-9-2-9"
+       x="746.4649"
+       y="313.98508"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="654.35443"
+       y="289.77301"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-1-3-6-4-8"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-0-9-2-2-2"
+       x="668.08533"
+       y="314.11469"
+       style="stroke-width:0.264583">H</text>
+    <rect
+       x="675.43988"
+       y="337.0882"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-8-0-5"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-8-8-0"
+       x="683.88556"
+       y="361.42975"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="771.76953"
+       y="289.69159"
+       width="37.835415"
+       height="39.422916"
+       fill="#388600"
+       id="rect9-7-97-9"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text10-1-5-7"
+       x="783.64404"
+       y="314.03323"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text11-6-6-5"
+       x="792.76154"
+       y="317.47281"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan52-3-2-65">z</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.02709;stroke-dasharray:none;stroke-opacity:1"
+       id="rect12-7-6"
+       width="43.246071"
+       height="43.565292"
+       x="691.492"
+       y="386.19696" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.22878;stroke-dasharray:none;stroke-opacity:1"
+       id="rect13-14-4"
+       width="42.921791"
+       height="43.08728"
+       x="715.61438"
+       y="433.40488" />
+    <rect
+       style="opacity:0.508368;fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:none;stroke-opacity:1"
+       id="rect14-2-9"
+       width="41.959457"
+       height="43.418919"
+       x="697.71643"
+       y="480.68954" />
+    <rect
+       x="693.46893"
+       y="289.78943"
+       width="38.099998"
+       height="39.422916"
+       fill="#78206e"
+       id="rect4-4-85-2-8"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text5-2-9-4"
+       x="701.91437"
+       y="314.1311"
+       style="stroke-width:0.264583">CX</text>
+    <rect
+       x="714.672"
+       y="337.16702"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-8-9-2"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-5-9-3"
+       x="726.65186"
+       y="361.50867"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-7-5-8"
+       x="735.4436"
+       y="364.94824"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-2-8-1">x</tspan></text>
+    <rect
+       x="754.15497"
+       y="336.5838"
+       width="38.099998"
+       height="39.422916"
+       fill="#c00000"
+       id="rect5-5-6-3-5-8-6"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text6-9-8-1-7-7-6"
+       x="766.13483"
+       y="360.92545"
+       style="stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text7-9-9-0-4-0-0"
+       x="774.92657"
+       y="364.36502"
+       style="stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan50-5-6-0-4-5">x</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.23386;stroke-dasharray:none;stroke-opacity:1"
+       id="rect15-6-2-1"
+       width="122.08456"
+       height="44.1768"
+       x="673.05951"
+       y="334.40289"
+       ry="0" />
+    <rect
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.24604;stroke-dasharray:none;stroke-opacity:1"
+       id="rect16-1-4-4"
+       width="160.42439"
+       height="43.79974"
+       x="651.77899"
+       y="287.50574" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:2.262, 2.262;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 673.9403,383.06238 H 815.55228"
+       id="path24-7-0-2" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:1.89861;stroke-dasharray:1.89861, 1.89861;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ArrowWide)"
+       d="m 298.52318,10.049194 c 4.59415,-12.4315943 13.29649,-23.305799 24.41882,-30.513065 11.12232,-7.207265 24.60292,-10.707613 37.82663,-9.821989 11.75752,0.78743 23.264,5.01647 32.733,12.030548 9.46901,7.014077 16.86758,16.7887773 21.04708,27.806544"
+       id="path25"
+       inkscape:path-effect="#path-effect26"
+       inkscape:original-d="m 298.52318,10.049194 c 21.08047,-12.9470548 41.66296,-26.392074 62.24545,-40.335054 20.58252,-13.942984 35.8534,26.3920731 53.78008,39.837092"
+       transform="matrix(1.4194306,0,0,1,-175.78991,-3.1750001)" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:1.90034;stroke-dasharray:1.90034, 1.90034;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ArrowWide-7)"
+       d="m 298.52318,10.049194 c 4.59415,-12.4315943 13.29649,-23.305799 24.41882,-30.513065 11.12232,-7.207265 24.60292,-10.707613 37.82663,-9.821989 11.75752,0.78743 23.264,5.01647 32.733,12.030548 9.46901,7.014077 16.86758,16.7887773 21.04708,27.806544"
+       id="path25-4"
+       inkscape:path-effect="#path-effect26-8"
+       inkscape:original-d="m 298.52318,10.049194 c 21.08047,-12.9470548 41.66296,-26.392074 62.24545,-40.335054 20.58252,-13.942984 35.8534,26.3920731 53.78008,39.837092"
+       transform="matrix(1.4168366,0,0,-1,-161.69004,350.57904)" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:2.262, 2.262;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ArrowWide)"
+       d="m 318.28362,158.57993 c -16.07758,41.1762 -20.48377,86.83717 -12.57637,130.32788 7.9074,43.4907 28.10425,84.67839 57.64689,117.56001 27.85796,31.00653 63.93101,54.56445 103.52135,67.60578"
+       id="path27"
+       inkscape:path-effect="#path-effect27"
+       inkscape:original-d="m 318.28362,158.57993 c 15.02351,82.6293 30.047,165.2586 45.07052,247.88789 15.02352,82.6293 69.01424,45.07053 103.52135,67.60578" />
+    <path
+       style="fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:2.262, 2.262;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ArrowWide)"
+       d="m 292.93145,476.1863 c 1.62193,-84.64998 28.95532,-168.63804 77.46495,-238.02872 27.03794,-38.67647 60.49719,-72.85269 98.59179,-100.70446"
+       id="path28"
+       inkscape:path-effect="#path-effect28"
+       inkscape:original-d="m 292.93145,476.1863 c 25.82164,-79.34291 51.64331,-158.68581 77.46495,-238.02872 25.82166,-79.34291 65.72787,-67.1363 98.59179,-100.70446" />
+    <rect
+       x="711.26245"
+       y="65.737686"
+       width="37.835415"
+       height="39.422916"
+       fill="#388600"
+       id="rect9-7-97-6"
+       style="opacity:0.506276;stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text10-1-5-4"
+       x="723.13696"
+       y="90.07933"
+       style="opacity:0.506276;stroke-width:0.264583">R</text>
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="9.78958px"
+       id="text11-6-6-3"
+       x="732.25446"
+       y="93.518906"
+       style="opacity:0.506276;stroke-width:0.264583"><tspan
+         style="font-style:italic;stroke-width:0.264583"
+         id="tspan52-3-2-6">z</tspan></text>
+    <rect
+       x="694.23047"
+       y="388.03201"
+       width="37.835415"
+       height="39.422916"
+       fill="#c04f15"
+       id="rect3-1-8-33-4-4"
+       style="stroke-width:0.264583" />
+    <text
+       fill="#ffffff"
+       font-family="Aptos, Aptos_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="14.5521px"
+       id="text4-9-4-4-4-4"
+       x="707.96155"
+       y="412.37363"
+       style="stroke-width:0.264583">H</text>
+    <path
+       style="opacity:1;fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:2.262, 2.262;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ArrowWide)"
+       d="m 559.45614,107.15211 c 21.74375,-12.197713 46.781,-18.457027 71.70676,-17.926693 22.93421,0.487961 45.72477,6.703568 65.73121,17.926693"
+       id="path30"
+       inkscape:path-effect="#path-effect31"
+       inkscape:original-d="m 559.45614,107.15211 c 23.90227,-4.64766 47.80452,-11.287179 71.70676,-17.926693 23.90227,-6.639515 43.82082,11.951123 65.73121,17.926693" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:0.819588;stroke:#000000;stroke-width:2.262;stroke-dasharray:2.262, 2.262;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#ArrowWide)"
+       d="m 544.51723,451.74295 c 23.88761,-11.09829 50.35487,-16.59798 76.68641,-15.93482 20.08416,0.50582 40.07361,4.57147 58.7597,11.95112"
+       id="path31"
+       inkscape:path-effect="#path-effect32"
+       inkscape:original-d="m 544.51723,451.74295 c 25.89411,-5.97556 51.78822,-10.9552 76.68641,-15.93482 24.89819,-4.97964 38.84115,7.9674 58.7597,11.95112"
+       transform="translate(0,-17.991672)" />
+  </g>
+</svg>
