@@ -41,7 +41,7 @@ def parse_args():
                     #   default=list(np.logspace(-2, -1, 10)),
                       default=[0.1],
                       help='List of mutation probabilities to try')
-    parser.add_argument('--qubits', type=int, nargs='+', default=[5],
+    parser.add_argument('--qubits', type=float, nargs='+', default=[5],
                       help='List of number of qubits to try')
     parser.add_argument('--training-size', type=int, default=100,
                       help='Size of training dataset')
