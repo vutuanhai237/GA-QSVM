@@ -14,6 +14,7 @@ test-gpu/
 *.pdf
 *.out
 *.csv
+*.svg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -191,3 +192,4 @@ wandb/latest-run
 wandb/latest-run
 error/GA-QSVM.e1699
 *.png
+PQK-digits-N5-Cnot-plots/PQK-digits-N5-Cnot5-D35-C16-g200-p0.1.svg

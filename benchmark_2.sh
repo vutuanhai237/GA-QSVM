@@ -19,5 +19,5 @@ unset __conda_setup
 conda activate cutn-qsvm
 
 # python benchmark.py --num-generation 50 100 150 200 250
-python benchmark.py --num-circuit 4 8 16 20
-python benchmark.py --prob-mutate 0.001, 0.01, 0.1, 0.3, 0.5
+#python benchmark.py --num-circuit 4 8 16 20
+python benchmark.py --prob-mutate 0.001 0.01 0.1 0.3 0.5
