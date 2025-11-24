@@ -1,4 +1,4 @@
-# GA-QSVM: Genetic Algorithm-based Quantum Support Vector Machine
+# Source code for paper entitled "Flexible Genetic Algorithm for Quantum Support Vector Machines"
 
 This repository contains an implementation of a Genetic Algorithm-based Quantum Support Vector Machine (GA-QSVM) for classification tasks. The project combines quantum computing with machine learning techniques to optimize quantum circuits for classification.
 
