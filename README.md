@@ -2,6 +2,23 @@
 
 This repository contains an implementation of a Genetic Algorithm-based Quantum Support Vector Machine (GA-QSVM) for classification tasks. The project combines quantum computing with machine learning techniques to optimize quantum circuits for classification.
 
+Paper: https://arxiv.org/pdf/2511.19160
+
+Bibtex for citation:
+
+```
+@misc{duc2025flexiblegeneticalgorithmquantum,
+      title={Flexible Genetic Algorithm for Quantum Support Vector Machines}, 
+      author={Nguyen Minh Duc and Vu Tuan Hai and Le Bin Ho and Tran Nguyen Lan},
+      year={2025},
+      eprint={2511.19160},
+      archivePrefix={arXiv},
+      primaryClass={quant-ph},
+      url={https://arxiv.org/abs/2511.19160}, 
+}
+```
+
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
