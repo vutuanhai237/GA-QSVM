@@ -1,4 +1,9 @@
-from .eval import build_eval_runner
-from .train import build_train_runner
+from .eval import build_eval_runner, create_eval_runner
+from .train import build_train_runner, create_train_runner
 
-__all__ = ["build_train_runner", "build_eval_runner"]
+__all__ = [
+    "build_train_runner",
+    "create_train_runner",
+    "build_eval_runner",
+    "create_eval_runner",
+]

@@ -1,5 +1,10 @@
 import argparse
 
+from ga_qsvm.runners.train import create_train_runner
+
+
+run_train = create_train_runner()
+
 
 def build_parser():
     parser = argparse.ArgumentParser(description="GA-QSVM Training Parameters")
@@ -18,4 +23,22 @@ def build_parser():
 
 
 def main(argv=None):
-    return build_parser().parse_args(argv)
+    args = build_parser().parse_args(argv)
+    run_train(
+        dataset_name=args.data,
+        depths=args.depth,
+        num_circuits=args.num_circuit,
+        num_generations=args.num_generation,
+        prob_mutations=args.prob_mutate,
+        qubits=args.qubits,
+        training_size=args.training_size,
+        test_size=args.test_size,
+        num_machines=args.num_machines,
+        machine_id=args.id,
+        start_index=args.start_index,
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

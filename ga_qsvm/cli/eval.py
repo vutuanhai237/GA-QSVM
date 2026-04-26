@@ -1,5 +1,10 @@
 import argparse
 
+from ga_qsvm.runners.eval import create_eval_runner
+
+
+run_eval = create_eval_runner()
+
 
 def build_parser():
     parser = argparse.ArgumentParser(description="GA-QSVM Evaluation")
@@ -13,4 +18,19 @@ def build_parser():
 
 
 def main(argv=None):
-    return build_parser().parse_args(argv)
+    args = build_parser().parse_args(argv)
+    run_eval(
+        num_qubits=args.num_qubits,
+        training_size=100,
+        test_size=50,
+        rx=args.rx,
+        ry=args.ry,
+        rz=args.rz,
+        prob_mutate=args.prob_mutate,
+        data=args.data,
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

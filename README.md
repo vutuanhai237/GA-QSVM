@@ -25,9 +25,9 @@ Bibtex for citation:
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Running the Main Script](#running-the-main-script)
+  - [Training](#training)
+  - [Evaluation](#evaluation)
   - [Command-line Arguments](#command-line-arguments)
-  - [Using the Training Scripts](#using-the-training-scripts)
 - [Datasets](#datasets)
 - [Project Structure](#project-structure)
 - [License](#license)
@@ -49,10 +49,12 @@ The project requires the following dependencies:
 ```
 numpy==1.26.4
 scikit-learn==1.6.0
+scipy
+matplotlib
+tqdm
 qiskit==1.3.1
-qiskit_machine_learning==0.8.2
+qiskit-machine-learning==0.8.2
 wandb==0.19.8
-tensorflow==2.18.0
 ```
 
 ## Installation
@@ -63,75 +65,66 @@ git clone https://github.com/vutuanhai237/GA-QSVM.git
 cd GA-QSVM
 ```
 
-2. Create and activate a virtual environment (recommended):
+2. Sync the project environment with `uv`:
 ```bash
-# Using venv
-python -m venv ga-qsvm
-source ga-qsvm/bin/activate  # On Windows: ga-qsvm\Scripts\activate
-
-# Using conda
-conda create --name ga-qsvm python=3.11
-conda activate ga-qsvm
-```
-
-3. Install the required dependencies:
-```bash
-pip install -r requirements.txt
+uv sync --dev
 ```
 
 ## Usage
 
-### Running the Main Script
+### Training
 
-The main script (`main.py`) supports various command-line arguments for configuring the experiments:
+Run training from the package CLI:
 
 ```bash
-python main.py --depth 4 --num-circuit 8 --qubits 3 4 5 --num-machines 3 --id 0 --training-size 300 --test-size 0 --data digits
+uv run python -m ga_qsvm.cli.train --depth 4 --num-circuit 8 --qubits 3 4 5 --num-machines 3 --id 0 --training-size 300 --test-size 50 --data digits
+```
+
+### Evaluation
+
+Run evaluation from the package CLI:
+
+```bash
+uv run python -m ga_qsvm.cli.eval --rx 1 --ry 2 --rz 3 --num-qubits 4 --prob-mutate 0.1 --data wine
 ```
 
 ### Command-line Arguments
 
+Training (`ga_qsvm.cli.train`):
 - `--depth`: Circuit depth(s) to try (default: [4, 5, 6])
 - `--num-circuit`: Number of circuits to try in parallel (default: range(4, 33, 4))
 - `--num-generation`: Number of generations for genetic algorithm (default: [100])
-- `--prob-mutate`: Mutation probabilities to try (default: logarithmic space from 0.01 to 0.1)
+- `--prob-mutate`: Mutation probabilities to try (default: [0.01, 0.1])
 - `--qubits`: Number of qubits to try (default: [3, 4, 5, 6, 7, 8])
 - `--training-size`: Size of training dataset (default: 100)
 - `--test-size`: Size of test dataset (default: 50)
 - `--num-machines`: Number of machines for cross-validation (default: 3)
-- `--id`: ID for the machine (default: 0)
+- `--id`: Machine identifier (default: 0)
 - `--start-index`: Index to start from in base combinations, ie. when the running fail, use this to continue the benchmarking (default: 0)
 - `--data`: Dataset to use ('wine', 'digits', or 'cancer') (default: 'wine')
 
-### Using the Training Scripts
-
-The repository includes training scripts (`train0.sh`, `train1.sh`, `train2.sh`) for running experiments on a HPC cluster. These scripts can be submitted to the cluster using the `qsub` command.
-
-```bash
-qsub train0.sh
-qsub train1.sh
-qsub train2.sh
-```
+Evaluation (`ga_qsvm.cli.eval`):
+- `--rx`: Number of RX rotations
+- `--ry`: Number of RY rotations
+- `--rz`: Number of RZ rotations
+- `--num-qubits`: Number of qubits
+- `--prob-mutate`: Mutation probability
+- `--data`: Dataset to use ('digits', 'wine', or 'cancer')
 
 ## Datasets
 
 The project supports the following datasets:
 - Wine dataset
 - Digits dataset
-- MNIST dataset
 - Breast Cancer dataset
-
-Each dataset can be prepared with different feature dimensions using PCA.
 
 ## Project Structure
 
-- `main.py`: Main script for running GA-QSVM experiments
-- `datasets.py`: Functions for preparing different datasets
-- `utils.py`: Utility functions
+- `ga_qsvm/cli/`: Package CLIs for training and evaluation
+- `ga_qsvm/datasets/`: Runtime dataset registry and split preparation
+- `ga_qsvm/runners/`: Runtime runner wiring
+- `ga_qsvm/search/`: Hyperparameter search-space helpers
 - `requirements.txt`: Project dependencies
-- `train*.sh`: Training scripts for cluster environments
-- `experiment/` : Scripts for experiments
-- `notebook/`: Jupyter notebooks for experiments
 - `qoop/`: Quantum Object Optimizer package
 
 ## License
