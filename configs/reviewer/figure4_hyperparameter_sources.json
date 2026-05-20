@@ -1,0 +1,41 @@
+{
+  "description": "Existing GA logs for Figure 4 hyperparameter summaries. Missing files are reported instead of rerunning GA.",
+  "sweeps": [
+    {
+      "name": "depth-n5-c14-d10",
+      "variable": "depth",
+      "value": 10,
+      "path": "/home/qsvm/benchmark/GA-QSVM/n5-c14-D10-C16-g200-p0.1.csv"
+    },
+    {
+      "name": "depth-n5-c14-d15",
+      "variable": "depth",
+      "value": 15,
+      "path": "/home/qsvm/benchmark/GA-QSVM/n5-c14-D15-C16-g200-p0.1.csv"
+    },
+    {
+      "name": "depth-n5-c14-d35",
+      "variable": "depth",
+      "value": 35,
+      "path": "/home/qsvm/benchmark/GA-QSVM/n5-c14-D35-C16-g200-p0.1.csv"
+    },
+    {
+      "name": "n-circuit-4",
+      "variable": "n_circuit",
+      "value": 4,
+      "path": "/home/qsvm/benchmark/GA-QSVM/n5-c14-D35-C4-g200-p0.1.csv"
+    },
+    {
+      "name": "mutation-p001",
+      "variable": "p",
+      "value": 0.001,
+      "path": "/home/qsvm/benchmark/GA-QSVM/n5-c14-D35-C16-g200-p0.001.csv"
+    },
+    {
+      "name": "cnot-25",
+      "variable": "n_CX",
+      "value": 25,
+      "path": "/home/qsvm/benchmark/GA-QSVM/n5-c25-D35-C16-g200-p0.1.csv"
+    }
+  ]
+}

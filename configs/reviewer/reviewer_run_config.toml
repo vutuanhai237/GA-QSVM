@@ -1,0 +1,21 @@
+[paths]
+benchmark_root = "/home/qsvm/benchmark/GA-QSVM"
+test_root = "/home/qsvm/test/GA-QSVM"
+legacy_root = "/home/qsvm/GA-QSVM"
+output_root = "results/reviewer"
+
+[figure6]
+manifest = "configs/reviewer/main_figure6_n7_manifest.json"
+seeds = [100, 101, 102, 103, 104, 105, 106, 107, 108, 109]
+test_size = 0.3
+preprocess = "legacy"
+models = ["rbf", "fixed-fqk", "fixed-pqk", "ga-fqk", "ga-pqk"]
+
+[figure6_kfold]
+folds = 5
+max_folds = 0
+
+[figure7]
+manifest = "configs/reviewer/figure7_transfer_manifest.json"
+test_size = 0.3
+preprocess = "legacy"

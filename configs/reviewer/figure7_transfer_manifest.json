@@ -1,0 +1,33 @@
+{
+  "description": "Frozen transfer benchmark manifest. Digits-trained circuits are evaluated on target datasets without rerunning GA.",
+  "transfers": [
+    {
+      "id": "digits-to-wine-ga-fqk-n7",
+      "source_dataset": "digits",
+      "target_dataset": "wine",
+      "kernel": "ga-fqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/fqk-digits-N7-Cnot35-D35-C16-g200-p0.1"
+    },
+    {
+      "id": "digits-to-wine-ga-pqk-n7",
+      "source_dataset": "digits",
+      "target_dataset": "wine",
+      "kernel": "ga-pqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/pqk-digits-N7-Cnot35-D35-C16-g200-p0.1"
+    },
+    {
+      "id": "digits-to-cancer-ga-fqk-n7",
+      "source_dataset": "digits",
+      "target_dataset": "cancer",
+      "kernel": "ga-fqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/fqk-digits-N7-Cnot35-D35-C16-g200-p0.1"
+    },
+    {
+      "id": "digits-to-cancer-ga-pqk-n7",
+      "source_dataset": "digits",
+      "target_dataset": "cancer",
+      "kernel": "ga-pqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/pqk-digits-N7-Cnot35-D35-C16-g200-p0.1"
+    }
+  ]
+}

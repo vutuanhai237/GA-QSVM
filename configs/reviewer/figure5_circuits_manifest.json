@@ -1,0 +1,41 @@
+{
+  "description": "Frozen N7 circuits exported for reviewer Figure 5.",
+  "circuits": [
+    {
+      "id": "digits-ga-fqk-n7",
+      "dataset": "digits",
+      "kernel": "ga-fqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/fqk-digits-N7-Cnot35-D35-C16-g200-p0.1"
+    },
+    {
+      "id": "digits-ga-pqk-n7",
+      "dataset": "digits",
+      "kernel": "ga-pqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/pqk-digits-N7-Cnot35-D35-C16-g200-p0.1"
+    },
+    {
+      "id": "wine-ga-fqk-n7",
+      "dataset": "wine",
+      "kernel": "ga-fqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/fqk-wine-N7-Cnot35-D35-C16-g200-p0.1"
+    },
+    {
+      "id": "wine-ga-pqk-n7",
+      "dataset": "wine",
+      "kernel": "ga-pqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/pqk-wine-N7-Cnot35-D35-C16-g200-p0.1"
+    },
+    {
+      "id": "cancer-ga-fqk-n7",
+      "dataset": "cancer",
+      "kernel": "ga-fqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/fqk-cancer-N7-Cnot35-D35-C16-g200-p0.1"
+    },
+    {
+      "id": "cancer-ga-pqk-n7",
+      "dataset": "cancer",
+      "kernel": "ga-pqk",
+      "path": "/home/qsvm/benchmark/GA-QSVM/pqk-cancer-N7-Cnot35-D35-C16-g200-p0.1"
+    }
+  ]
+}
