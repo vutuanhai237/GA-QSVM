@@ -101,6 +101,201 @@ def test_frozen_benchmark_aggregates_mean_and_sample_std():
     assert digits["std_accuracy"] == pytest.approx(0.1414213562)
 
 
+def test_frozen_benchmark_runs_each_dataset_model_seed_once(monkeypatch, tmp_path):
+    from ga_qsvm.experiments import frozen_benchmark
+    from ga_qsvm.experiments.artifacts import CircuitArtifact
+    from ga_qsvm.experiments.datasets import DatasetBundle, PreparedSplit
+
+    artifacts = [
+        CircuitArtifact(
+            id="digits-fqk",
+            dataset="digits",
+            kernel="ga-fqk",
+            path=tmp_path / "fqk",
+            qpy_path=tmp_path / "fqk" / "best_circuit.qpy",
+            metadata_path=tmp_path / "fqk" / "metadata.json",
+            funcs_path=tmp_path / "fqk" / "funcs.json",
+            metadata={},
+            funcs={},
+        ),
+        CircuitArtifact(
+            id="digits-pqk",
+            dataset="digits",
+            kernel="ga-pqk",
+            path=tmp_path / "pqk",
+            qpy_path=tmp_path / "pqk" / "best_circuit.qpy",
+            metadata_path=tmp_path / "pqk" / "metadata.json",
+            funcs_path=tmp_path / "pqk" / "funcs.json",
+            metadata={},
+            funcs={},
+        ),
+    ]
+    calls = []
+
+    monkeypatch.setattr(frozen_benchmark, "load_manifest", lambda manifest: artifacts)
+    monkeypatch.setattr(
+        frozen_benchmark,
+        "load_dataset",
+        lambda dataset: DatasetBundle(dataset, np.arange(20).reshape(10, 2), np.array([0, 1] * 5)),
+    )
+    monkeypatch.setattr(
+        frozen_benchmark,
+        "make_holdout_split",
+        lambda *args, **kwargs: PreparedSplit(
+            x_train=np.zeros((4, 2)),
+            x_test=np.zeros((2, 2)),
+            y_train=np.array([0, 1, 0, 1]),
+            y_test=np.array([0, 1]),
+            raw_x_train=np.zeros((4, 2)),
+            raw_x_test=np.zeros((2, 2)),
+            seed=kwargs["seed"],
+            preprocess=kwargs["preprocess"],
+        ),
+    )
+
+    def fake_predictor(x_train, y_train, x_test, **kwargs):
+        calls.append(kwargs.get("qpy_path", "baseline"))
+        return np.array([0, 1])
+
+    monkeypatch.setitem(frozen_benchmark.MODEL_FUNCTIONS, "rbf", fake_predictor)
+    monkeypatch.setitem(frozen_benchmark.MODEL_FUNCTIONS, "ga-fqk", fake_predictor)
+
+    rows, summary = frozen_benchmark.run_frozen_benchmark(
+        manifest="unused.json",
+        seeds=[100],
+        test_size=0.3,
+        preprocess="legacy",
+        models=["rbf", "ga-fqk"],
+        output_dir=tmp_path / "out",
+    )
+
+    assert len(rows) == 2
+    assert len(summary) == 2
+    assert calls == ["baseline", artifacts[0].qpy_path]
+
+
+def test_frozen_benchmark_can_filter_datasets(monkeypatch, tmp_path):
+    from ga_qsvm.experiments import frozen_benchmark
+    from ga_qsvm.experiments.artifacts import CircuitArtifact
+    from ga_qsvm.experiments.datasets import DatasetBundle, PreparedSplit
+
+    artifacts = []
+    for dataset in ["digits", "wine"]:
+        artifacts.append(
+            CircuitArtifact(
+                id=f"{dataset}-fqk",
+                dataset=dataset,
+                kernel="ga-fqk",
+                path=tmp_path / dataset,
+                qpy_path=tmp_path / dataset / "best_circuit.qpy",
+                metadata_path=tmp_path / dataset / "metadata.json",
+                funcs_path=tmp_path / dataset / "funcs.json",
+                metadata={},
+                funcs={},
+            )
+        )
+    loaded_datasets = []
+    monkeypatch.setattr(frozen_benchmark, "load_manifest", lambda manifest: artifacts)
+    monkeypatch.setattr(
+        frozen_benchmark,
+        "load_dataset",
+        lambda dataset: loaded_datasets.append(dataset)
+        or DatasetBundle(dataset, np.arange(20).reshape(10, 2), np.array([0, 1] * 5)),
+    )
+    monkeypatch.setattr(
+        frozen_benchmark,
+        "make_holdout_split",
+        lambda *args, **kwargs: PreparedSplit(
+            x_train=np.zeros((4, 2)),
+            x_test=np.zeros((2, 2)),
+            y_train=np.array([0, 1, 0, 1]),
+            y_test=np.array([0, 1]),
+            raw_x_train=np.zeros((4, 2)),
+            raw_x_test=np.zeros((2, 2)),
+            seed=kwargs["seed"],
+            preprocess=kwargs["preprocess"],
+        ),
+    )
+    monkeypatch.setitem(
+        frozen_benchmark.MODEL_FUNCTIONS,
+        "ga-fqk",
+        lambda x_train, y_train, x_test, **kwargs: np.array([0, 1]),
+    )
+
+    rows, _ = frozen_benchmark.run_frozen_benchmark(
+        manifest="unused.json",
+        seeds=[100],
+        test_size=0.3,
+        preprocess="legacy",
+        models=["ga-fqk"],
+        output_dir=tmp_path / "out",
+        datasets=["wine"],
+    )
+
+    assert loaded_datasets == ["wine"]
+    assert [row["dataset"] for row in rows] == ["wine"]
+
+
+def test_frozen_benchmark_can_use_circuit_parameter_feature_dimension(monkeypatch, tmp_path):
+    from ga_qsvm.experiments import frozen_benchmark
+    from ga_qsvm.experiments.artifacts import CircuitArtifact
+    from ga_qsvm.experiments.datasets import DatasetBundle, PreparedSplit
+
+    artifact = CircuitArtifact(
+        id="wine-fqk",
+        dataset="wine",
+        kernel="ga-fqk",
+        path=tmp_path / "fqk",
+        qpy_path=tmp_path / "fqk" / "best_circuit.qpy",
+        metadata_path=tmp_path / "fqk" / "metadata.json",
+        funcs_path=tmp_path / "fqk" / "funcs.json",
+        metadata={},
+        funcs={},
+    )
+    requested_features = []
+    monkeypatch.setattr(frozen_benchmark, "load_manifest", lambda manifest: [artifact])
+    monkeypatch.setattr(
+        frozen_benchmark,
+        "load_dataset",
+        lambda dataset: DatasetBundle(dataset, np.arange(20).reshape(10, 2), np.array([0, 1] * 5)),
+    )
+    monkeypatch.setattr(frozen_benchmark, "qpy_feature_dimension", lambda path: 9)
+
+    def fake_split(*args, **kwargs):
+        requested_features.append(kwargs["n_features"])
+        return PreparedSplit(
+            x_train=np.zeros((4, kwargs["n_features"])),
+            x_test=np.zeros((2, kwargs["n_features"])),
+            y_train=np.array([0, 1, 0, 1]),
+            y_test=np.array([0, 1]),
+            raw_x_train=np.zeros((4, 2)),
+            raw_x_test=np.zeros((2, 2)),
+            seed=kwargs["seed"],
+            preprocess=kwargs["preprocess"],
+        )
+
+    monkeypatch.setattr(frozen_benchmark, "make_holdout_split", fake_split)
+    monkeypatch.setitem(
+        frozen_benchmark.MODEL_FUNCTIONS,
+        "ga-fqk",
+        lambda x_train, y_train, x_test, **kwargs: np.array([0, 1]),
+    )
+
+    rows, _ = frozen_benchmark.run_frozen_benchmark(
+        manifest="unused.json",
+        seeds=[100],
+        test_size=0.3,
+        preprocess="legacy",
+        models=["ga-fqk"],
+        output_dir=tmp_path / "out",
+        n_features=7,
+        feature_dim_mode="circuit-parameters",
+    )
+
+    assert requested_features == [9]
+    assert rows[0]["n_features"] == 9
+
+
 def test_kfold_runner_creates_stratified_non_overlapping_folds():
     from ga_qsvm.experiments.kfold_benchmark import iter_stratified_folds
 
@@ -279,5 +474,7 @@ def test_frozen_cli_dispatches_to_runner(monkeypatch):
             "models": ["rbf"],
             "output_dir": "out",
             "n_features": 7,
+            "feature_dim_mode": "global",
+            "datasets": None,
         }
     ]

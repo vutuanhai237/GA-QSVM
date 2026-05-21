@@ -8,7 +8,12 @@ from sklearn.model_selection import StratifiedKFold
 
 from ga_qsvm.experiments.artifacts import load_manifest, write_csv
 from ga_qsvm.experiments.datasets import load_dataset, prepare_split
-from ga_qsvm.experiments.frozen_benchmark import MODEL_FUNCTIONS, _artifact_for, summarize_rows
+from ga_qsvm.experiments.frozen_benchmark import (
+    MODEL_FUNCTIONS,
+    _artifact_for,
+    _feature_dimension_for,
+    summarize_rows,
+)
 from ga_qsvm.experiments.kernels import score_predictions
 
 
@@ -28,10 +33,15 @@ def run_kfold_benchmark(
     output_dir: str | Path,
     n_features: int = 7,
     max_folds: int | None = None,
+    feature_dim_mode: str = "global",
+    datasets: list[str] | None = None,
 ) -> tuple[list[dict], list[dict]]:
     artifacts = load_manifest(manifest)
     rows: list[dict] = []
     seen_datasets = sorted({artifact.dataset for artifact in artifacts})
+    if datasets is not None:
+        requested = set(datasets)
+        seen_datasets = [dataset for dataset in seen_datasets if dataset in requested]
     for dataset_name in seen_datasets:
         bundle = load_dataset(dataset_name)
         if bundle is None:
@@ -40,17 +50,22 @@ def run_kfold_benchmark(
             for fold_index, (train_idx, test_idx) in enumerate(iter_stratified_folds(bundle.y, folds=folds, seed=seed)):
                 if max_folds is not None and fold_index >= max_folds:
                     break
-                split = prepare_split(
-                    bundle.x[train_idx],
-                    bundle.x[test_idx],
-                    bundle.y[train_idx],
-                    bundle.y[test_idx],
-                    n_features=n_features,
-                    seed=seed,
-                    preprocess=preprocess,
-                )
                 for model in models:
                     selected_artifact = _artifact_for(artifacts, dataset_name, model)
+                    model_n_features = _feature_dimension_for(
+                        selected_artifact=selected_artifact,
+                        default_n_features=n_features,
+                        feature_dim_mode=feature_dim_mode,
+                    )
+                    split = prepare_split(
+                        bundle.x[train_idx],
+                        bundle.x[test_idx],
+                        bundle.y[train_idx],
+                        bundle.y[test_idx],
+                        n_features=model_n_features,
+                        seed=seed,
+                        preprocess=preprocess,
+                    )
                     predictor = MODEL_FUNCTIONS[model]
                     start = time.perf_counter()
                     if selected_artifact is not None:
@@ -69,6 +84,8 @@ def run_kfold_benchmark(
                             "runtime_seconds": time.perf_counter() - start,
                             "circuit_path": circuit_path,
                             "preprocess": preprocess,
+                            "n_features": model_n_features,
+                            "feature_dim_mode": feature_dim_mode,
                         }
                     )
     summary = summarize_rows(rows)

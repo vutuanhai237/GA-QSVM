@@ -15,8 +15,14 @@ def build_parser():
         nargs="+",
         default=["rbf", "fixed-fqk", "fixed-pqk", "ga-fqk", "ga-pqk"],
     )
+    parser.add_argument("--datasets", nargs="+")
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--n-features", type=int, default=7)
+    parser.add_argument(
+        "--feature-dim-mode",
+        choices=["global", "circuit-parameters"],
+        default="global",
+    )
     return parser
 
 
@@ -31,6 +37,8 @@ def main(argv=None):
         models=args.models,
         output_dir=args.output_dir,
         n_features=args.n_features,
+        feature_dim_mode=args.feature_dim_mode,
+        datasets=args.datasets,
     )
     return 0
 
