@@ -16,15 +16,24 @@ from qoop.evolution.mutate import bitflip_mutate_with_normalizer
 from qoop.evolution.threshold import synthesis_threshold
 
 
-def build_train_environment(dataset_name, params, machine_id, index, dataset_split):
-    x_train, x_test, y_train, y_test = dataset_split
+class TrainQSVMFitness:
+    def __init__(self, x_train, x_test, y_train, y_test):
+        self.x_train = x_train
+        self.x_test = x_test
+        self.y_train = y_train
+        self.y_test = y_test
 
-    def train_qsvm(quantum_circuit):
+    def __call__(self, quantum_circuit):
         quantum_kernel = FidelityQuantumKernel(feature_map=quantum_circuit)
         qsvc = QSVC(quantum_kernel=quantum_kernel)
-        qsvc.fit(x_train, y_train)
-        y_pred = qsvc.predict(x_test)
-        return accuracy_score(y_test, y_pred), 0.0
+        qsvc.fit(self.x_train, self.y_train)
+        y_pred = qsvc.predict(self.x_test)
+        return accuracy_score(self.y_test, y_pred), 0.0
+
+
+def build_train_environment(dataset_name, params, machine_id, index, dataset_split):
+    x_train, x_test, y_train, y_test = dataset_split
+    train_qsvm = TrainQSVMFitness(x_train, x_test, y_train, y_test)
 
     env_metadata = MetadataSynthesis(
         num_qubits=params["num_qubits"],
