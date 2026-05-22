@@ -22,6 +22,10 @@ def build_parser():
         choices=["global", "circuit-parameters"],
         default="global",
     )
+    parser.add_argument("--wandb-project")
+    parser.add_argument("--wandb-name")
+    parser.add_argument("--wandb-group")
+    parser.add_argument("--wandb-job-type", default="holdout-benchmark")
     return parser
 
 
@@ -37,6 +41,27 @@ def main(argv=None):
         n_features=args.n_features,
         feature_dim_mode=args.feature_dim_mode,
         datasets=args.datasets,
+        wandb_config=(
+            {
+                "project": args.wandb_project,
+                "name": args.wandb_name,
+                "group": args.wandb_group,
+                "job_type": args.wandb_job_type,
+                "config": {
+                    "manifest": args.manifest,
+                    "seeds": args.seeds,
+                    "test_size": args.test_size,
+                    "preprocess": args.preprocess,
+                    "models": args.models,
+                    "datasets": args.datasets,
+                    "output_dir": args.output_dir,
+                    "n_features": args.n_features,
+                    "feature_dim_mode": args.feature_dim_mode,
+                },
+            }
+            if args.wandb_project
+            else None
+        ),
     )
     return 0
 

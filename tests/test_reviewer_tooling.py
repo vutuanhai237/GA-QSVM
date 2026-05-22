@@ -1,5 +1,10 @@
 import csv
 import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -81,6 +86,101 @@ def test_manifest_validation_rejects_missing_required_artifacts(tmp_path):
 
     with pytest.raises(ManifestValidationError, match="best_circuit.qpy"):
         load_manifest(manifest)
+
+
+def test_cloud_ga_dataset_runs_holdout_for_fresh_ga_artifact(tmp_path):
+    repo_root = Path(__file__).resolve().parents[1]
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    calls_path = tmp_path / "uv_calls.txt"
+    manifest_copy = tmp_path / "holdout_manifest.json"
+    fake_uv = fake_bin / "uv"
+    fake_uv.write_text(
+        """#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$*" >> "$FAKE_UV_CALLS"
+if [[ "$*" == *"ga_qsvm.cli.train"* ]]; then
+  artifact="7qubits_train_pqk_qsvm_fake"
+  mkdir -p "$artifact"
+  touch "$artifact/best_circuit.qpy"
+  printf '{}\n' > "$artifact/metadata.json"
+  printf '{}\n' > "$artifact/funcs.json"
+elif [[ "$*" == *"ga_qsvm.cli.frozen_benchmark"* ]]; then
+  manifest=""
+  output_dir=""
+  while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+      --manifest)
+        manifest="$2"
+        shift 2
+        ;;
+      --output-dir)
+        output_dir="$2"
+        shift 2
+        ;;
+      *)
+        shift
+        ;;
+    esac
+  done
+  cp "$manifest" "$FAKE_HOLDOUT_MANIFEST_COPY"
+  mkdir -p "$output_dir"
+  printf 'ran\n' > "$output_dir/ran.txt"
+else
+  echo "unexpected uv invocation: $*" >&2
+  exit 1
+fi
+"""
+    )
+    fake_uv.chmod(0o755)
+
+    run_id = "pytest-holdout"
+    run_dir = repo_root / "results" / "reviewer" / "ga_reruns" / f"digits_pqk_n7_{run_id}"
+    log_paths = [
+        repo_root / "logs" / "reviewer" / f"ga_digits_pqk_n7_{run_id}.log",
+        repo_root / "logs" / "reviewer" / f"holdout_digits_pqk_n7_{run_id}.log",
+    ]
+    env = {
+        **os.environ,
+        "PATH": f"{fake_bin}:{os.environ['PATH']}",
+        "FAKE_UV_CALLS": str(calls_path),
+        "FAKE_HOLDOUT_MANIFEST_COPY": str(manifest_copy),
+        "RUN_ID": run_id,
+        "QUBITS": "7",
+        "NUM_CIRCUIT": "2",
+        "NUM_GENERATION": "1",
+        "KERNEL": "pqk",
+        "HOLDOUT_SEEDS": "100 101",
+    }
+
+    try:
+        subprocess.run(
+            ["bash", "scripts/reviewer/cloud_ga_dataset.sh", "digits", "0"],
+            cwd=repo_root,
+            env=env,
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+
+        calls = calls_path.read_text()
+        assert "ga_qsvm.cli.train" in calls
+        assert "ga_qsvm.cli.frozen_benchmark" in calls
+        assert "--models rbf fixed-pqk ga-pqk" in calls
+        assert "--seeds 100 101" in calls
+        assert "--wandb-project GA-QSVM-digits-pqk-holdout" in calls
+        assert "--wandb-name holdout-digits-pqk-n7-pytest-holdout" in calls
+
+        manifest = json.loads(manifest_copy.read_text())
+        [circuit] = manifest["circuits"]
+        assert circuit["dataset"] == "digits"
+        assert circuit["kernel"] == "ga-pqk"
+        assert circuit["path"].endswith("7qubits_train_pqk_qsvm_fake")
+        assert (run_dir / f"holdout_digits_pqk_n7_{run_id}" / "ran.txt").is_file()
+    finally:
+        shutil.rmtree(run_dir, ignore_errors=True)
+        for log_path in log_paths:
+            log_path.unlink(missing_ok=True)
 
 
 def test_frozen_benchmark_aggregates_mean_and_sample_std():
@@ -173,6 +273,97 @@ def test_frozen_benchmark_runs_each_dataset_model_seed_once(monkeypatch, tmp_pat
     assert len(rows) == 2
     assert len(summary) == 2
     assert calls == ["baseline", artifacts[0].qpy_path]
+
+
+def test_frozen_benchmark_logs_wandb_tables_when_configured(monkeypatch, tmp_path):
+    from ga_qsvm.experiments import frozen_benchmark
+    from ga_qsvm.experiments.artifacts import CircuitArtifact
+    from ga_qsvm.experiments.datasets import DatasetBundle, PreparedSplit
+
+    artifact = CircuitArtifact(
+        id="digits-pqk",
+        dataset="digits",
+        kernel="ga-pqk",
+        path=tmp_path / "pqk",
+        qpy_path=tmp_path / "pqk" / "best_circuit.qpy",
+        metadata_path=tmp_path / "pqk" / "metadata.json",
+        funcs_path=tmp_path / "pqk" / "funcs.json",
+        metadata={},
+        funcs={},
+    )
+    logs = []
+    init_calls = []
+    finish_calls = []
+
+    class FakeTable:
+        def __init__(self, *, columns, data):
+            self.columns = columns
+            self.data = data
+
+    class FakeWandb:
+        Table = FakeTable
+
+        @staticmethod
+        def init(**kwargs):
+            init_calls.append(kwargs)
+            return object()
+
+        @staticmethod
+        def log(payload):
+            logs.append(payload)
+
+        @staticmethod
+        def finish():
+            finish_calls.append(True)
+
+    monkeypatch.setitem(sys.modules, "wandb", FakeWandb)
+    monkeypatch.setattr(frozen_benchmark, "load_manifest", lambda manifest: [artifact])
+    monkeypatch.setattr(frozen_benchmark, "qpy_feature_dimension", lambda path: 7)
+    monkeypatch.setattr(
+        frozen_benchmark,
+        "load_dataset",
+        lambda dataset: DatasetBundle(dataset, np.arange(20).reshape(10, 2), np.array([0, 1] * 5)),
+    )
+    monkeypatch.setattr(
+        frozen_benchmark,
+        "make_holdout_split",
+        lambda *args, **kwargs: PreparedSplit(
+            x_train=np.zeros((4, 2)),
+            x_test=np.zeros((2, 2)),
+            y_train=np.array([0, 1, 0, 1]),
+            y_test=np.array([0, 1]),
+            raw_x_train=np.zeros((4, 2)),
+            raw_x_test=np.zeros((2, 2)),
+            seed=kwargs["seed"],
+            preprocess=kwargs["preprocess"],
+        ),
+    )
+    monkeypatch.setitem(
+        frozen_benchmark.MODEL_FUNCTIONS,
+        "ga-pqk",
+        lambda x_train, y_train, x_test, **kwargs: np.array([0, 1]),
+    )
+
+    frozen_benchmark.run_frozen_benchmark(
+        manifest="fresh_manifest.json",
+        seeds=[100],
+        test_size=0.3,
+        preprocess="paper",
+        models=["ga-pqk"],
+        output_dir=tmp_path / "out",
+        wandb_config={"project": "holdout-project", "name": "holdout-run"},
+    )
+
+    assert init_calls == [{"project": "holdout-project", "name": "holdout-run"}]
+    assert len(logs) == 1
+    payload = logs[0]
+    assert payload["benchmark/num_per_seed_rows"] == 1
+    assert payload["benchmark/num_summary_rows"] == 1
+    assert payload["benchmark/manifest"] == "fresh_manifest.json"
+    assert "benchmark/per_seed_results" in payload
+    assert "benchmark/summary" in payload
+    assert payload["summary/digits/ga-pqk/mean_accuracy"] == 1.0
+    assert finish_calls == [True]
 
 
 def test_frozen_benchmark_can_filter_datasets(monkeypatch, tmp_path):
@@ -536,5 +727,57 @@ def test_frozen_cli_dispatches_to_runner(monkeypatch):
             "n_features": 7,
             "feature_dim_mode": "global",
             "datasets": None,
+            "wandb_config": None,
         }
     ]
+
+
+def test_frozen_cli_passes_wandb_config_to_runner(monkeypatch):
+    from ga_qsvm.cli import frozen_benchmark
+
+    calls = []
+
+    def fake_runner(**kwargs):
+        calls.append(kwargs)
+
+    monkeypatch.setattr(frozen_benchmark, "run_frozen_benchmark", fake_runner)
+
+    frozen_benchmark.main(
+        [
+            "--manifest",
+            "manifest.json",
+            "--seeds",
+            "100",
+            "101",
+            "--models",
+            "ga-pqk",
+            "--datasets",
+            "digits",
+            "--output-dir",
+            "out",
+            "--wandb-project",
+            "project",
+            "--wandb-name",
+            "run-name",
+            "--wandb-group",
+            "group",
+        ]
+    )
+
+    assert calls[0]["wandb_config"] == {
+        "project": "project",
+        "name": "run-name",
+        "group": "group",
+        "job_type": "holdout-benchmark",
+        "config": {
+            "manifest": "manifest.json",
+            "seeds": [100, 101],
+            "test_size": 0.3,
+            "preprocess": "legacy",
+            "models": ["ga-pqk"],
+            "datasets": ["digits"],
+            "output_dir": "out",
+            "n_features": 7,
+            "feature_dim_mode": "global",
+        },
+    }

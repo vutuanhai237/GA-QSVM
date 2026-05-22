@@ -27,18 +27,28 @@ Default GA config:
 ```text
 qubits=3 4 5 6 7
 depth=10 * qubits
-num_circuit=100
+num_circuit=<detected CPU cores>
 num_generation=200
 prob_mutate=0.1
 kernel=pqk
 training_size=100
 test_size=50
+run_holdout=1
+holdout_qubits=7
+holdout_seeds=100 101 102 103 104 105 106 107 108 109
 ```
 
 Each VM runs one dataset across five GA searches, one for each qubit count. The
 train CLI no longer sweeps fixed `(n_Rx, n_Ry, n_Rz)` allocations; each generated
 circuit randomly allocates RX/RY/RZ gates while keeping the total rotation
 parameter count equal to the qubit count.
+
+After GA completes, this script automatically creates a manifest for the fresh
+`holdout_qubits` artifact and runs repeated-holdout benchmark seeds against that
+circuit. For the default PQK rerun, the holdout models are `rbf fixed-pqk ga-pqk`.
+The GA stage logs through the evolution environment, and the holdout stage logs
+its per-seed and summary tables to a separate W&B run. Set `RUN_HOLDOUT=0` to
+skip the holdout stage.
 
 ## Local Jobs
 

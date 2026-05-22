@@ -91,6 +91,7 @@ def run_frozen_benchmark(
     n_features: int = 7,
     feature_dim_mode: str = "global",
     datasets: list[str] | None = None,
+    wandb_config: dict | None = None,
 ) -> tuple[list[dict], list[dict]]:
     artifacts = load_manifest(manifest)
     rows: list[dict] = []
@@ -144,4 +145,44 @@ def run_frozen_benchmark(
     output = Path(output_dir)
     write_csv(output / "per_seed_results.csv", rows)
     write_csv(output / "summary.csv", summary)
+    if wandb_config is not None:
+        _log_wandb(
+            wandb_config=wandb_config,
+            rows=rows,
+            summary=summary,
+            manifest=manifest,
+            output_dir=output,
+        )
     return rows, summary
+
+
+def _table_from_rows(wandb, rows: list[dict]):
+    columns = []
+    for row in rows:
+        for key in row:
+            if key not in columns:
+                columns.append(key)
+    return wandb.Table(columns=columns, data=[[row.get(column) for column in columns] for row in rows])
+
+
+def _log_wandb(*, wandb_config: dict, rows: list[dict], summary: list[dict], manifest: str | Path, output_dir: Path) -> None:
+    import wandb
+
+    run = wandb.init(**wandb_config)
+    try:
+        payload = {
+            "benchmark/per_seed_results": _table_from_rows(wandb, rows),
+            "benchmark/summary": _table_from_rows(wandb, summary),
+            "benchmark/num_per_seed_rows": len(rows),
+            "benchmark/num_summary_rows": len(summary),
+            "benchmark/manifest": str(manifest),
+            "benchmark/output_dir": str(output_dir),
+        }
+        for row in summary:
+            prefix = f"summary/{row['dataset']}/{row['model']}"
+            payload[f"{prefix}/mean_accuracy"] = row["mean_accuracy"]
+            payload[f"{prefix}/std_accuracy"] = row["std_accuracy"]
+            payload[f"{prefix}/n"] = row["n"]
+        wandb.log(payload)
+    finally:
+        wandb.finish()
