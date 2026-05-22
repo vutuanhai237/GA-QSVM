@@ -28,7 +28,7 @@ DEPTH="${DEPTH:-}"                # Empty means train CLI uses 10 * qubits.
 NUM_CIRCUIT="${NUM_CIRCUIT:-20}"
 NUM_GENERATION="${NUM_GENERATION:-200}"
 PROB_MUTATE="${PROB_MUTATE:-0.1}"
-KERNEL="${KERNEL:-pqk}"
+KERNELS="${KERNELS:-${KERNEL:-pqk fqk}}"
 TRAINING_SIZE="${TRAINING_SIZE:-100}"
 HOLDOUT_QUBITS="${HOLDOUT_QUBITS:-7}"
 HOLDOUT_SEEDS="${HOLDOUT_SEEDS:-100 101 102 103 104 105 106 107 108 109}"
@@ -43,93 +43,113 @@ TEST_SIZE="${TEST_SIZE:-50}"
 START_INDEX="${START_INDEX:-0}"
 
 RUN_ID="${RUN_ID:-$(date +%Y%m%d-%H%M%S)}"
-RUN_DIR="$REPO_ROOT/results/reviewer/ga_reruns/${DATASET}_${KERNEL}_n${QUBITS// /-}_${RUN_ID}"
-mkdir -p "$RUN_DIR"
 
 echo "GA rerun dataset: $DATASET"
-echo "Output directory: $RUN_DIR"
-echo "Config: qubits=$QUBITS depth=${DEPTH:-10*n} num_circuit=$NUM_CIRCUIT generations=$NUM_GENERATION p=$PROB_MUTATE kernel=$KERNEL train=$TRAINING_SIZE test=$TEST_SIZE"
+echo "Kernels: $KERNELS"
+echo "Config: qubits=$QUBITS depth=${DEPTH:-10*n} num_circuit=$NUM_CIRCUIT generations=$NUM_GENERATION p=$PROB_MUTATE train=$TRAINING_SIZE test=$TEST_SIZE"
 echo "Holdout: run=$RUN_HOLDOUT qubits=$HOLDOUT_QUBITS seeds=$HOLDOUT_SEEDS test_size=$HOLDOUT_TEST_SIZE preprocess=$HOLDOUT_PREPROCESS"
 
-cd "$RUN_DIR"
+run_kernel() {
+  local kernel="$1"
+  case "$kernel" in
+    pqk|fqk) ;;
+    *)
+      echo "Unsupported kernel: $kernel" >&2
+      exit 1
+      ;;
+  esac
 
-TRAIN_ARGS=(
-  --data "$DATASET"
-  --qubits $QUBITS
-  --num-circuit "$NUM_CIRCUIT"
-  --num-generation "$NUM_GENERATION"
-  --prob-mutate "$PROB_MUTATE"
-  --kernel "$KERNEL"
-  --training-size "$TRAINING_SIZE"
-  --test-size "$TEST_SIZE"
-  --num-machines 1
-  --id "$MACHINE_ID"
-  --start-index "$START_INDEX"
-)
+  local run_dir="$REPO_ROOT/results/reviewer/ga_reruns/${DATASET}_${kernel}_n${QUBITS// /-}_${RUN_ID}"
+  mkdir -p "$run_dir"
 
-if [[ -n "$DEPTH" ]]; then
-  TRAIN_ARGS+=(--depth $DEPTH)
-fi
+  echo "Output directory: $run_dir"
+  echo "Running GA kernel=$kernel"
 
-uv run python -m ga_qsvm.cli.train \
-  "${TRAIN_ARGS[@]}" \
-  2>&1 | tee "$REPO_ROOT/logs/reviewer/ga_${DATASET}_${KERNEL}_n${QUBITS// /-}_${RUN_ID}.log"
+  cd "$run_dir"
 
-if [[ "$RUN_HOLDOUT" == "1" ]]; then
-  ARTIFACT_DIR="$(find "$RUN_DIR" -maxdepth 1 -type d -name "${HOLDOUT_QUBITS}qubits_train_${KERNEL}_qsvm_*" | sort | tail -n 1)"
-  if [[ -z "$ARTIFACT_DIR" ]]; then
-    echo "Could not find ${HOLDOUT_QUBITS}-qubit GA artifact under $RUN_DIR" >&2
+  local train_args=(
+    --data "$DATASET"
+    --qubits $QUBITS
+    --num-circuit "$NUM_CIRCUIT"
+    --num-generation "$NUM_GENERATION"
+    --prob-mutate "$PROB_MUTATE"
+    --kernel "$kernel"
+    --training-size "$TRAINING_SIZE"
+    --test-size "$TEST_SIZE"
+    --num-machines 1
+    --id "$MACHINE_ID"
+    --start-index "$START_INDEX"
+  )
+
+  if [[ -n "$DEPTH" ]]; then
+    train_args+=(--depth $DEPTH)
+  fi
+
+  uv run python -m ga_qsvm.cli.train \
+    "${train_args[@]}" \
+    2>&1 | tee "$REPO_ROOT/logs/reviewer/ga_${DATASET}_${kernel}_n${QUBITS// /-}_${RUN_ID}.log"
+
+  if [[ "$RUN_HOLDOUT" != "1" ]]; then
+    echo "Done: $run_dir"
+    return
+  fi
+
+  local artifact_dir
+  artifact_dir="$(find "$run_dir" -maxdepth 1 -type d -name "${HOLDOUT_QUBITS}qubits_train_${kernel}_qsvm_*" | sort | tail -n 1)"
+  if [[ -z "$artifact_dir" ]]; then
+    echo "Could not find ${HOLDOUT_QUBITS}-qubit GA artifact under $run_dir" >&2
     exit 1
   fi
 
-  MANIFEST="$RUN_DIR/holdout_${DATASET}_${KERNEL}_n${HOLDOUT_QUBITS}_manifest.json"
-  cat > "$MANIFEST" <<JSON
+  local manifest="$run_dir/holdout_${DATASET}_${kernel}_n${HOLDOUT_QUBITS}_manifest.json"
+  cat > "$manifest" <<JSON
 {
-  "description": "Fresh ${DATASET} GA-${KERNEL^^} n${HOLDOUT_QUBITS} circuit from ${RUN_ID} for repeated holdout.",
+  "description": "Fresh ${DATASET} GA-${kernel^^} n${HOLDOUT_QUBITS} circuit from ${RUN_ID} for repeated holdout.",
   "circuits": [
     {
-      "id": "${DATASET}-ga-${KERNEL}-n${HOLDOUT_QUBITS}-${RUN_ID}",
+      "id": "${DATASET}-ga-${kernel}-n${HOLDOUT_QUBITS}-${RUN_ID}",
       "dataset": "${DATASET}",
-      "kernel": "ga-${KERNEL}",
-      "path": "${ARTIFACT_DIR}"
+      "kernel": "ga-${kernel}",
+      "path": "${artifact_dir}"
     }
   ]
 }
 JSON
 
-  case "$KERNEL" in
+  local holdout_models
+  case "$kernel" in
     pqk)
-      HOLDOUT_MODELS="${HOLDOUT_MODELS:-rbf fixed-pqk ga-pqk}"
+      holdout_models="${HOLDOUT_MODELS:-rbf fixed-pqk ga-pqk}"
       ;;
     fqk)
-      HOLDOUT_MODELS="${HOLDOUT_MODELS:-fixed-fqk ga-fqk}"
-      ;;
-    *)
-      echo "Unsupported holdout kernel: $KERNEL" >&2
-      exit 1
+      holdout_models="${HOLDOUT_MODELS:-fixed-fqk ga-fqk}"
       ;;
   esac
 
-  HOLDOUT_DIR="$RUN_DIR/holdout_${DATASET}_${KERNEL}_n${HOLDOUT_QUBITS}_${RUN_ID}"
+  local holdout_dir="$run_dir/holdout_${DATASET}_${kernel}_n${HOLDOUT_QUBITS}_${RUN_ID}"
   echo "Running repeated holdout benchmark"
-  echo "Manifest: $MANIFEST"
-  echo "Artifact: $ARTIFACT_DIR"
-  echo "Models: $HOLDOUT_MODELS"
+  echo "Manifest: $manifest"
+  echo "Artifact: $artifact_dir"
+  echo "Models: $holdout_models"
 
   uv run python -m ga_qsvm.cli.frozen_benchmark \
-    --manifest "$MANIFEST" \
+    --manifest "$manifest" \
     --datasets "$DATASET" \
     --seeds $HOLDOUT_SEEDS \
     --test-size "$HOLDOUT_TEST_SIZE" \
     --preprocess "$HOLDOUT_PREPROCESS" \
-    --models $HOLDOUT_MODELS \
-    --output-dir "$HOLDOUT_DIR" \
+    --models $holdout_models \
+    --output-dir "$holdout_dir" \
     --n-features "$HOLDOUT_QUBITS" \
     --feature-dim-mode "$HOLDOUT_FEATURE_DIM_MODE" \
-    --wandb-project "GA-QSVM-${DATASET}-${KERNEL}-holdout" \
-    --wandb-name "holdout-${DATASET}-${KERNEL}-n${HOLDOUT_QUBITS}-${RUN_ID}" \
-    --wandb-group "ga-${DATASET}-${KERNEL}-${RUN_ID}" \
-    2>&1 | tee "$REPO_ROOT/logs/reviewer/holdout_${DATASET}_${KERNEL}_n${HOLDOUT_QUBITS}_${RUN_ID}.log"
-fi
+    --wandb-project "GA-QSVM-${DATASET}-${kernel}-holdout" \
+    --wandb-name "holdout-${DATASET}-${kernel}-n${HOLDOUT_QUBITS}-${RUN_ID}" \
+    --wandb-group "ga-${DATASET}-${kernel}-${RUN_ID}" \
+    2>&1 | tee "$REPO_ROOT/logs/reviewer/holdout_${DATASET}_${kernel}_n${HOLDOUT_QUBITS}_${RUN_ID}.log"
 
-echo "Done: $RUN_DIR"
+  echo "Done: $run_dir"
+}
+
+for kernel in $KERNELS; do
+  run_kernel "$kernel"
+done

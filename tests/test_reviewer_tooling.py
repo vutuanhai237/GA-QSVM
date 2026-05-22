@@ -183,6 +183,63 @@ fi
             log_path.unlink(missing_ok=True)
 
 
+def test_cloud_ga_dataset_defaults_to_pqk_then_fqk(tmp_path):
+    repo_root = Path(__file__).resolve().parents[1]
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    calls_path = tmp_path / "uv_calls.txt"
+    fake_uv = fake_bin / "uv"
+    fake_uv.write_text(
+        """#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$*" >> "$FAKE_UV_CALLS"
+"""
+    )
+    fake_uv.chmod(0o755)
+
+    run_id = "pytest-kernels"
+    run_dirs = [
+        repo_root / "results" / "reviewer" / "ga_reruns" / f"digits_pqk_n7_{run_id}",
+        repo_root / "results" / "reviewer" / "ga_reruns" / f"digits_fqk_n7_{run_id}",
+    ]
+    log_paths = [
+        repo_root / "logs" / "reviewer" / f"ga_digits_pqk_n7_{run_id}.log",
+        repo_root / "logs" / "reviewer" / f"ga_digits_fqk_n7_{run_id}.log",
+    ]
+    env = {
+        **os.environ,
+        "PATH": f"{fake_bin}:{os.environ['PATH']}",
+        "FAKE_UV_CALLS": str(calls_path),
+        "RUN_ID": run_id,
+        "QUBITS": "7",
+        "NUM_CIRCUIT": "2",
+        "NUM_GENERATION": "1",
+        "RUN_HOLDOUT": "0",
+    }
+    env.pop("KERNEL", None)
+    env.pop("KERNELS", None)
+
+    try:
+        subprocess.run(
+            ["bash", "scripts/reviewer/cloud_ga_dataset.sh", "digits", "0"],
+            cwd=repo_root,
+            env=env,
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+
+        calls = calls_path.read_text().splitlines()
+        assert len(calls) == 2
+        assert "--kernel pqk" in calls[0]
+        assert "--kernel fqk" in calls[1]
+    finally:
+        for run_dir in run_dirs:
+            shutil.rmtree(run_dir, ignore_errors=True)
+        for log_path in log_paths:
+            log_path.unlink(missing_ok=True)
+
+
 def test_frozen_benchmark_aggregates_mean_and_sample_std():
     from ga_qsvm.experiments.frozen_benchmark import summarize_rows
 
