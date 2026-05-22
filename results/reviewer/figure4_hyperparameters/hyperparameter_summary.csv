@@ -1,0 +1,7 @@
+name,variable,value,path,final_best_fitness,best_fitness,generation_reached_best
+depth-n5-c14-d10,depth,10,/home/qsvm/benchmark/GA-QSVM/n5-c14-D10-C16-g200-p0.1.csv,9.0,9.0,1800
+depth-n5-c14-d15,depth,15,/home/qsvm/benchmark/GA-QSVM/n5-c14-D15-C16-g200-p0.1.csv,9.0,9.0,1800
+depth-n5-c14-d35,depth,35,/home/qsvm/benchmark/GA-QSVM/n5-c14-D35-C16-g200-p0.1.csv,9.0,9.0,1800
+n-circuit-4,n_circuit,4,/home/qsvm/benchmark/GA-QSVM/n5-c14-D35-C4-g200-p0.1.csv,9.0,9.0,1800
+mutation-p001,p,0.001,/home/qsvm/benchmark/GA-QSVM/n5-c14-D35-C16-g200-p0.001.csv,9.0,9.0,1800
+cnot-25,n_CX,25,/home/qsvm/benchmark/GA-QSVM/n5-c25-D35-C16-g200-p0.1.csv,9.0,9.0,1800
