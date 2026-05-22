@@ -3,7 +3,12 @@ from unittest.mock import Mock
 import numpy as np
 
 from ga_qsvm.runners.eval import create_eval_runner
-from ga_qsvm.runners.train import build_train_runner, create_train_runner
+from ga_qsvm.runners.train import (
+    TrainFidelityQSVMFitness,
+    TrainProjectedQSVMFitness,
+    build_train_runner,
+    create_train_runner,
+)
 
 
 def test_build_train_runner_uses_dataset_loader_and_environment_factory():
@@ -27,6 +32,7 @@ def test_build_train_runner_uses_dataset_loader_and_environment_factory():
         num_machines=1,
         machine_id=0,
         start_index=0,
+        kernel="pqk",
     )
 
     dataset_loader.assert_called_once_with(
@@ -63,6 +69,7 @@ def test_create_train_runner_looks_up_dataset_loader(monkeypatch):
         num_machines=1,
         machine_id=0,
         start_index=0,
+        kernel="pqk",
     )
 
     assert calls == [
@@ -73,7 +80,7 @@ def test_create_train_runner_looks_up_dataset_loader(monkeypatch):
             "random_state": 55,
         }
     ]
-    assert fake_env.evol.call_count == 10
+    assert fake_env.evol.call_count == 1
     fake_env.evol.assert_called_with(verbose=False, mode="parallel")
 
 
@@ -93,13 +100,12 @@ def test_train_environment_fitness_function_is_picklable(monkeypatch):
         dataset_name="digits",
         params={
             "num_qubits": 2,
-            "num_rx": 1,
-            "num_ry": 1,
-            "num_rz": 0,
+            "num_cnot": 20,
             "depth": 4,
             "num_circuit": 4,
             "num_generation": 1,
             "prob_mutate": 0.1,
+            "kernel": "fqk",
         },
         machine_id=0,
         index=0,
@@ -112,6 +118,82 @@ def test_train_environment_fitness_function_is_picklable(monkeypatch):
     )
 
     pickle.dumps(captured["fitness_func"])
+    assert captured["fitness_func"].__name__ == "train_fqk_qsvm"
+
+
+def test_train_environment_selects_projected_kernel(monkeypatch):
+    from ga_qsvm.runners import train as train_module
+
+    captured = {}
+
+    class FakeEnvironment:
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+
+    monkeypatch.setattr(train_module, "EEnvironment", FakeEnvironment)
+    monkeypatch.setattr(train_module, "build_train_wandb_config", lambda *args: None)
+
+    params = {
+        "num_qubits": 2,
+        "num_cnot": 20,
+        "depth": 4,
+        "num_circuit": 4,
+        "num_generation": 1,
+        "prob_mutate": 0.1,
+        "kernel": "pqk",
+    }
+    train_module.build_train_environment(
+        dataset_name="digits",
+        params=params,
+        machine_id=0,
+        index=0,
+        dataset_split=(
+            np.zeros((4, 2)),
+            np.zeros((2, 2)),
+            np.array([0, 1, 0, 1]),
+            np.array([0, 1]),
+        ),
+    )
+
+    assert isinstance(captured["fitness_func"], TrainProjectedQSVMFitness)
+    assert captured["fitness_func"].__name__ == "train_pqk_qsvm"
+
+
+def test_train_environment_selects_fidelity_kernel(monkeypatch):
+    from ga_qsvm.runners import train as train_module
+
+    captured = {}
+
+    class FakeEnvironment:
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+
+    monkeypatch.setattr(train_module, "EEnvironment", FakeEnvironment)
+    monkeypatch.setattr(train_module, "build_train_wandb_config", lambda *args: None)
+
+    params = {
+        "num_qubits": 2,
+        "num_cnot": 20,
+        "depth": 4,
+        "num_circuit": 4,
+        "num_generation": 1,
+        "prob_mutate": 0.1,
+        "kernel": "fqk",
+    }
+    train_module.build_train_environment(
+        dataset_name="digits",
+        params=params,
+        machine_id=0,
+        index=0,
+        dataset_split=(
+            np.zeros((4, 2)),
+            np.zeros((2, 2)),
+            np.array([0, 1, 0, 1]),
+            np.array([0, 1]),
+        ),
+    )
+
+    assert isinstance(captured["fitness_func"], TrainFidelityQSVMFitness)
 
 
 def test_create_eval_runner_looks_up_dataset_loader(monkeypatch):

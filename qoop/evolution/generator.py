@@ -201,15 +201,13 @@ def by_num_rotations(metadata: MetadataSynthesis) -> qiskit.QuantumCircuit:
 def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCircuit:
     num_qubits = metadata.num_qubits
     depth = metadata.depth
-    num_rx = metadata.num_rx
-    num_ry = metadata.num_ry
-    num_rz = metadata.num_rz
-    # num_cnot = metadata.num_cnot
+    num_rx, num_ry, num_rz = _rotation_allocation(metadata)
+    num_cnot = metadata.num_cnot
     total_rotations = num_rx + num_ry + num_rz
     total_gates = depth * num_qubits
-    num_other_gates = total_gates - (total_rotations) #+ num_cnot)
+    num_other_gates = total_gates - total_rotations - num_cnot
 
-    if total_rotations > total_gates: # + num_cnot > total_gates:
+    if num_other_gates < 0:
         raise ValueError("The total number of specified gates exceeds the maximum allowed.")
 
     rotation_gate_count = {
@@ -217,20 +215,18 @@ def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCirc
         RYGate: num_ry,
         RZGate: num_rz,
     }
-    # cnot_gate_pool = [{"operation": qiskit.circuit.library.CXGate, "num_op": 2}] * num_cnot
+    cnot_gate_pool = [{"operation": qiskit.circuit.library.CXGate, "num_op": 2}] * num_cnot
 
     rotation_pool = [{"operation": gate_type, "num_op": 1}
                      for gate_type, count in rotation_gate_count.items() for _ in range(count)]
 
-    smallest_num_gate = 1 if int(0.15 * num_other_gates) == 0 else int(0.15 * num_other_gates)
-    num_other_gates_pool = generate_random_array(num_other_gates, smallest_num_gate, 4)
     pool = constant.operations_with_rotations
     other_gate_pool = [gate for gate in pool if gate['operation'] not in
                        [RXGate, RYGate, RZGate, CXGate]]
 
-    full_pool = rotation_pool # + cnot_gate_pool
-    for count, gate_info in zip(num_other_gates_pool, other_gate_pool):
-        full_pool.extend([gate_info] * count)
+    full_pool = rotation_pool + cnot_gate_pool
+    for _ in range(num_other_gates):
+        full_pool.append(random.choice(other_gate_pool))
 
     random.shuffle(full_pool)
 
@@ -249,6 +245,19 @@ def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCirc
             qc.append(gate_info["operation"](), operands)
 
     return qc
+
+
+def _rotation_allocation(metadata: MetadataSynthesis) -> tuple[int, int, int]:
+    explicit_total = metadata.num_rx + metadata.num_ry + metadata.num_rz
+    if explicit_total > 0:
+        return metadata.num_rx, metadata.num_ry, metadata.num_rz
+
+    num_rx = random.randint(0, metadata.num_qubits)
+    num_ry = random.randint(0, metadata.num_qubits - num_rx)
+    num_rz = metadata.num_qubits - num_rx - num_ry
+    allocation = [num_rx, num_ry, num_rz]
+    random.shuffle(allocation)
+    return tuple(allocation)
 
 def by_num_rotations_and_cnot_gpu(metadata: MetadataSynthesis) -> qiskit.QuantumCircuit:
     num_qubits = metadata.num_qubits

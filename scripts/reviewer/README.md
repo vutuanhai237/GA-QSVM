@@ -25,17 +25,20 @@ scripts/reviewer/cloud_ga_dataset.sh cancer 0
 Default GA config:
 
 ```text
-qubits=7
-depth=35
-num_circuit=20
+qubits=3 4 5 6 7
+depth=10 * qubits
+num_circuit=100
 num_generation=200
 prob_mutate=0.1
+kernel=pqk
 training_size=100
 test_size=50
 ```
 
-With `--qubits 7`, the train CLI sweeps all 36 `(n_Rx, n_Ry, n_Rz)` allocations
-whose sum is 7.
+Each VM runs one dataset across five GA searches, one for each qubit count. The
+train CLI no longer sweeps fixed `(n_Rx, n_Ry, n_Rz)` allocations; each generated
+circuit randomly allocates RX/RY/RZ gates while keeping the total rotation
+parameter count equal to the qubit count.
 
 ## Local Jobs
 
@@ -65,4 +68,3 @@ After copying cloud result folders back into `results/reviewer`, summarize:
 ```bash
 scripts/reviewer/local_summarize_results.sh
 ```
-

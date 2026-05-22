@@ -5,11 +5,12 @@ from ga_qsvm.cli.train import main as train_main
 
 def test_train_cli_parser_accepts_runtime_arguments():
     parser = build_train_parser()
-    args = parser.parse_args(["--depth", "4", "--num-circuit", "8", "--qubits", "3", "--data", "digits"])
+    args = parser.parse_args(["--depth", "4", "--num-circuit", "8", "--qubits", "3", "--data", "digits", "--kernel", "fqk"])
     assert args.depth == [4]
     assert args.num_circuit == [8]
     assert args.qubits == [3]
     assert args.data == "digits"
+    assert args.kernel == "fqk"
 
 
 def test_eval_cli_parser_accepts_runtime_arguments():
@@ -36,3 +37,4 @@ def test_train_cli_main_dispatches_to_runtime_runner(monkeypatch):
     assert calls[0]["depths"] == [4]
     assert calls[0]["num_circuits"] == [8]
     assert calls[0]["qubits"] == [3]
+    assert calls[0]["kernel"] == "pqk"
