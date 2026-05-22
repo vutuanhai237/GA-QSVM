@@ -27,7 +27,7 @@ Default GA config:
 ```text
 qubits=3 4 5 6 7
 depth=10 * qubits
-num_circuit=<detected CPU cores>
+num_circuit=20
 num_generation=200
 prob_mutate=0.1
 kernel=pqk

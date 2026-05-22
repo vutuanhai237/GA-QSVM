@@ -25,8 +25,7 @@ MACHINE_ID="${2:-0}"
 # and runs one legacy random-allocation GA search for each qubit count.
 QUBITS="${QUBITS:-3 4 5 6 7}"
 DEPTH="${DEPTH:-}"                # Empty means train CLI uses 10 * qubits.
-DETECTED_CORES="$(nproc 2>/dev/null || getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)"
-NUM_CIRCUIT="${NUM_CIRCUIT:-$DETECTED_CORES}"
+NUM_CIRCUIT="${NUM_CIRCUIT:-20}"
 NUM_GENERATION="${NUM_GENERATION:-200}"
 PROB_MUTATE="${PROB_MUTATE:-0.1}"
 KERNEL="${KERNEL:-pqk}"
