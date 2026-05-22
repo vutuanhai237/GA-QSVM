@@ -133,6 +133,7 @@ def test_frozen_benchmark_runs_each_dataset_model_seed_once(monkeypatch, tmp_pat
     calls = []
 
     monkeypatch.setattr(frozen_benchmark, "load_manifest", lambda manifest: artifacts)
+    monkeypatch.setattr(frozen_benchmark, "qpy_feature_dimension", lambda path: 7)
     monkeypatch.setattr(
         frozen_benchmark,
         "load_dataset",
@@ -196,6 +197,7 @@ def test_frozen_benchmark_can_filter_datasets(monkeypatch, tmp_path):
         )
     loaded_datasets = []
     monkeypatch.setattr(frozen_benchmark, "load_manifest", lambda manifest: artifacts)
+    monkeypatch.setattr(frozen_benchmark, "qpy_feature_dimension", lambda path: 7)
     monkeypatch.setattr(
         frozen_benchmark,
         "load_dataset",
@@ -294,6 +296,48 @@ def test_frozen_benchmark_can_use_circuit_parameter_feature_dimension(monkeypatc
 
     assert requested_features == [9]
     assert rows[0]["n_features"] == 9
+
+
+def test_frozen_benchmark_rejects_global_feature_dimension_mismatch(monkeypatch, tmp_path):
+    from ga_qsvm.experiments import frozen_benchmark
+    from ga_qsvm.experiments.artifacts import CircuitArtifact
+    from ga_qsvm.experiments.datasets import DatasetBundle
+
+    artifact = CircuitArtifact(
+        id="wine-ga-fqk-n7",
+        dataset="wine",
+        kernel="ga-fqk",
+        path=tmp_path / "fqk",
+        qpy_path=tmp_path / "fqk" / "best_circuit.qpy",
+        metadata_path=tmp_path / "fqk" / "metadata.json",
+        funcs_path=tmp_path / "fqk" / "funcs.json",
+        metadata={},
+        funcs={},
+    )
+    monkeypatch.setattr(frozen_benchmark, "load_manifest", lambda manifest: [artifact])
+    monkeypatch.setattr(
+        frozen_benchmark,
+        "load_dataset",
+        lambda dataset: DatasetBundle(dataset, np.arange(20).reshape(10, 2), np.array([0, 1] * 5)),
+    )
+    monkeypatch.setattr(frozen_benchmark, "qpy_feature_dimension", lambda path: 9)
+
+    def fail_if_split(*args, **kwargs):
+        raise AssertionError("benchmark split should not be prepared for invalid artifact")
+
+    monkeypatch.setattr(frozen_benchmark, "make_holdout_split", fail_if_split)
+
+    with pytest.raises(ValueError, match="wine-ga-fqk-n7.*9.*expected 7"):
+        frozen_benchmark.run_frozen_benchmark(
+            manifest="unused.json",
+            seeds=[100],
+            test_size=0.3,
+            preprocess="legacy",
+            models=["ga-fqk"],
+            output_dir=tmp_path / "out",
+            n_features=7,
+            feature_dim_mode="global",
+        )
 
 
 def test_kfold_runner_creates_stratified_non_overlapping_folds():
@@ -440,6 +484,22 @@ def test_default_figure6_manifest_validates_real_artifacts():
         ("cancer", "ga-fqk"),
         ("cancer", "ga-pqk"),
     }
+
+
+def test_default_figure6_artifact_parameter_audit_flags_only_wine_fqk():
+    from ga_qsvm.experiments.artifacts import load_manifest
+    from ga_qsvm.experiments.kernels import summarize_qpy_circuit
+
+    artifacts = load_manifest("configs/reviewer/main_figure6_n7_manifest.json")
+    audit = {artifact.id: summarize_qpy_circuit(artifact.qpy_path) for artifact in artifacts}
+
+    invalid = {
+        artifact_id: summary.num_parameters
+        for artifact_id, summary in audit.items()
+        if summary.num_parameters != 7
+    }
+    assert invalid == {"wine-ga-fqk-n7": 9}
+    assert {summary.constant_rotations for summary in audit.values()} == {0}
 
 
 def test_frozen_cli_dispatches_to_runner(monkeypatch):

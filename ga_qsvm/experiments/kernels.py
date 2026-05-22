@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +26,35 @@ def _load_qpy_circuit(path: str | Path):
     if not circuits:
         raise ValueError(f"No circuit found in QPY file: {path}")
     return circuits[0]
+
+
+@dataclass(frozen=True)
+class CircuitSummary:
+    num_qubits: int
+    num_parameters: int
+    rotation_count: int
+    constant_rotations: int
+
+
+def summarize_qpy_circuit(path: str | Path) -> CircuitSummary:
+    circuit = _load_qpy_circuit(path)
+    rotation_names = {"rx", "ry", "rz"}
+    rotation_count = 0
+    constant_rotations = 0
+    for instruction in circuit.data:
+        operation = instruction.operation
+        if operation.name not in rotation_names:
+            continue
+        rotation_count += 1
+        has_parameter = any(getattr(parameter, "parameters", set()) for parameter in operation.params)
+        if not has_parameter:
+            constant_rotations += 1
+    return CircuitSummary(
+        num_qubits=circuit.num_qubits,
+        num_parameters=circuit.num_parameters,
+        rotation_count=rotation_count,
+        constant_rotations=constant_rotations,
+    )
 
 
 def qpy_feature_dimension(path: str | Path) -> int:

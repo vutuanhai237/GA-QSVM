@@ -89,9 +89,10 @@ uv run python -m ga_qsvm.cli.frozen_benchmark \
   --preprocess legacy \
   --models ga-fqk fixed-fqk \
   --output-dir results/reviewer/figure6_holdout_fqk_wine \
-  --n-features 7 \
-  --feature-dim-mode circuit-parameters
+  --n-features 7
 ```
+
+This command currently fails fast for `wine-ga-fqk-n7`: the frozen artifact has 7 qubits but 9 trainable feature parameters, while the main Figure 6 protocol uses 7 PCA features for every model. Replace the Wine FQK artifact with a 7-parameter circuit before reporting Wine GA-FQK in the main Figure 6 results. Use `--feature-dim-mode circuit-parameters` only for diagnostic runs, not for the main paper benchmark.
 
 ```bash
 uv run python -m ga_qsvm.cli.frozen_benchmark \
@@ -102,8 +103,7 @@ uv run python -m ga_qsvm.cli.frozen_benchmark \
   --preprocess legacy \
   --models ga-fqk fixed-fqk \
   --output-dir results/reviewer/figure6_holdout_fqk_cancer \
-  --n-features 7 \
-  --feature-dim-mode circuit-parameters
+  --n-features 7
 ```
 
 ```bash
@@ -115,11 +115,8 @@ uv run python -m ga_qsvm.cli.frozen_benchmark \
   --preprocess legacy \
   --models ga-fqk fixed-fqk \
   --output-dir results/reviewer/figure6_holdout_fqk_digits \
-  --n-features 7 \
-  --feature-dim-mode circuit-parameters
+  --n-features 7
 ```
-
-Important: `wine-ga-fqk-n7` has 7 qubits but 9 trainable feature parameters. `--feature-dim-mode circuit-parameters` prevents dimension mismatch by using 9 PCA features for that frozen circuit. If the paper must keep exactly 7 PCA features for every model, replace the Wine FQK artifact with a 7-parameter circuit before running full FQK.
 
 ## Figure 6 K-Fold Jobs
 
@@ -151,8 +148,7 @@ uv run python -m ga_qsvm.cli.kfold_benchmark \
   --preprocess legacy \
   --models rbf fixed-fqk fixed-pqk ga-fqk ga-pqk \
   --output-dir results/reviewer/figure6_kfold \
-  --n-features 7 \
-  --feature-dim-mode circuit-parameters
+  --n-features 7
 ```
 
 ## Figure 7 Transfer Jobs
@@ -206,4 +202,3 @@ For Digits FQK, split seeds manually:
 ```
 
 Keep one process per VM at first. If CPU utilization is low, run two processes with disjoint seed ranges.
-

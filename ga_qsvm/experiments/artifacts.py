@@ -79,6 +79,8 @@ def load_manifest(path: str | Path) -> list[CircuitArtifact]:
 
 
 def scan_artifact_roots(roots: Iterable[str | Path]) -> list[dict[str, Any]]:
+    from ga_qsvm.experiments.kernels import summarize_qpy_circuit
+
     rows: list[dict[str, Any]] = []
     for root in roots:
         for artifact_dir in sorted(Path(root).expanduser().glob("*")):
@@ -89,6 +91,7 @@ def scan_artifact_roots(roots: Iterable[str | Path]) -> list[dict[str, Any]]:
             metadata_path = artifact_dir / "metadata.json"
             funcs = artifact_dir / "funcs.json"
             metadata = read_json(metadata_path) if metadata_path.is_file() else {}
+            circuit_summary = summarize_qpy_circuit(qpy).__dict__ if qpy.is_file() else {}
             rows.append(
                 {
                     "id": artifact_dir.name,
@@ -98,6 +101,7 @@ def scan_artifact_roots(roots: Iterable[str | Path]) -> list[dict[str, Any]]:
                     "has_qpy": qpy.is_file(),
                     "has_metadata": metadata_path.is_file(),
                     "has_funcs": funcs.is_file(),
+                    **circuit_summary,
                     **extract_metadata(metadata),
                 }
             )

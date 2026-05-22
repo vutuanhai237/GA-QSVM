@@ -63,10 +63,20 @@ def _feature_dimension_for(
     default_n_features: int,
     feature_dim_mode: str,
 ) -> int:
-    if feature_dim_mode == "global" or selected_artifact is None:
+    if selected_artifact is None:
+        return default_n_features
+    artifact_n_features = qpy_feature_dimension(selected_artifact.qpy_path)
+    if feature_dim_mode == "global":
+        if artifact_n_features != default_n_features:
+            raise ValueError(
+                f"Artifact {selected_artifact.id} is incompatible with global feature dimension: "
+                f"circuit has {artifact_n_features} parameters, expected {default_n_features}. "
+                f"Replace the artifact with a {default_n_features}-parameter circuit or use "
+                "--feature-dim-mode circuit-parameters only for diagnostic runs."
+            )
         return default_n_features
     if feature_dim_mode == "circuit-parameters":
-        return qpy_feature_dimension(selected_artifact.qpy_path)
+        return artifact_n_features
     raise ValueError(f"Unsupported feature_dim_mode: {feature_dim_mode}")
 
 
