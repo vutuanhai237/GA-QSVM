@@ -1,4 +1,0 @@
-dataset,n_samples,n_features,components_for_90,components_for_95
-digits,1797,64,31,40
-wine,178,13,8,10
-cancer,569,30,7,10

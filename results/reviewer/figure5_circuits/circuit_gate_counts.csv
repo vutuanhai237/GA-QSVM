@@ -1,7 +1,0 @@
-id,dataset,kernel,circuit_path,depth,num_parameters,H,CX,Rx,Ry,Rz
-digits-ga-fqk-n7,digits,ga-fqk,/home/qsvm/benchmark/GA-QSVM/fqk-digits-N7-Cnot35-D35-C16-g200-p0.1/best_circuit.qpy,9,7,3,9,4,2,1
-digits-ga-pqk-n7,digits,ga-pqk,/home/qsvm/benchmark/GA-QSVM/pqk-digits-N7-Cnot35-D35-C16-g200-p0.1/best_circuit.qpy,4,7,1,3,2,5,0
-wine-ga-fqk-n7,wine,ga-fqk,/home/qsvm/benchmark/GA-QSVM/fqk-wine-N7-Cnot35-D35-C16-g200-p0.1/best_circuit.qpy,21,9,25,24,5,1,3
-wine-ga-pqk-n7,wine,ga-pqk,/home/qsvm/benchmark/GA-QSVM/pqk-wine-N7-Cnot35-D35-C16-g200-p0.1/best_circuit.qpy,6,7,3,3,4,2,1
-cancer-ga-fqk-n7,cancer,ga-fqk,/home/qsvm/benchmark/GA-QSVM/fqk-cancer-N7-Cnot35-D35-C16-g200-p0.1/best_circuit.qpy,22,7,25,24,4,1,2
-cancer-ga-pqk-n7,cancer,ga-pqk,/home/qsvm/benchmark/GA-QSVM/pqk-cancer-N7-Cnot35-D35-C16-g200-p0.1/best_circuit.qpy,5,7,1,3,0,6,1
