@@ -24,7 +24,7 @@ MACHINE_ID="${2:-0}"
 # GA search configuration for the revision rerun. One cloud VM owns one dataset
 # and runs one legacy random-allocation GA search for each qubit count.
 QUBITS="${QUBITS:-3 4 5 6 7}"
-DEPTH="${DEPTH:-}"                # Empty means train CLI uses 10 * qubits.
+DEPTH="${DEPTH:-}"                # Empty means train CLI uses baseline 5 * qubits.
 NUM_CIRCUIT="${NUM_CIRCUIT:-20}"
 NUM_GENERATION="${NUM_GENERATION:-200}"
 PROB_MUTATE="${PROB_MUTATE:-0.1}"
@@ -37,8 +37,8 @@ HOLDOUT_PREPROCESS="${HOLDOUT_PREPROCESS:-paper}"
 HOLDOUT_FEATURE_DIM_MODE="${HOLDOUT_FEATURE_DIM_MODE:-global}"
 RUN_HOLDOUT="${RUN_HOLDOUT:-1}"
 
-# Wine has only 178 samples, so 100 train + 100 test is impossible for GA search.
-# The final reviewer benchmark uses repeated holdout separately.
+# Retained for CLI compatibility. Baseline dataset loaders keep their fixed
+# internal train/test split sizes.
 TEST_SIZE="${TEST_SIZE:-50}"
 START_INDEX="${START_INDEX:-0}"
 
@@ -46,7 +46,8 @@ RUN_ID="${RUN_ID:-$(date +%Y%m%d-%H%M%S)}"
 
 echo "GA rerun dataset: $DATASET"
 echo "Kernels: $KERNELS"
-echo "Config: qubits=$QUBITS depth=${DEPTH:-10*n} num_circuit=$NUM_CIRCUIT generations=$NUM_GENERATION p=$PROB_MUTATE train=$TRAINING_SIZE test=$TEST_SIZE"
+echo "Config: qubits=$QUBITS depth=${DEPTH:-5*n} num_circuit=$NUM_CIRCUIT generations=$NUM_GENERATION p=$PROB_MUTATE train_arg=$TRAINING_SIZE test_arg=$TEST_SIZE"
+echo "Dataset loaders keep baseline fixed split sizes internally."
 echo "Holdout: run=$RUN_HOLDOUT qubits=$HOLDOUT_QUBITS seeds=$HOLDOUT_SEEDS test_size=$HOLDOUT_TEST_SIZE preprocess=$HOLDOUT_PREPROCESS"
 
 run_kernel() {

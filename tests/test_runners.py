@@ -1,4 +1,6 @@
 import pickle
+import sys
+import types
 from unittest.mock import Mock
 import numpy as np
 
@@ -39,7 +41,6 @@ def test_build_train_runner_uses_dataset_loader_and_environment_factory():
         training_size=20,
         test_size=10,
         n_features=3,
-        random_state=55,
     )
     assert environment_factory.called
 
@@ -77,7 +78,6 @@ def test_create_train_runner_looks_up_dataset_loader(monkeypatch):
             "training_size": 20,
             "test_size": 10,
             "n_features": 3,
-            "random_state": 55,
         }
     ]
     assert fake_env.evol.call_count == 1
@@ -157,6 +157,99 @@ def test_train_environment_selects_projected_kernel(monkeypatch):
 
     assert isinstance(captured["fitness_func"], TrainProjectedQSVMFitness)
     assert captured["fitness_func"].__name__ == "train_pqk_qsvm"
+
+
+def test_train_environment_uses_baseline_mutation_pool(monkeypatch):
+    from ga_qsvm.runners import train as train_module
+
+    captured = {}
+
+    class FakeEnvironment:
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+
+    def fake_mutate(pool, normalizer_func, prob_mutate):
+        captured["mutation_pool"] = pool
+        captured["prob_mutate"] = prob_mutate
+        return "mutate"
+
+    monkeypatch.setattr(train_module, "EEnvironment", FakeEnvironment)
+    monkeypatch.setattr(train_module, "bitflip_mutate_with_normalizer", fake_mutate)
+    monkeypatch.setattr(train_module, "build_train_wandb_config", lambda *args: None)
+
+    train_module.build_train_environment(
+        dataset_name="digits",
+        params={
+            "num_qubits": 2,
+            "num_cnot": 4,
+            "depth": 10,
+            "num_circuit": 4,
+            "num_generation": 1,
+            "prob_mutate": 0.1,
+            "kernel": "fqk",
+        },
+        machine_id=0,
+        index=0,
+        dataset_split=(
+            np.zeros((4, 2)),
+            np.zeros((2, 2)),
+            np.array([0, 1, 0, 1]),
+            np.array([0, 1]),
+        ),
+    )
+
+    assert [gate["name"] for gate in captured["mutation_pool"]] == ["h", "rx", "ry", "rz", "cx"]
+    assert captured["prob_mutate"] == 0.1
+
+
+def test_projected_fitness_uses_baseline_global_random_initial_parameters(monkeypatch):
+    captured = {}
+
+    class FakeEncodingCircuit:
+        num_parameters = 3
+
+        def __init__(self, circuit, mode):
+            captured["encoding_mode"] = mode
+
+    class FakeProjectedQuantumKernel:
+        def __init__(self, encoding_circuit, executor, initial_parameters):
+            captured["initial_parameters"] = initial_parameters
+
+    class FakeQSVC:
+        def __init__(self, quantum_kernel):
+            pass
+
+        def fit(self, x_train, y_train):
+            pass
+
+        def predict(self, x_test):
+            return np.array([0, 1])
+
+    squlearn = types.ModuleType("squlearn")
+    squlearn.Executor = lambda: object()
+    encoding_module = types.ModuleType("squlearn.encoding_circuit")
+    encoding_module.QiskitEncodingCircuit = FakeEncodingCircuit
+    kernel_module = types.ModuleType("squlearn.kernel")
+    kernel_module.ProjectedQuantumKernel = FakeProjectedQuantumKernel
+    kernel_module.QSVC = FakeQSVC
+    monkeypatch.setitem(sys.modules, "squlearn", squlearn)
+    monkeypatch.setitem(sys.modules, "squlearn.encoding_circuit", encoding_module)
+    monkeypatch.setitem(sys.modules, "squlearn.kernel", kernel_module)
+    monkeypatch.setattr(np.random, "rand", lambda size: np.array([0.1, 0.2, 0.3]))
+
+    fitness = TrainProjectedQSVMFitness(
+        np.zeros((2, 3)),
+        np.zeros((2, 3)),
+        np.array([0, 1]),
+        np.array([0, 1]),
+    )
+
+    accuracy, eval_accuracy = fitness("circuit")
+
+    assert captured["encoding_mode"] == "features"
+    assert np.array_equal(captured["initial_parameters"], np.array([0.1, 0.2, 0.3]))
+    assert accuracy == 1.0
+    assert eval_accuracy == 0.0
 
 
 def test_train_environment_selects_fidelity_kernel(monkeypatch):

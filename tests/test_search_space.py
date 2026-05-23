@@ -41,6 +41,6 @@ def test_iter_parameter_sets_combines_base_space_without_rotation_sweep():
         "prob_mutate": 0.1,
         "kernel": "pqk",
         "num_qubits": 7,
-        "num_cnot": 70,
+        "num_cnot": 14,
     }
     assert len(parameter_sets) == 1

@@ -55,7 +55,7 @@ class TrainProjectedQSVMFitness:
         quantum_kernel = ProjectedQuantumKernel(
             encoding_circuit=encoding_circuit,
             executor=Executor(),
-            initial_parameters=np.random.default_rng(0).random(encoding_circuit.num_parameters),
+            initial_parameters=np.random.rand(encoding_circuit.num_parameters),
         )
         qsvc = ProjectedQSVC(quantum_kernel=quantum_kernel)
         qsvc.fit(self.x_train, self.y_train)
@@ -92,7 +92,7 @@ def build_train_environment(dataset_name, params, machine_id, index, dataset_spl
             normalizer.by_num_rotation_gate(env_metadata.num_qubits),
         ),
         mutate_func=bitflip_mutate_with_normalizer(
-            [gate for gate in operations_with_rotations if gate["num_params"] == 0],
+            operations_with_rotations,
             normalizer_func=normalizer.by_num_rotation_gate(env_metadata.num_qubits),
             prob_mutate=env_metadata.prob_mutate,
         ),
@@ -118,7 +118,7 @@ def build_train_runner(dataset_loader, environment_factory):
     ):
         current_index = 0
         for num_qubits in qubits:
-            depth_values = depths if depths is not None else [10 * num_qubits]
+            depth_values = depths if depths is not None else [5 * num_qubits]
             hyperparameter_space = build_base_hyperparameter_space(
                 depths=depth_values,
                 num_circuits=num_circuits,
@@ -130,7 +130,6 @@ def build_train_runner(dataset_loader, environment_factory):
                 training_size=training_size,
                 test_size=test_size,
                 n_features=num_qubits,
-                random_state=55,
             )
             for params in iter_parameter_sets(num_qubits, hyperparameter_space):
                 if current_index < start_index:

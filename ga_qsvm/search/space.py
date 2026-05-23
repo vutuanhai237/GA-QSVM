@@ -20,5 +20,5 @@ def iter_parameter_sets(num_qubits, hyperparameter_space):
         yield {
             **base_params,
             "num_qubits": num_qubits,
-            "num_cnot": base_params.get("num_cnot", 10 * num_qubits),
+            "num_cnot": base_params.get("num_cnot", 2 * num_qubits),
         }

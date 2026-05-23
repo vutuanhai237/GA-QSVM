@@ -205,9 +205,9 @@ def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCirc
     num_cnot = metadata.num_cnot
     total_rotations = num_rx + num_ry + num_rz
     total_gates = depth * num_qubits
-    num_other_gates = total_gates - total_rotations - num_cnot
+    num_other_gates = total_gates - (total_rotations + num_cnot)
 
-    if num_other_gates < 0:
+    if total_rotations + num_cnot > total_gates:
         raise ValueError("The total number of specified gates exceeds the maximum allowed.")
 
     rotation_gate_count = {
@@ -220,13 +220,15 @@ def by_num_rotations_and_cnot(metadata: MetadataSynthesis) -> qiskit.QuantumCirc
     rotation_pool = [{"operation": gate_type, "num_op": 1}
                      for gate_type, count in rotation_gate_count.items() for _ in range(count)]
 
+    smallest_num_gate = 1 if int(0.15 * num_other_gates) == 0 else int(0.15 * num_other_gates)
+    num_other_gates_pool = generate_random_array(num_other_gates, smallest_num_gate, 4)
     pool = constant.operations_with_rotations
     other_gate_pool = [gate for gate in pool if gate['operation'] not in
                        [RXGate, RYGate, RZGate, CXGate]]
 
     full_pool = rotation_pool + cnot_gate_pool
-    for _ in range(num_other_gates):
-        full_pool.append(random.choice(other_gate_pool))
+    for count, gate_info in zip(num_other_gates_pool, other_gate_pool):
+        full_pool.extend([gate_info] * count)
 
     random.shuffle(full_pool)
 
@@ -255,9 +257,7 @@ def _rotation_allocation(metadata: MetadataSynthesis) -> tuple[int, int, int]:
     num_rx = random.randint(0, metadata.num_qubits)
     num_ry = random.randint(0, metadata.num_qubits - num_rx)
     num_rz = metadata.num_qubits - num_rx - num_ry
-    allocation = [num_rx, num_ry, num_rz]
-    random.shuffle(allocation)
-    return tuple(allocation)
+    return num_rx, num_ry, num_rz
 
 def by_num_rotations_and_cnot_gpu(metadata: MetadataSynthesis) -> qiskit.QuantumCircuit:
     num_qubits = metadata.num_qubits

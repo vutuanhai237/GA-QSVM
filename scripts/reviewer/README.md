@@ -26,13 +26,13 @@ Default GA config:
 
 ```text
 qubits=3 4 5 6 7
-depth=10 * qubits
+depth=5 * qubits
 num_circuit=20
 num_generation=200
 prob_mutate=0.1
 kernels=pqk fqk
 training_size=100
-test_size=50
+test_size=baseline dataset split
 run_holdout=1
 holdout_qubits=7
 holdout_seeds=100 101 102 103 104 105 106 107 108 109

@@ -2,6 +2,7 @@ from sklearn.datasets import load_breast_cancer, load_digits, load_wine
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.utils import shuffle
 
 
 def _split_scale_project(X, y, training_size, test_size, n_features, random_state):
@@ -28,8 +29,8 @@ def prepare_wine_data_split(training_size, test_size, n_features, random_state=2
     return _split_scale_project(
         dataset.data,
         dataset.target,
-        training_size,
-        test_size,
+        100,
+        78,
         n_features,
         random_state,
     )
@@ -37,11 +38,12 @@ def prepare_wine_data_split(training_size, test_size, n_features, random_state=2
 
 def prepare_digits_data_split(training_size, test_size, n_features, random_state=55):
     dataset = load_digits()
+    x, y = shuffle(dataset.data, dataset.target, random_state=55)
     return _split_scale_project(
-        dataset.data,
-        dataset.target,
-        training_size,
-        test_size,
+        x,
+        y,
+        100,
+        100,
         n_features,
         random_state,
     )
@@ -52,8 +54,8 @@ def prepare_cancer_data_split(training_size, test_size, n_features, random_state
     return _split_scale_project(
         dataset.data,
         dataset.target,
-        training_size,
-        test_size,
+        100,
+        100,
         n_features,
         random_state,
     )

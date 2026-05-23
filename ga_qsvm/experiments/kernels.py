@@ -84,7 +84,7 @@ def _fit_predict_projected(x_train, y_train, x_test, *, circuit: Any | None = No
     kernel = ProjectedQuantumKernel(
         encoding_circuit=encoding_circuit,
         executor=Executor(),
-        initial_parameters=np.random.default_rng(0).random(encoding_circuit.num_parameters),
+        initial_parameters=np.random.rand(encoding_circuit.num_parameters),
     )
     model = QSVC(quantum_kernel=kernel)
     model.fit(x_train, y_train)
