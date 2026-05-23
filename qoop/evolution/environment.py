@@ -151,6 +151,7 @@ class EEnvironment():
             print(
                 f"Continute evol progress at generation {self.metadata.current_generation} ...")
         
+        num_generations_without_improvement = 0
         for generation in range(self.metadata.current_generation, self.metadata.num_generation):
             #####################
             ##### Pre-process ###
@@ -210,6 +211,7 @@ class EEnvironment():
                 self.best_circuit = self.circuits[np.argmax(self.fitnesss)]
                 self.best_fitness = np.max(self.fitnesss)
                 self.best_eval_fitness = best_eval_for_best_val
+                num_generations_without_improvement = 0
                 if hasattr(self, 'fitness_full_func'):
                     full_best_fitness = self.fitness_full_func(self.best_circuit)
                     if self.threshold_func(full_best_fitness):
@@ -221,6 +223,12 @@ class EEnvironment():
                         print(
                             f'End progress soon at generation {self.metadata.current_generation}, best score ever: {self.best_fitness}')
                         return self
+            else:
+                num_generations_without_improvement += 1
+                if num_generations_without_improvement > 50:
+                    print(
+                        f'End progress due to no improvement at generation {self.metadata.current_generation}, best score ever: {self.best_fitness}')
+                    return self
 
             #####################
             ##### Selection #####

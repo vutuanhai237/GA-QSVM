@@ -79,3 +79,25 @@ After copying cloud result folders back into `results/reviewer`, summarize:
 ```bash
 scripts/reviewer/local_summarize_results.sh
 ```
+
+## Early-Stop Evidence
+
+Use this after at least one full FQK GA run finishes. It does not change training;
+it reads `metadata.json` and asks: if we had stopped after 50 generations without
+a new best validation score, would the final best score be the same?
+
+```bash
+scripts/reviewer/analyze_early_stop.sh
+```
+
+Default output:
+
+```text
+results/reviewer/early_stop_analysis/early_stop_analysis.csv
+results/reviewer/early_stop_analysis/early_stop_analysis.md
+```
+
+For the slow q3 FQK decision, inspect rows with `kernel=fqk` and `num_qubits=3`.
+If `safe_to_stop=True` and `delta_final_minus_early_stop=0`, patience 50 did not
+lose accuracy for that run. If the delta is positive, keep full 200 generations
+for that dataset/kernel/qubit.

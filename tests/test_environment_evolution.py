@@ -10,11 +10,11 @@ def _parameterized_circuit():
     return circuit
 
 
-def test_evolution_does_not_stop_after_50_generations_without_improvement():
+def test_evolution_stops_after_50_generations_without_improvement():
     metadata = MetadataSynthesis(
         num_qubits=1,
         num_circuit=4,
-        num_generation=51,
+        num_generation=60,
         depth=1,
     )
 
