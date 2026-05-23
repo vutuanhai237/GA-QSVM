@@ -197,9 +197,9 @@ class EEnvironment():
                     "generation": self.metadata.current_generation
                 })
 
-            self.best_circuits.append(self.circuits[np.argmax(self.fitnesss)])
+            self.best_circuits.append(self.circuits[np.argmax(self.fitnesss)].copy())
             if self.best_circuit is None:
-                self.best_circuit = self.best_circuits[0]
+                self.best_circuit = self.best_circuits[0].copy()
             print(f"Val accuracies: {np.round(self.fitnesss, 4)}")
             print(f"Eval accuracies: {np.round(self.eval_fitnesss, 4)}")
             print(f"Best val accuracy: {np.max(self.fitnesss):.4f}, corresponding eval accuracy: {best_eval_for_best_val:.4f}")
@@ -208,7 +208,7 @@ class EEnvironment():
             #### Threshold ######
             #####################
             if self.best_fitness < np.max(self.fitnesss):
-                self.best_circuit = self.circuits[np.argmax(self.fitnesss)]
+                self.best_circuit = self.circuits[np.argmax(self.fitnesss)].copy()
                 self.best_fitness = np.max(self.fitnesss)
                 self.best_eval_fitness = best_eval_for_best_val
                 num_generations_without_improvement = 0
@@ -242,7 +242,7 @@ class EEnvironment():
                 offspring1, offspring2 = self.crossover_func(
                     self.circuits[i], self.circuits[i + 1])
                 new_circuits.extend(
-                    [self.circuits[i], self.circuits[i + 1], offspring1, offspring2])
+                    [self.circuits[i].copy(), self.circuits[i + 1].copy(), offspring1, offspring2])
                 
             ####################
             ##### Mutation #####
