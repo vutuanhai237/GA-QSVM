@@ -1,6 +1,7 @@
 numpy==1.26.4
 scikit-learn==1.6.1
 qiskit==1.2.4
+qiskit-aer==0.15.1
 qiskit_machine_learning==0.8.2
 wandb==0.19.8
 PennyLane-Lightning-GPU==0.37.0

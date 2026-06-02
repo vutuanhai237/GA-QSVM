@@ -8,6 +8,7 @@ from qiskit_machine_learning.algorithms import QSVC
 import itertools
 import wandb
 import argparse
+import os
 
 # QOOP-specific imports
 from qoop.evolution import normalizer
@@ -30,6 +31,7 @@ from squlearn.encoding_circuit import QiskitEncodingCircuit
 
 # Set NumPy display options
 np.set_printoptions(suppress=True)  # Suppress scientific notation
+CURRENT_READOUT_NOISE = 0.0
 
 def parse_args():
     parser = argparse.ArgumentParser(description='GA-QSVM Training Parameters')
@@ -41,7 +43,7 @@ def parse_args():
                     #   default=list(np.logspace(-2, -1, 10)),
                       default=[0.1],
                       help='List of mutation probabilities to try')
-    parser.add_argument('--qubits', type=float, nargs='+', default=[5],
+    parser.add_argument('--qubits', type=int, nargs='+', default=[7],
                       help='List of number of qubits to try')
     parser.add_argument('--training-size', type=int, default=100,
                       help='Size of training dataset')
@@ -53,10 +55,16 @@ def parse_args():
                       help='Index to start from in the base combinations, ie. when the running fail, use this to continue the benchmarking')
     parser.add_argument('--kernel', type=str, default='pqk',
                       help='Kernel to use (fqk or pqk)')
-    parser.add_argument('--num_cnot', type=int, nargs='+', default=[14],
+    parser.add_argument('--num_cnot', type=int, nargs='+', default=[35],
                       help='Number of CNOT gates')
     parser.add_argument('--depth', type=int, nargs='+', default=[35],
                       help='Depth of the circuit')
+    parser.add_argument('--readout-noise', type=float, nargs='+', default=[0.0],
+                      help='Symmetric readout bit-flip probability epsilon for noisy PQK simulation')
+    parser.add_argument('--shots', type=int, default=10000,
+                      help='Number of shots for noisy AerSimulator-backed PQK runs')
+    parser.add_argument('--executor-cache-dir', type=str, default='_cache',
+                      help='sQUlearn executor cache directory')
     return parser.parse_args()
 
 # Define hyperparameter search space using ranges
@@ -66,7 +74,8 @@ base_hyperparameter_space = {
     'num_cnot': args.num_cnot,
     'num_circuit': args.num_circuit,
     'num_generation': args.num_generation,
-    'prob_mutate': args.prob_mutate
+    'prob_mutate': args.prob_mutate,
+    'readout_noise': args.readout_noise,
 }
 
 dataset = {'digits': prepare_digits_data_split, 'wine': prepare_wine_data_split, 'cancer': prepare_cancer_data_split, 'fashion': prepare_fashion_mnist_data_split}
@@ -78,6 +87,28 @@ test_size = args.test_size
 start_index = args.start_index
 
 print(f"Starting with dataset: {data}, training size: {training_size}, test size: {test_size}")
+
+def build_readout_noise_executor(epsilon):
+    if epsilon <= 0:
+        return Executor(cache_dir=args.executor_cache_dir)
+    try:
+        from qiskit_aer import AerSimulator
+        from qiskit_aer.noise import NoiseModel, ReadoutError
+    except Exception as exc:
+        raise RuntimeError(
+            "Readout-noise runs require qiskit-aer. Install qiskit-aer or run with --readout-noise 0.0."
+        ) from exc
+
+    noise_model = NoiseModel()
+    readout_error = ReadoutError([[1 - epsilon, epsilon], [epsilon, 1 - epsilon]])
+    noise_model.add_all_qubit_readout_error(readout_error)
+    simulator = AerSimulator(noise_model=noise_model)
+    return Executor(
+        simulator,
+        shots=args.shots,
+        seed=55,
+        cache_dir=os.path.join(args.executor_cache_dir, f"readout_{epsilon}"),
+    )
 
 def train_fidelity_qsvm(quantum_circuit):
     """
@@ -108,7 +139,7 @@ def train_projected_qsvm(quantum_circuit):
     encoding_circuit = QiskitEncodingCircuit(quantum_circuit, mode='features')
     quantum_kernel = ProjectedQuantumKernel(
         encoding_circuit=encoding_circuit,
-        executor=Executor(),
+        executor=build_readout_noise_executor(CURRENT_READOUT_NOISE),
         initial_parameters=np.random.rand(encoding_circuit.num_parameters)
     )
     qsvc = PQSVC(quantum_kernel=quantum_kernel)
@@ -117,6 +148,8 @@ def train_projected_qsvm(quantum_circuit):
     return accuracy_score(yw_test, y_pred), 0.0
 
 if args.kernel == 'fqk':
+    if any(epsilon > 0 for epsilon in args.readout_noise):
+        raise ValueError("Readout-noise sweep is implemented for PQK only. Use --kernel pqk.")
     train_qsvm = train_fidelity_qsvm
 elif args.kernel == 'pqk':
     train_qsvm = train_projected_qsvm
@@ -148,59 +181,62 @@ if __name__ == "__main__":
                 i += 1
                 continue
             print(f"\nExploring configurations for {num_qubits} qubits:")
-            for k in range(10):
+            # for k in range(10):
                         
-                params = base_params.copy()
-                params.update({
-                    'num_qubits': num_qubits,
-                })
-                
-                wandb_config = {
-                    "project": f"Benchmark-PQK-GA-QSVM-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}",
-                    "name": f"n{num_qubits}-c{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}",
-                    "config": {
-                        **params,
-                        "i": i,
-                        "k": k
-                    }
+            params = base_params.copy()
+            params.update({
+                'num_qubits': num_qubits,
+            })
+            CURRENT_READOUT_NOISE = params['readout_noise']
+            noise_suffix = f"-readout{CURRENT_READOUT_NOISE:g}" if CURRENT_READOUT_NOISE > 0 else ""
+            
+            wandb_config = {
+                "project": f"Circuit-{args.kernel}-GA-QSVM-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}{noise_suffix}",
+                "name": f"{args.kernel}-n{num_qubits}-c{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}{noise_suffix}",
+                "config": {
+                    **params,
+                    "shots": args.shots,
+                    "i": i,
+                    # "k": k
                 }
+            }
 
-                # Define evolution environment metadata with current hyperparameters
-                env_metadata = MetadataSynthesis(
-                    num_qubits=num_qubits,
-                    num_cnot=params['num_cnot'],
-                    depth=params['depth'],
-                    num_circuit=params['num_circuit'],
-                    num_generation=params['num_generation'],
-                    prob_mutate=params['prob_mutate']
-                )
-                
-                # Print current configuration
-                print(f"\nTesting configuration:")
-                print(f"Qubits: {num_qubits}")
-                print(f"Other params: {params}")
-                
-                # Setup evolution environment
-                env = EEnvironment(
-                    metadata=env_metadata,
-                    fitness_func=train_qsvm,
-                    generator_func=by_num_rotations_and_cnot,
-                    crossover_func=onepoint(
-                        divider.by_num_rotation_gate(int(env_metadata.num_qubits / 2)),
-                        normalizer.by_num_rotation_gate(env_metadata.num_qubits)
-                    ),
-                    mutate_func=bitflip_mutate_with_normalizer(
-                        operations_with_rotations, 
-                        normalizer_func=normalizer.by_num_rotation_gate(env_metadata.num_qubits)
-                    ),
-                    threshold_func=synthesis_threshold,
-                    wandb_config=wandb_config,
-                    file_name=f"PQK-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}"
-                )
-                
-                # Run evolution
-                env.evol(verbose=False, mode="parallel")
-                
-                # Finish the wandb run
-                wandb.finish()
+            # Define evolution environment metadata with current hyperparameters
+            env_metadata = MetadataSynthesis(
+                num_qubits=num_qubits,
+                num_cnot=params['num_cnot'],
+                depth=params['depth'],
+                num_circuit=params['num_circuit'],
+                num_generation=params['num_generation'],
+                prob_mutate=params['prob_mutate']
+            )
+            
+            # Print current configuration
+            print(f"\nTesting configuration:")
+            print(f"Qubits: {num_qubits}")
+            print(f"Other params: {params}")
+            
+            # Setup evolution environment
+            env = EEnvironment(
+                metadata=env_metadata,
+                fitness_func=train_qsvm,
+                generator_func=by_num_rotations_and_cnot,
+                crossover_func=onepoint(
+                    divider.by_num_rotation_gate(int(env_metadata.num_qubits / 2)),
+                    normalizer.by_num_rotation_gate(env_metadata.num_qubits)
+                ),
+                mutate_func=bitflip_mutate_with_normalizer(
+                    operations_with_rotations, 
+                    normalizer_func=normalizer.by_num_rotation_gate(env_metadata.num_qubits)
+                ),
+                threshold_func=synthesis_threshold,
+                wandb_config=wandb_config,
+                file_name=f"{args.kernel}-{args.data}-N{num_qubits}-Cnot{params['num_cnot']}-D{params['depth']}-C{params['num_circuit']}-g{params['num_generation']}-p{round(params['prob_mutate'], 5)}{noise_suffix}"
+            )
+            
+            # Run evolution
+            env.evol(verbose=False, mode="parallel")
+            
+            # Finish the wandb run
+            wandb.finish()
             i += 1

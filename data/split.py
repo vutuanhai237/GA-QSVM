@@ -4,7 +4,6 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.utils import shuffle
 import numpy as np
-from tensorflow.keras.datasets import fashion_mnist
 
 def prepare_wine_data_split(training_size, test_size, n_features, binary=False, random_state=20):
     wine = load_wine()
@@ -81,6 +80,8 @@ def prepare_digits_data_split(training_size, test_size, n_features, binary=False
     return X_train, X_test, y_train, y_test
 
 def prepare_fashion_mnist_data_split(training_size, test_size, n_features, binary=False, random_state=97):
+    from tensorflow.keras.datasets import fashion_mnist
+
     # Load Fashion MNIST dataset
     (X_train_full, y_train_full), (X_test_full, y_test_full) = fashion_mnist.load_data()
     
@@ -170,4 +171,3 @@ def prepare_cancer_data_val_eval(training_size, test_size, n_features, machine_i
     print(f"Training size: {len(X_train)}, Test size: {len(X_eval)}, Search size: {len(X_val)}")
 
     return X_train, X_val, X_eval, y_train, y_val, y_eval
-

@@ -10,6 +10,7 @@ import os
 import json
 import datetime
 import pathlib
+import time
 import qiskit
 import numpy as np
 import matplotlib.pyplot as plt
@@ -169,6 +170,7 @@ class EEnvironment():
             #####################
             ######## Cost #######
             #####################
+            generation_start = time.perf_counter()
             # new_population = multiple_compile(new_population)
             self.fitnesss = []
             self.eval_fitnesss = []
@@ -183,6 +185,7 @@ class EEnvironment():
                     val_acc, eval_acc = self.fitness_func(self.circuits[i])
                     self.fitnesss.append(val_acc)
                     self.eval_fitnesss.append(eval_acc)
+            runtime_seconds = time.perf_counter() - generation_start
                     
             self.metadata.best_fitnesss.append(np.max(self.fitnesss))
             
@@ -196,6 +199,7 @@ class EEnvironment():
                     "best_fitness": np.max(self.fitnesss),
                     "average_fitness": np.mean(self.fitnesss),
                     "eval": best_eval_for_best_val,
+                    "runtime_seconds": runtime_seconds,
                     "generation": self.metadata.current_generation
                 })
                 # Output best_fitness and generation to a CSV file
@@ -205,8 +209,14 @@ class EEnvironment():
                 with open(csv_filename, mode='a', newline='') as csvfile:
                     writer = csv.writer(csvfile)
                     if not file_exists:
-                        writer.writerow(['k', 'generation', 'best_fitness'])
-                    writer.writerow([self.wandb_config['config']['k'], self.metadata.current_generation, np.max(self.fitnesss)])
+                        writer.writerow(['generation', 'best_fitness', 'average_fitness', 'eval', 'runtime_seconds'])
+                    writer.writerow([
+                        self.metadata.current_generation,
+                        np.max(self.fitnesss),
+                        np.mean(self.fitnesss),
+                        best_eval_for_best_val,
+                        runtime_seconds,
+                    ])
 
             self.best_circuits.append(self.circuits[np.argmax(self.fitnesss)])
             if self.best_circuit is None:
