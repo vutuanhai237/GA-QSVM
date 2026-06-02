@@ -63,6 +63,280 @@ def test_paper_holdout_split_fits_preprocessing_on_train_only(monkeypatch):
     np.testing.assert_array_equal(calls[3][1], split.raw_x_test + 20)
 
 
+@pytest.mark.parametrize("name", ["efficient-su2", "two-local"])
+def test_predefined_ansatz_reuses_one_feature_parameter_per_qubit(name):
+    from ga_qsvm.experiments.kernels import build_predefined_feature_map
+
+    circuit = build_predefined_feature_map(name, n_features=4)
+
+    assert circuit.num_qubits == 4
+    assert circuit.num_parameters == 4
+    assert {parameter.name for parameter in circuit.parameters} == {
+        "x[0]",
+        "x[1]",
+        "x[2]",
+        "x[3]",
+    }
+
+
+def test_predefined_benchmark_runs_without_ga_manifest(monkeypatch, tmp_path):
+    from ga_qsvm.experiments import predefined_benchmark
+    from ga_qsvm.experiments.datasets import DatasetBundle, PreparedSplit
+
+    calls = []
+    fake_split = PreparedSplit(
+        x_train=np.array([[0.0], [1.0]]),
+        x_test=np.array([[0.0]]),
+        y_train=np.array([0, 1]),
+        y_test=np.array([1]),
+        raw_x_train=np.array([[0.0], [1.0]]),
+        raw_x_test=np.array([[0.0]]),
+        seed=100,
+        preprocess="paper",
+    )
+
+    monkeypatch.setattr(
+        predefined_benchmark,
+        "load_dataset",
+        lambda name: DatasetBundle(name=name, x=np.array([[0.0]]), y=np.array([1])),
+    )
+    monkeypatch.setattr(
+        predefined_benchmark,
+        "make_holdout_split",
+        lambda *args, **kwargs: fake_split,
+    )
+
+    def fake_predictor(x_train, y_train, x_test, *, ansatz, n_features):
+        calls.append((ansatz, n_features))
+        return np.array([1])
+
+    monkeypatch.setitem(
+        predefined_benchmark.PREDEFINED_MODEL_FUNCTIONS,
+        "efficient-su2-fqk",
+        fake_predictor,
+    )
+
+    rows, summary = predefined_benchmark.run_predefined_benchmark(
+        datasets=["wine"],
+        qubits=[3, 4],
+        seeds=[100],
+        test_size=0.3,
+        preprocess="paper",
+        models=["efficient-su2-fqk"],
+        output_dir=tmp_path,
+    )
+
+    assert calls == [("efficient-su2", 3), ("efficient-su2", 4)]
+    assert [(row["dataset"], row["model"], row["qubits"], row["seed"]) for row in rows] == [
+        ("wine", "efficient-su2-fqk", 3, 100),
+        ("wine", "efficient-su2-fqk", 4, 100),
+    ]
+    assert rows[0]["runtime_seconds"] >= 0
+    assert [(row["qubits"], row["n"]) for row in summary] == [(3, 1), (4, 1)]
+    assert (tmp_path / "per_seed_results.csv").is_file()
+    assert (tmp_path / "summary.csv").is_file()
+
+
+def test_predefined_benchmark_cli_accepts_qubit_sweep():
+    from ga_qsvm.cli.predefined_benchmark import build_parser
+
+    args = build_parser().parse_args(
+        [
+            "--datasets",
+            "digits",
+            "wine",
+            "--qubits",
+            "3",
+            "7",
+            "--seeds",
+            "100",
+            "109",
+            "--models",
+            "efficient-su2-fqk",
+            "two-local-pqk",
+            "--output-dir",
+            "results/reviewer/predefined",
+        ]
+    )
+
+    assert args.datasets == ["digits", "wine"]
+    assert args.qubits == [3, 7]
+    assert args.seeds == [100, 109]
+    assert args.models == ["efficient-su2-fqk", "two-local-pqk"]
+
+
+def test_predefined_baseline_job_script_forwards_shard_arguments(tmp_path):
+    repo_root = Path(__file__).resolve().parents[1]
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    calls_path = tmp_path / "uv_calls.txt"
+    fake_uv = fake_bin / "uv"
+    fake_uv.write_text(
+        """#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$*" >> "$FAKE_UV_CALLS"
+"""
+    )
+    fake_uv.chmod(0o755)
+    env = {
+        **os.environ,
+        "PATH": f"{fake_bin}:{os.environ['PATH']}",
+        "FAKE_UV_CALLS": str(calls_path),
+        "SEEDS": "100 101",
+        "OUTPUT_ROOT": str(tmp_path / "results"),
+    }
+
+    subprocess.run(
+        [
+            "bash",
+            "scripts/reviewer/predefined_baseline_job.sh",
+            "wine",
+            "efficient-su2",
+            "fqk",
+            "7",
+        ],
+        cwd=repo_root,
+        env=env,
+        check=True,
+        text=True,
+        capture_output=True,
+    )
+
+    call = calls_path.read_text()
+    assert "-m ga_qsvm.cli.predefined_benchmark" in call
+    assert "--datasets wine" in call
+    assert "--qubits 7" in call
+    assert "--seeds 100 101" in call
+    assert "--models efficient-su2-fqk" in call
+
+
+def test_random_search_benchmark_selects_best_candidate(monkeypatch, tmp_path):
+    from ga_qsvm.experiments import random_search_benchmark
+    from ga_qsvm.experiments.datasets import DatasetBundle, PreparedSplit
+
+    candidate_scores = iter([0.2, 0.8, 0.5])
+    generated = []
+    fake_split = PreparedSplit(
+        x_train=np.array([[0.0], [1.0]]),
+        x_test=np.array([[0.0], [1.0], [2.0], [3.0], [4.0]]),
+        y_train=np.array([0, 1]),
+        y_test=np.array([1, 1, 1, 1, 1]),
+        raw_x_train=np.array([[0.0], [1.0]]),
+        raw_x_test=np.array([[0.0], [1.0], [2.0], [3.0], [4.0]]),
+        seed=100,
+        preprocess="paper",
+    )
+
+    monkeypatch.setattr(
+        random_search_benchmark,
+        "load_dataset",
+        lambda name: DatasetBundle(name=name, x=np.array([[0.0]]), y=np.array([1])),
+    )
+    monkeypatch.setattr(random_search_benchmark, "make_holdout_split", lambda *args, **kwargs: fake_split)
+
+    def fake_generator(metadata):
+        generated.append((metadata.num_qubits, metadata.num_cnot, metadata.depth))
+        return f"candidate-{len(generated)}"
+
+    def fake_predictor(x_train, y_train, x_test, *, circuit):
+        score = next(candidate_scores)
+        num_correct = int(score * len(x_test))
+        return np.array([1] * num_correct + [0] * (len(x_test) - num_correct))
+
+    monkeypatch.setattr(random_search_benchmark, "by_num_rotations_and_cnot", fake_generator)
+    monkeypatch.setitem(random_search_benchmark.RANDOM_MODEL_FUNCTIONS, "random-pqk", fake_predictor)
+
+    rows, summary = random_search_benchmark.run_random_search_benchmark(
+        datasets=["digits"],
+        qubits=[7],
+        seeds=[100],
+        test_size=0.3,
+        preprocess="paper",
+        models=["random-pqk"],
+        output_dir=tmp_path,
+        random_budget=3,
+        depth_multiplier=5,
+        num_cnot_multiplier=2,
+    )
+
+    assert generated == [(7, 14, 35), (7, 14, 35), (7, 14, 35)]
+    assert rows[0]["accuracy"] == pytest.approx(0.8)
+    assert rows[0]["best_candidate_index"] == 1
+    assert rows[0]["random_budget"] == 3
+    assert rows[0]["runtime_seconds"] >= 0
+    assert summary[0]["mean_accuracy"] == pytest.approx(0.8)
+    assert (tmp_path / "per_seed_results.csv").is_file()
+    assert (tmp_path / "summary.csv").is_file()
+
+
+def test_random_search_benchmark_cli_accepts_budget_and_models():
+    from ga_qsvm.cli.random_search_benchmark import build_parser
+
+    args = build_parser().parse_args(
+        [
+            "--datasets",
+            "digits",
+            "--qubits",
+            "7",
+            "--seeds",
+            "100",
+            "101",
+            "--models",
+            "random-pqk",
+            "--random-budget",
+            "20",
+            "--output-dir",
+            "results/reviewer/random",
+        ]
+    )
+
+    assert args.datasets == ["digits"]
+    assert args.qubits == [7]
+    assert args.seeds == [100, 101]
+    assert args.models == ["random-pqk"]
+    assert args.random_budget == 20
+
+
+def test_random_search_baseline_job_script_forwards_arguments(tmp_path):
+    repo_root = Path(__file__).resolve().parents[1]
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    calls_path = tmp_path / "uv_calls.txt"
+    fake_uv = fake_bin / "uv"
+    fake_uv.write_text(
+        """#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$*" >> "$FAKE_UV_CALLS"
+"""
+    )
+    fake_uv.chmod(0o755)
+    env = {
+        **os.environ,
+        "PATH": f"{fake_bin}:{os.environ['PATH']}",
+        "FAKE_UV_CALLS": str(calls_path),
+        "SEEDS": "100 101",
+        "RANDOM_BUDGET": "20",
+        "OUTPUT_ROOT": str(tmp_path / "results"),
+    }
+
+    subprocess.run(
+        ["bash", "scripts/reviewer/random_search_baseline_job.sh", "digits", "pqk", "7"],
+        cwd=repo_root,
+        env=env,
+        check=True,
+        text=True,
+        capture_output=True,
+    )
+
+    call = calls_path.read_text()
+    assert "-m ga_qsvm.cli.random_search_benchmark" in call
+    assert "--datasets digits" in call
+    assert "--qubits 7" in call
+    assert "--seeds 100 101" in call
+    assert "--models random-pqk" in call
+    assert "--random-budget 20" in call
+
+
 def test_manifest_validation_rejects_missing_required_artifacts(tmp_path):
     from ga_qsvm.experiments.artifacts import ManifestValidationError, load_manifest
 

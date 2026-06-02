@@ -80,6 +80,65 @@ After copying cloud result folders back into `results/reviewer`, summarize:
 scripts/reviewer/local_summarize_results.sh
 ```
 
+## Predefined Ansatz Baselines
+
+These jobs do not run GA and do not load GA artifacts. They build fixed
+`EfficientSU2` and `TwoLocal` circuits, use the same train-only scaler/PCA
+holdout flow as the Figure 6 rerun, and evaluate both FQK and PQK.
+
+Run one shard:
+
+```bash
+scripts/reviewer/predefined_baseline_job.sh wine efficient-su2 pqk 7
+SEEDS="100" scripts/reviewer/predefined_baseline_job.sh digits two-local fqk 3
+```
+
+Run the full serial sweep:
+
+```bash
+scripts/reviewer/run_predefined_baseline_sweep.sh
+```
+
+The full sweep covers datasets `digits wine cancer`, ansatzes
+`efficient-su2 two-local`, kernels `pqk fqk`, qubits `3 4 5 6 7`, and
+holdout seeds `100-109`. For cloud execution, shard FQK jobs by seed using the
+first command instead of running the full serial sweep on one VM.
+
+Outputs are written below:
+
+```text
+results/reviewer/predefined_baselines/
+```
+
+## Random Circuit Search Baseline
+
+This job does not run GA. It samples random circuits from the same generator and
+structural constraints used by GA-QSVM, evaluates each candidate on the same
+holdout split, and reports the best candidate for that split.
+
+Run one shard:
+
+```bash
+RANDOM_BUDGET=20 scripts/reviewer/random_search_baseline_job.sh digits pqk 7
+SEEDS="100" RANDOM_BUDGET=20 scripts/reviewer/random_search_baseline_job.sh wine pqk 7
+```
+
+Run the default sweep:
+
+```bash
+scripts/reviewer/run_random_search_baseline_sweep.sh
+```
+
+Defaults are datasets `digits wine cancer`, kernel `pqk`, qubits `7`, seeds
+`100-109`, and random budget `20`. Increase `RANDOM_BUDGET` to compare against a
+larger search budget, or shard by seed/dataset on cloud VMs.
+
+Outputs are written below:
+
+```text
+results/reviewer/random_search_baselines/
+```
+
 ## Early-Stop Evidence
 
 Use this after at least one full FQK GA run finishes. It does not change training;

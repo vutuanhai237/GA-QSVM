@@ -5,7 +5,8 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from qiskit.circuit.library import ZZFeatureMap
+from qiskit.circuit import ParameterVector
+from qiskit.circuit.library import EfficientSU2, TwoLocal, ZZFeatureMap
 from qiskit_machine_learning.algorithms import QSVC as QiskitQSVC
 from qiskit_machine_learning.kernels import FidelityQuantumKernel
 from sklearn.metrics import accuracy_score
@@ -61,6 +62,28 @@ def qpy_feature_dimension(path: str | Path) -> int:
     return _load_qpy_circuit(path).num_parameters
 
 
+def build_predefined_feature_map(ansatz: str, *, n_features: int):
+    if ansatz == "efficient-su2":
+        circuit = EfficientSU2(num_qubits=n_features, reps=2)
+    elif ansatz == "two-local":
+        circuit = TwoLocal(
+            num_qubits=n_features,
+            rotation_blocks=["ry", "rz"],
+            entanglement_blocks="cx",
+            reps=2,
+        )
+    else:
+        raise ValueError(f"Unsupported predefined ansatz: {ansatz}")
+    features = ParameterVector("x", n_features)
+    return circuit.assign_parameters(
+        {
+            parameter: features[index % n_features]
+            for index, parameter in enumerate(circuit.parameters)
+        },
+        inplace=False,
+    )
+
+
 def _fit_predict_fidelity(x_train, y_train, x_test, *, circuit: Any | None = None) -> np.ndarray:
     feature_map = circuit or ZZFeatureMap(feature_dimension=x_train.shape[1], reps=2)
     quantum_kernel = FidelityQuantumKernel(feature_map=feature_map)
@@ -106,6 +129,24 @@ def fit_predict_ga_fqk(x_train, y_train, x_test, *, qpy_path: str | Path) -> np.
 
 def fit_predict_ga_pqk(x_train, y_train, x_test, *, qpy_path: str | Path) -> np.ndarray:
     circuit = _load_qpy_circuit(qpy_path)
+    return _fit_predict_projected(x_train, y_train, x_test, circuit=circuit)
+
+
+def fit_predict_random_fqk(x_train, y_train, x_test, *, circuit: Any) -> np.ndarray:
+    return _fit_predict_fidelity(x_train, y_train, x_test, circuit=circuit)
+
+
+def fit_predict_random_pqk(x_train, y_train, x_test, *, circuit: Any) -> np.ndarray:
+    return _fit_predict_projected(x_train, y_train, x_test, circuit=circuit)
+
+
+def fit_predict_predefined_fqk(x_train, y_train, x_test, *, ansatz: str, n_features: int) -> np.ndarray:
+    circuit = build_predefined_feature_map(ansatz, n_features=n_features)
+    return _fit_predict_fidelity(x_train, y_train, x_test, circuit=circuit)
+
+
+def fit_predict_predefined_pqk(x_train, y_train, x_test, *, ansatz: str, n_features: int) -> np.ndarray:
+    circuit = build_predefined_feature_map(ansatz, n_features=n_features)
     return _fit_predict_projected(x_train, y_train, x_test, circuit=circuit)
 
 
