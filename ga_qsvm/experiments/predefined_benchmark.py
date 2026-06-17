@@ -84,6 +84,14 @@ def run_predefined_benchmark(
                 for model in models:
                     ansatz = _ansatz_for_model(model)
                     predictor = PREDEFINED_MODEL_FUNCTIONS[model]
+                    print(
+                        (
+                            "Start predefined benchmark: "
+                            f"dataset={dataset_name} model={model} "
+                            f"qubits={n_features} seed={seed}"
+                        ),
+                        flush=True,
+                    )
                     start = time.perf_counter()
                     y_pred = predictor(
                         split.x_train,
@@ -104,6 +112,16 @@ def run_predefined_benchmark(
                             "preprocess": preprocess,
                             "n_features": n_features,
                         }
+                    )
+                    print(
+                        (
+                            "Done predefined benchmark: "
+                            f"dataset={dataset_name} model={model} "
+                            f"qubits={n_features} seed={seed} "
+                            f"accuracy={rows[-1]['accuracy']:.6f} "
+                            f"runtime_seconds={elapsed:.2f}"
+                        ),
+                        flush=True,
                     )
     summary = summarize_rows(rows)
     output = Path(output_dir)
